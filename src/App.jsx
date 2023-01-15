@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import Home from "./components/Home";
-import Blog from "./components/Blog";
-import Contact from "./components/Contact";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Home from "./Pages/ComponentHome/Home";
+import Blog from "./Pages/ComponentBlog/Blog";
+import Contact from "./Pages/ComponentContact/Contact";
+import Login from "./Pages/ComponentLogin/Login";
+import Signup from "./Pages/ComponentSignup/Signup";
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 
 
