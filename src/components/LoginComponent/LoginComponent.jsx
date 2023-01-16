@@ -38,7 +38,8 @@ function LoginComponent(props) {
 
   const [hasEmailError, setHasEmailError] = useState(false);
   const [hasPasswordError, setHasPasswordError] = useState(false);
-  const [submitDisabled, setSubmitDisabled] = useState(true)
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [emailErrorText, setEmailErrorText] = useState("");
   const handleInputsChanged = (event) => {
     formDataRef.current = {
       ...formDataRef.current,
@@ -54,6 +55,7 @@ function LoginComponent(props) {
     }
     if (!STRING_HELPERS.isEmailValid(formDataRef.current["email"])) {
       setHasEmailError(true);
+      setEmailErrorText("Enter a valid e-mail address")
       return false;
     }
     if (formDataRef.current["password"] === "") {
@@ -102,7 +104,7 @@ function LoginComponent(props) {
             label="E-mail Address"
             placeholder="example@example.com"
             onChange={handleInputsChanged}
-            helperText="Please enter a valid e-mail address"
+            helperText={emailErrorText}
             required
             error={hasEmailError}
             fullWidth
