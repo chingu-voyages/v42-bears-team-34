@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&display=swap');
+
+body {
+    background: url("./assets/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Gilda Display', serif;
+}
+
+.nav-bar {
+    background-color: #248e38;
+    font-size: 36px;
+}
+
+.nav-bar ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    height: 85px;
+    margin-right: auto;
+}
+
+.nav-bar li {
+    list-style-type: none;
+    margin-right: auto;
+}
+
+.links {
+    text-decoration: none;
+    color: #323232;
+}

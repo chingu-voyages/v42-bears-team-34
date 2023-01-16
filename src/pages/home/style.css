@@ -1,0 +1,30 @@
+.landing-page {
+    margin-top: 21rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 48px;
+}
+
+.signup-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 4rem;
+
+}
+
+.signup-btn button {
+    background-color: #AFD91A;
+    border-radius: 32px;
+    font-size: 24px;
+    padding: 1rem;
+    font-family: 'Gilda Display', serif;
+}
+
+.link {
+    text-decoration: none;
+    color: #323232;
+}
