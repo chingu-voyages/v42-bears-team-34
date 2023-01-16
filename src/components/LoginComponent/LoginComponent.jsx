@@ -74,6 +74,7 @@ function LoginComponent(props) {
     return true;
   }
   const clearErrorState = () => {
+    setEmailErrorText("");
     setHasEmailError(false);
     setHasPasswordError(false);
   }
