@@ -19,11 +19,24 @@ const steps = [
 ];
 
 const SignupPage = () => {
+
+  function showSteps(step) {
+    switch(step) {
+      case 1 :
+        return <StepOne />
+      case 2 :
+        return <StepTwo />
+      case 3 :
+        return <StepThree />
+      case 4 :
+        return <StepFour />
+    }
+  }
+
   return (
-    <div>
-    
+    <div className="form-signup">
       <Stepper 
-        activeStep="1" 
+        activeStep={1} 
         horientation="horizontal"
         sx={{width:700, margin: "auto"}}
         >
@@ -37,8 +50,10 @@ const SignupPage = () => {
 
       <StepOne />
       <StepTwo />
-      {/* <StepThree /> */}
+      <StepThree />
       <StepFour />
+
+      {showSteps()}
     </div>
   )
 }

@@ -8,71 +8,73 @@ import Button from '@mui/material/Button';
 
 export default function StepThree() {
   return (
-    <div>
-         <FormControl fullWidth>
+    <div className="StepThreeForm">
+        <FormControl sx={{width: 400}} className="StepThreeInput">
             <InputLabel>Gender</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={gender}
+                value={"gender"}
                 label="Gender"
-                onChange={handleChange}
+                // onChange={handleChange}
             >
-                <MenuItem value={male}>Male</MenuItem>
-                <MenuItem value={female}>Female</MenuItem>
-                <MenuItem value={other}>Other</MenuItem>
+                <MenuItem value={"male"}>Male</MenuItem>
+                <MenuItem value={"female"}>Female</MenuItem>
+                <MenuItem value={"other"}>Other</MenuItem>
             </Select>
         </FormControl>
 
-        <FormControl fullWidth>
-            <InputLabel>Select occupation</InputLabel>
+        <FormControl sx={{width: 400}}>
+        <InputLabel>Select occupation</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={occupation}
+                value={"occupation"}
                 label="Occupation"
-                onChange={handleChange}
+                // onChange={handleChange}
             >
-                <MenuItem value={employee}>Employee</MenuItem>
-                <MenuItem value={entrepreneur}>Enterpreneur</MenuItem>
-                <MenuItem value={other}>Other</MenuItem>
+                <MenuItem value={"employee"}>Employee</MenuItem>
+                <MenuItem value={"entrepreneur"}>Enterpreneur</MenuItem>
+                <MenuItem value={"other"}>Other</MenuItem>
             </Select>
         </FormControl>
 
-        <FormControl fullWidth>
-            <InputLabel>Select amount</InputLabel>
+        <FormControl sx={{width: 400}}>
+        <InputLabel>Select amount</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={amount}
+                value={"amount"}
                 label="Amount"
-                onChange={handleChange}
+                // onChange={handleChange}
             >
-                <MenuItem value={300}>$ 300</MenuItem>
-                <MenuItem value={400}>$ 500</MenuItem>
-                <MenuItem value={500}>$ 500</MenuItem>
-                <MenuItem value={600}>$ 600</MenuItem>
-                <MenuItem value={700}>$ 700</MenuItem>
-                <MenuItem value={800}>$ 800</MenuItem>
-                <MenuItem value={900}>$ 900</MenuItem>
-                <MenuItem value={1000}>$ 1000</MenuItem>
+                <MenuItem value={"300"}>$ 300</MenuItem>
+                <MenuItem value={"400"}>$ 500</MenuItem>
+                <MenuItem value={"500"}>$ 500</MenuItem>
+                <MenuItem value={"600"}>$ 600</MenuItem>
+                <MenuItem value={"700"}>$ 700</MenuItem>
+                <MenuItem value={"800"}>$ 800</MenuItem>
+                <MenuItem value={"900"}>$ 900</MenuItem>
+                <MenuItem value={"1000"}>$ 1000</MenuItem>
             </Select>
-        </FormControl>
+        </FormControl> 
 
-        <FormControl fullWidth>
-            <InputLabel>Select use of loan</InputLabel>
+        <FormControl sx={{width: 400}}>
+        <InputLabel>Select use of loan</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={use}
+                value={"use"}
                 label="Use"
-                onChange={handleChange}
+                // onChange={handleChange}
             >
-                <MenuItem value={rent}>Rent</MenuItem>
-                <MenuItem value={food}>Food</MenuItem>
-                <MenuItem value={bills}>Bills</MenuItem>
+                <MenuItem value={"rent"}>Rent</MenuItem>
+                <MenuItem value={"food"}>Food</MenuItem>
+                <MenuItem value={"bills"}>Bills</MenuItem>
             </Select>
-        </FormControl>
+        </FormControl> 
+
+
         <div>
             <Button variant="contained" color="primary">Next</Button>
         </div>

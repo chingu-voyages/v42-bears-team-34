@@ -19,3 +19,18 @@ lg, large: 1200px
 xl, extra-large: 1536px
 
 */
+
+.form-signup {
+  text-align: center;
+}
+
+.StepThreeForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.StepThreeInput {
+  padding-bottom: 10px;
+}
