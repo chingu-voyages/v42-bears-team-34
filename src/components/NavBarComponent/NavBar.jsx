@@ -1,28 +1,165 @@
-import './style.css'
+import React, { useState } from "react";
 import { Link } from 'react-router-dom'
+import './style.css'
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+
+//drawer elements used
+import Drawer from "@mui/material/Drawer";
+import CloseIcon from "@mui/icons-material/Close";
+import Divider from "@mui/material/Divider";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import DescriptionIcon from "@mui/icons-material/Description";
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import CallRoundedIcon from '@mui/icons-material/CallRounded';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
+
 import Logo from '../../assets/logo.jpg'
-import MenuIcon from '@mui/icons-material/Menu';
+import { PALLET } from '../../stylings/pallet'
 
-function NavBar() {
+
+
+export default function NavBar() {
+
+    /*
+    react useState hook to save the current open/close state of the drawer,
+    normally variables dissapear afte the function was executed
+    */
+    const [open, setState] = useState(false);
+
+
+    /*
+    function that is being called every time the drawer should open or close,
+    the keys tab and shift are excluded so the user can focus between
+    the elements with the keys
+    */
+    const toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        //changes the function state according to the value of open
+        setState(open);
+    };
+
     return (
-        <>
-            <div className="nav-bar">
-                <nav>
-                    <ul>
-                        <img src={Logo} alt="logo" className="logo" />
-                        <li><Link to="/" className="links">HOME</Link></li>
-                        <li><Link to="blog" className="links">BLOG</Link></li>
-                        <li><Link to="contact" className="links">CONTACT</Link></li>
-                        <li><Link to="login" className="links">LOGIN</Link></li>
-                        <li><Link to="signup" className="links">SIGN UP</Link></li>
-                        <div className="menu">
-                            <img src={MenuIcon} />
-                        </div>
-                    </ul>
-                </nav>
-            </div>
-        </>
-    )
-}
 
-export default NavBar
+        <AppBar position="static" sx={{ backgroundColor: PALLET.pineGreen }}>
+            <Container maxWidth="lg" disableGutters="true">
+                <Toolbar>
+                    <Typography variant="h3" sx={{ flexGrow: 1, fontWeight: 900, color: PALLET.mountainDewLime }}>
+                        AVCDOLOAN
+                    </Typography>
+
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={toggleDrawer(true)}
+                        sx={{
+                            ml: 3,
+                            display:
+                            {
+                                xs: 'block',
+                                sm: 'block',
+                            },
+                            color: PALLET.mountainDewLime,
+                        }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+
+                    {/* The outside of the drawer */}
+                    <Drawer
+                        //from which side the drawer slides in
+                        anchor="right"
+                        //if open is true --> drawer is shown
+                        open={open}
+                        //function that is called when the drawer should close
+                        onClose={toggleDrawer(false)}
+                        //function that is called when the drawer should open
+                        onOpen={toggleDrawer(true)}
+                    >
+                        {/* The inside of the drawer */}
+                        <Box sx={{
+                            p: 2,
+                            height: 1,
+                            backgroundColor: PALLET.paleGoldYellow,
+                        }}>
+
+                            {/* 
+                  when clicking the icon it calls the function toggleDrawer 
+                  and closes the drawer by setting the variable open to false
+                  */}
+                            <IconButton sx={{ mb: 2 }}>
+                                <CloseIcon onClick={toggleDrawer(false)} />
+                            </IconButton>
+
+                            <Divider sx={{ mb: 2 }} />
+
+                            <Box sx={{ mb: 2 }}>
+                                <ListItemButton sx={{ mb: 2 }}>
+                                    <ListItemIcon>
+                                        <HomeRoundedIcon sx={{ color: PALLET.pineGreen }} />
+                                    </ListItemIcon>
+                                    <Link to="/" className="links">HOME</Link>
+                                </ListItemButton>
+
+                                <ListItemButton sx={{ mb: 2 }}>
+                                    <ListItemIcon>
+                                        <DescriptionIcon sx={{ color: PALLET.pineGreen }} />
+                                    </ListItemIcon >
+                                    <Link to="blog" className="links">BLOG</Link>
+                                </ListItemButton>
+
+                                <ListItemButton sx={{ mb: 2 }}>
+                                    <ListItemIcon>
+                                        <CallRoundedIcon sx={{ color: PALLET.pineGreen }} />
+                                    </ListItemIcon>
+                                    <Link to="contact" className="links">CONTACT</Link>
+                                </ListItemButton>
+
+                                <ListItemButton sx={{ mb: 2 }}>
+                                    <ListItemIcon>
+                                        <LoginRoundedIcon sx={{ color: PALLET.pineGreen }} />
+                                    </ListItemIcon>
+                                    <Link to="login" className="links">LOGIN</Link>
+                                </ListItemButton>
+
+                                <ListItemButton sx={{ mb: 2 }}>
+                                    <ListItemIcon>
+                                        <VpnKeyRoundedIcon sx={{ color: PALLET.pineGreen }} />
+                                    </ListItemIcon>
+                                    <Link to="signup" className="links">SIGN UP</Link>
+                                </ListItemButton>
+                            </Box>
+
+
+                            {/* <Box sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                position: "absolute",
+                                bottom: "0",
+                                left: "50%",
+                                transform: "translate(-50%, 0)"
+                            }}
+                            >
+
+                            </Box> */}
+                        </Box>
+
+                    </Drawer>
+
+
+                </Toolbar>
+            </Container>
+        </AppBar>
+
+    );
+}
