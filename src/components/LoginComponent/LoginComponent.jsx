@@ -66,7 +66,7 @@ function LoginComponent(props) {
     }
     if (formDataRef.current["password"] === "") {
       setHasPasswordError(true);
-      return false;
+      return false;dd
     }
     return true;
   }

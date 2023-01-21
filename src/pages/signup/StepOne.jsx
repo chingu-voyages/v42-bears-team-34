@@ -22,11 +22,6 @@ export default function StepOne(props) {
         }))
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(inputs);
-    }
-
   return (
     <div>
         <div>
