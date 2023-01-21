@@ -103,6 +103,7 @@ function SignupPage() {
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
+              variant="contained"
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
@@ -116,7 +117,7 @@ function SignupPage() {
               </Button>
             )}
 
-            <Button onClick={handleNext}>
+            <Button onClick={handleNext} variant="contained">
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
