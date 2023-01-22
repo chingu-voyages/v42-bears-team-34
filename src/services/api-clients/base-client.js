@@ -2,10 +2,9 @@ import axios from "axios";
 import { ENV } from "../../environment";
 
 /* 
-This is the base class used to communicate with our API. 
-It would be an abstract class in Typescript.
+This is the base client (abstract) class used to communicate with our API. 
 We should create specialized clients that derive from this class
-instead of using it directly
+instead of using it directly.
 */
 export class BaseClient {
   #api;
