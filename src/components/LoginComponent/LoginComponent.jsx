@@ -13,12 +13,18 @@ const StyledFormBox = styled(Box)(( props) => ({
     "borderStyle": "solid",
     "boxShadow": "7px 6px 15px -3px",
     "padding": "50px",
+    backgroundColor: PALLET.white
   },
 }));
 
 const StyledTextFieldBox = styled(Box)((props) => ({
+  [props.theme.breakpoints.down("md")]: {
+    "input": {
+      backgroundColor: PALLET.white
+    },
+  },
   [props.theme.breakpoints.up("md")]: {
-    "marginTop": "60px"
+    "marginTop": "60px",
   }
 }))
 
