@@ -7,10 +7,7 @@ import StepTwo from './StepTwo';
 import StepThree from './StepThree';
 import StepFour from './StepFour';
 import { Button } from '@mui/material';
-import { useState } from 'react';
-
 import { Box } from '@mui/system';
-import Typography from '@mui/material/Typography';
 
 const steps = [
   "Your personal information", 
@@ -19,13 +16,22 @@ const steps = [
   "Your bank verification"
 ];
 
+function showSteps(step) {
+      switch(step) {
+        case 0:
+          return <StepOne />
+        case 1:
+          return <StepTwo />
+        case 2:
+          return <StepThree />
+        case 3:
+          return <StepFour />
+      }
+    }
+
 function SignupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -45,19 +51,6 @@ function SignupPage() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
   return (
     <Box sx={{ width: '50%', margin: 'auto' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -75,6 +68,7 @@ function SignupPage() {
           );
         })}
       </Stepper>
+      {showSteps(activeStep)}
       {activeStep === steps.length ? (
         <React.Fragment>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -83,7 +77,6 @@ function SignupPage() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -95,14 +88,9 @@ function SignupPage() {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
 
             <Button onClick={handleNext} variant="contained">
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Next' : 'Next'}
             </Button>
           </Box>
         </React.Fragment>

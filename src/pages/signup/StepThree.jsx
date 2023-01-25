@@ -3,8 +3,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { TextField } from '@mui/material';
 import { useState } from 'react';
-
 
 export default function StepThree(props) {
 
@@ -16,6 +16,19 @@ export default function StepThree(props) {
 
   return (
     <div className="StepThreeForm">
+
+        <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
+            <TextField 
+                type="number" 
+                name="income"
+                label="What is your monthly income" 
+                margin="normal" 
+                variant="outlined" 
+                color="secondary" 
+                // value={income} 
+                onChange={handleChange} />
+            </FormControl>
+
         <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
             <InputLabel>Select gender</InputLabel>
             <Select
