@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&display=swap');
+
+body {
+    background: url("./assets/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Gilda Display', serif;
+    margin: 0 auto;
+    height: 100vh;
+}
