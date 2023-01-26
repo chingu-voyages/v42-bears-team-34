@@ -108,50 +108,37 @@ export default function NavBar() {
                                     <ListItemIcon>
                                         <HomeRoundedIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon>
-                                    <Link to="/" className="links">HOME</Link>
+                                    <Link to="/" className="links" onClick={toggleDrawer(false)}>HOME</Link>
                                 </ListItemButton>
 
                                 <ListItemButton sx={{ mb: 2 }}>
                                     <ListItemIcon>
                                         <DescriptionIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon >
-                                    <Link to="blog" className="links">BLOG</Link>
+                                    <Link to="blog" className="links" onClick={toggleDrawer(false)}>BLOG</Link>
                                 </ListItemButton>
 
                                 <ListItemButton sx={{ mb: 2 }}>
                                     <ListItemIcon>
                                         <CallRoundedIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon>
-                                    <Link to="contact" className="links">CONTACT</Link>
+                                    <Link to="contact" className="links" onClick={toggleDrawer(false)}>CONTACT</Link>
                                 </ListItemButton>
 
                                 <ListItemButton sx={{ mb: 2 }}>
                                     <ListItemIcon>
                                         <LoginRoundedIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon>
-                                    <Link to="login" className="links">LOGIN</Link>
+                                    <Link to="login" className="links" onClick={toggleDrawer(false)}>LOGIN</Link>
                                 </ListItemButton>
 
                                 <ListItemButton sx={{ mb: 2 }}>
                                     <ListItemIcon>
                                         <VpnKeyRoundedIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon>
-                                    <Link to="signup" className="links">SIGN UP</Link>
+                                    <Link to="signup" className="links" onClick={toggleDrawer(false)}>SIGN UP</Link>
                                 </ListItemButton>
                             </Box>
-
-
-                            {/* <Box sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                position: "absolute",
-                                bottom: "0",
-                                left: "50%",
-                                transform: "translate(-50%, 0)"
-                            }}
-                            >
-
-                            </Box> */}
                         </Box>
 
                     </Drawer>
