@@ -49,7 +49,6 @@ export default function NavBar() {
     };
 
     return (
-
         <AppBar position="static" sx={{ backgroundColor: PALLET.pineGreen }}>
             <Container maxWidth="lg" disableGutters="true">
                 <Toolbar>
@@ -140,10 +139,7 @@ export default function NavBar() {
                                 </ListItemButton>
                             </Box>
                         </Box>
-
                     </Drawer>
-
-
                 </Toolbar>
             </Container>
         </AppBar>
