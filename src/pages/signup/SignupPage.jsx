@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -8,6 +8,7 @@ import StepThree from './StepThree';
 import StepFour from './StepFour';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
+import ValidateSignup from './ValidateSignup';
 
 const steps = [
   "Your personal information", 
@@ -36,6 +37,8 @@ function SignupPage() {
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
+
+  const [errors, setErros] = useState({});
 
   const handleNext = () => {
     let newSkipped = skipped;

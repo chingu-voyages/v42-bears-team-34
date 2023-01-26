@@ -5,6 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
+import ValidateSignup from './ValidateSignup';
 
 export default function StepThree(props) {
 
@@ -13,6 +14,8 @@ export default function StepThree(props) {
     const handleChange = (e) => {
         setValue(e.target.value);
     }
+
+    const [errors, setErrors] = useState({});
 
   return (
     <div className="StepThreeForm">
@@ -27,6 +30,7 @@ export default function StepThree(props) {
                 color="secondary" 
                 // value={income} 
                 onChange={handleChange} />
+                {errors.income && <p className="error">{errors.income}</p>}
             </FormControl>
 
         <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
@@ -36,6 +40,7 @@ export default function StepThree(props) {
                 name="gender"
                 label="Gender"
                 onChange={handleChange}
+                {...errors.gender && <p className="error">{errors.gender}</p>}
             >
                 <MenuItem value={"male"}>Male</MenuItem>
                 <MenuItem value={"female"}>Female</MenuItem>
@@ -50,6 +55,7 @@ export default function StepThree(props) {
                 name="occupation"
                 label="Occupation"
                 onChange={handleChange}
+                {...errors.occupation && <p className="error">{errors.occupation}</p>}
             >
                 <MenuItem value={"employee"}>Employee</MenuItem>
                 <MenuItem value={"entrepreneur"}>Enterpreneur</MenuItem>
@@ -64,6 +70,7 @@ export default function StepThree(props) {
                 name="amount"
                 label="Amount"
                 onChange={handleChange}
+                {...errors.amount && <p className="error">{errors.amount}</p>}
             >
                 <MenuItem value={300}>$ 300</MenuItem>
                 <MenuItem value={400}>$ 400</MenuItem>
@@ -83,6 +90,7 @@ export default function StepThree(props) {
                 name="use"
                 label="Use"
                 onChange={handleChange}
+                {...errors.use && <p className="error">{errors.use}</p>}
             >
                 <MenuItem value={"rent"}>Rent</MenuItem>
                 <MenuItem value={"food"}>Food</MenuItem>

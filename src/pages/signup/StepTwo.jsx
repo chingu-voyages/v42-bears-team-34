@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { TextField, Button, IconButton } from "@mui/material";
+import ValidateSignup from "./ValidateSignup";
 
 export default function StepTwo(props) {
 
@@ -8,6 +9,8 @@ export default function StepTwo(props) {
         password: "",
         confirmPassword: ""
     })
+
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -30,6 +33,7 @@ export default function StepTwo(props) {
                 color="secondary" 
                 value={inputs.email}
                 onChange={handleChange} />
+                {errors.email && <p className="error">{errors.email}</p>}
         </div>
         <div>
             <TextField 
@@ -41,7 +45,8 @@ export default function StepTwo(props) {
                 variant="outlined" 
                 color="secondary"
                 value={inputs.password}
-                onChange={handleChange}  />
+                onChange={handleChange} />
+                {errors.password && <p className="error">{errors.password}</p>}
         </div>
         <div>
             <TextField 
@@ -54,6 +59,7 @@ export default function StepTwo(props) {
                 color="secondary" 
                 value={inputs.confirmPassword} 
                 onChange={handleChange} />
+                {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
         </div>
     </div>
   )

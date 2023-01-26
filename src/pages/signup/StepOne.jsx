@@ -1,6 +1,7 @@
 import React from "react";
 import { TextField, Button } from "@mui/material";
 import { useState } from "react";
+import ValidateSignup from "./ValidateSignup";
 
 export default function StepOne(props) {
 
@@ -13,6 +14,8 @@ export default function StepOne(props) {
         postalCode: "",
         phone: ""
     })
+
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -35,6 +38,7 @@ export default function StepOne(props) {
                 color="secondary" 
                 value={inputs.firstName} 
                 onChange={handleChange} />
+                {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
         <div>
             <TextField
@@ -47,6 +51,7 @@ export default function StepOne(props) {
                 color="secondary" 
                 value={inputs.lastName}
                 onChange={handleChange} />
+                {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
         <div>
             <TextField 
@@ -59,6 +64,7 @@ export default function StepOne(props) {
                 color="secondary"
                 value={inputs.address} 
                 onChange={handleChange} />
+                {errors.address && <p className="error">{errors.address}</p>}
         </div>
         <div>
             <TextField
@@ -71,6 +77,7 @@ export default function StepOne(props) {
                 color="secondary"
                 value={inputs.city} 
                 onChange={handleChange} />
+                {errors.city && <p className="error">{errors.city}</p>}
         </div>
         <div>
             <TextField
@@ -83,6 +90,7 @@ export default function StepOne(props) {
                 color="secondary"
                 value={inputs.province} 
                 onChange={handleChange} />
+                {errors.province && <p className="error">{errors.province}</p>}
         </div>
         <div>
             <TextField
@@ -95,6 +103,7 @@ export default function StepOne(props) {
                 color="secondary"
                 value={inputs.postalCode}
                 onChange={handleChange} />
+                {errors.postalCode && <p className="error">{errors.postalCode}</p>}
         </div>
         <div>
             <TextField 
@@ -107,6 +116,7 @@ export default function StepOne(props) {
                 color="secondary"
                 value={inputs.phone} 
                 onChange={handleChange} />
+                {errors.phone && <p className="error">{errors.phone}</p>}
         </div>
     </div>
   )
