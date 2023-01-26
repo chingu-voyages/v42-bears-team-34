@@ -38,7 +38,7 @@ function LoginComponent(props) {
   const formDataRef = useRef({}); // Keep track of textInput values
   const handleLoginSubmit = () => {
     clearErrorState();
-    if (validateInputs()) return;
+    if (!validateInputs()) return;
     props && props.onSubmit && props.onSubmit(formDataRef.current)
   }
 
