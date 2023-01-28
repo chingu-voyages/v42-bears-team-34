@@ -22,7 +22,7 @@ const clearLinkTokenError = () => {
 },
 /**
  * This component only handles getting the plaid widget to work and to exchange tokens.
- * It won't fetch trigger a fetching of financial data. Do that outside of this component.
+ * It won't trigger the fetching of financial data. Do that outside of this component.
  * The button should be enabled (available) if authentication and linkToken work.
  * Props should contain link token
  * @param {{ linkToken: string, onLinkButtonClicked: () => void, onPlaidSuccessComplete: () => void }} props
