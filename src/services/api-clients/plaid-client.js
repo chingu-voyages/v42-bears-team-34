@@ -20,4 +20,12 @@ export class PlaidClient extends BaseClient {
   async getLinkToken () {
     return super.getData("/plaid/get_token");
   }
+
+  /**
+   * Send request for public token to be exchanged
+   * @returns {Promise<{itemId: string}>}
+   */
+  async postSetPublicToken (token) {
+    return super.postData("/plaid/set_public_token", { publicToken: token });
+  }
 }

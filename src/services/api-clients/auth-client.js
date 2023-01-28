@@ -25,7 +25,7 @@ export class AuthClient extends BaseClient {
   /**
    * Logs user in. Should get back a JWT Token to store in session
    * @param {{ email: string, password: string }}
-   * @returns { Promise<string> } JWT Token as a string
+   * @returns {Promise<{ tok: string }>} JWT Token as a string
    */
   async login({
     email,

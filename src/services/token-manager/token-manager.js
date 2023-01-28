@@ -3,7 +3,7 @@
  */
 
 const KEY = "auth-token"
-export class TokenManger {
+export class TokenManager {
   /**
    * @returns {string | null }
    */
