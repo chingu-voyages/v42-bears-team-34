@@ -1,5 +1,5 @@
 /**
- * This file captures the sign-up flow to get to the plaid integration
+ * This class does the sign-up flow to get to the plaid integration
  * since there needs to be an authentication session
  * This should be used during sign-up / questionnaire
  * This should result in a link Token after running the `run` method
@@ -33,7 +33,7 @@ export class SignUpFlow {
   }
 
   static async #getLinkToken({ authToken}) {
-     // We have a jwt at this stage. Request a link token
+     // We should have a JWT at this stage (aka, be authenticated). Request a link token
      const plaidClient = new PlaidClient({ authToken });
      return plaidClient.getLinkToken();
   }
