@@ -37,9 +37,7 @@ function PlaidLinkWidget (props) {
   };
 
   const onSuccess = useCallback((public_token, metaData) => {
-    const exchangePublicTokenForAccessToken =  async() => {
-      // Send the public token to the server.
-
+    const exchangePublicTokenForAccessToken = async() => {
       // Get token from sessionStorage
       const jwtToken = TokenManager.getToken();
       const plaidClient = new PlaidClient({ authToken: jwtToken });
