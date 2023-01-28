@@ -1,9 +1,8 @@
 import { BaseClient } from "./base-client";
 
 /**
- * This client gets the link token we need to
- * open up link. This requires the user to be authenticated
- * with a JWT from our API
+ * This client only handles Plaid Link stuff related to sign-up. 
+ * It also contains a method to trigger our API to gather financial data on the applicant
  */
 export class PlaidClient extends BaseClient {
   constructor({ authToken }) {
