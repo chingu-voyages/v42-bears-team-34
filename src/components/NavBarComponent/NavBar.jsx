@@ -50,7 +50,7 @@ export default function NavBar() {
 
     return (
         <AppBar position="static" sx={{ backgroundColor: PALLET.pineGreen }}>
-            <Container maxWidth="lg" disableGutters="true">
+            <Container maxWidth="lg" disableGutters={true}>
                 <Toolbar>
                     <Typography variant="h3" sx={{ flexGrow: 1, fontWeight: 900, color: PALLET.mountainDewLime }}>
                         AVCDOLOAN
@@ -96,8 +96,8 @@ export default function NavBar() {
                   when clicking the icon it calls the function toggleDrawer 
                   and closes the drawer by setting the variable open to false
                   */}
-                            <IconButton sx={{ mb: 2 }}>
-                                <CloseIcon onClick={toggleDrawer(false)} />
+                            <IconButton onClick={toggleDrawer(false)} sx={{ mb: 2 }}>
+                                <CloseIcon />
                             </IconButton>
 
                             <Divider sx={{ mb: 2 }} />
