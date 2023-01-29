@@ -24,13 +24,15 @@ export class AuthClient extends BaseClient {
 
   /**
    * Logs user in. Should get back a JWT Token to store in session
-   * @param {{ email: string, password: string }}
+   * If the isAdmin flag is set to true, the backend will check for admin role on the account
+   * @param {{ email: string, password: string, isAdmin: null | boolean }}
    * @returns {Promise<{ tok: string }>} JWT Token as a string
    */
   async login({
     email,
-    password
+    password,
+    isAdmin
   }) {
-    return super.postData("/auth/login", { email, password })
+    return super.postData("/auth/login", { email, password, isAdmin })
   }
 }
