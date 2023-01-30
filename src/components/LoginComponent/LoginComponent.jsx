@@ -61,7 +61,6 @@ function LoginComponent(props) {
           password,
           isAdmin: props.isAdmin
         });
-        console.log("66", response)
         // Save JW Token and call the success callback
         const { tok } = response;
         TokenManager.writeToken(tok);
