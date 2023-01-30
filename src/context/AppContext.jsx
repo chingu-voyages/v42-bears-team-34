@@ -17,14 +17,18 @@ const initialState = {
   // Link process went through
   linkSuccess: false,
 
-  // Authentication level (default is user)
-  roll: "user",
-
+  user: {
+    id: null,
+    firstName: null,
+    lastName: null,
+    email: null,
+    role: 'user',
+    iat: null,
+    exp: null,
+    expired: undefined
+  },
   // We could use this to keep track of which stage the sign-up (application) process is in
   signUpProgress: null,
-
-  // Holds the user ID
-  userId: null,
 }
 
 const AppContext = createContext(initialState);
