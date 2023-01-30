@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
-import { useState } from "react";
 import ValidateSignup from "./ValidateSignup";
 
 export default function StepOne(props) {

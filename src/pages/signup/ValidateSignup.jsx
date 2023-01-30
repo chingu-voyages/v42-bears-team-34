@@ -36,24 +36,24 @@ export default function ValidateSignup(inputs, currentStep) {
     } else if (inputs.password.length < 8) {
         errors.password = "Password must be at least 8 characters.";
     }
-    if (!inputs.confirmPassord && password !== confirmPassord) {
-        errors.confirmPassord = "The passwords must match.";
+    if (!inputs.confirmPassword && inputs.password !== inputs.confirmPassword) {
+        errors.confirmPassword = "The passwords must match.";
     }
 
 
     if (!inputs.income) {
         errors.income = "Income is required.";
     }
-    if (!values.gender) {
+    if (!inputs.gender) {
         errors.gender = "Gender is required.";
     }
-    if (!values.occupation) {
+    if (!inputs.occupation) {
         errors.occupation = "Occupation is required.";
     }
-    if (!values.amount) {
+    if (!inputs.amount) {
         errors.amount = "Amount is required.";
     }
-    if (!values.use) {
+    if (!inputs.use) {
         errors.use = "Use of the loan is required.";
     }
     
