@@ -18,6 +18,10 @@ export class TokenManager {
    */
   static writeToken (data) {
     if (data === undefined || data === null) console.warn("TokenManager: Writing null or undefined data to auth-token")
-    sessionStorage.setItem(KEY, data)
+    sessionStorage.setItem(KEY, data);
+  }
+
+  static clearToken () {
+    sessionStorage.clear(KEY, "")
   }
 }
