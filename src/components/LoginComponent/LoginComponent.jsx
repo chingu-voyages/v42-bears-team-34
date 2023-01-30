@@ -3,8 +3,9 @@ import { PALLET } from "../../stylings/pallet";
 import { StyledButton } from "../StyledButton";
 import { useRef, useState } from "react";
 import { STRING_HELPERS } from "../../utils/string-helpers";
-
-
+import { AuthClient } from "../../services/api-clients/auth-client";
+import { ErrorMessage } from "../ErrorMessage";
+import { TokenManager } from "../../services/token-manager/token-manager";
 const StyledFormBox = styled(Box)(( props) => ({
   [props.theme.breakpoints.up("md")]: {
     "borderColor": PALLET.charcoal,
@@ -35,23 +36,54 @@ const marginBottomSpacing = 1
  */
 function LoginComponent(props) {
   const formDataRef = useRef({}); // Keep track of textInput values
-  const handleLoginSubmit = () => {
-    clearErrorState();
-    if (!validateInputs()) return;
-    props && props.onSubmit && props.onSubmit(formDataRef.current)
-  }
-
   const [hasEmailError, setHasEmailError] = useState(false);
   const [hasPasswordError, setHasPasswordError] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [emailErrorText, setEmailErrorText] = useState("");
-  const handleInputsChanged = (event) => {
+  const [hasLoginError, setHasLoginError] = useState(false);
+  const [loginErrorText, setLoginErrorText] = useState("");
+
+  const handleLoginSubmit = useCallback(()=> {
+    clearErrorState();
+    if (!validateInputs()) return;
+    // setSubmitDisabled(true)
+    
+    const loginUser = async ()=> {
+      /* Login the user
+        If login is successful, call the onLoginSuccess callback.
+        The parent component can handle navigation and setting any global state
+      */
+      const { email, password } = formDataRef.current
+      try {
+        const authClient = new AuthClient();
+        const response = await authClient.login({
+          email,
+          password,
+          isAdmin: props.isAdmin
+        });
+        console.log("66", response)
+        // Save JW Token and call the success callback
+        const { tok } = response;
+        TokenManager.writeToken(tok);
+        props.onLoginSuccess();
+      } catch (exception) {
+        setHasLoginError(true);
+        setLoginErrorText(exception.response?.data?.err)
+      } finally {
+        setSubmitDisabled(false);
+      }
+    }
+    loginUser();
+  }, [])
+
+
+  const handleInputsChanged = useCallback((event) => {
     formDataRef.current = {
       ...formDataRef.current,
       [event.target.name]: event.target.value
     }
     setSubmitDisabled(!checkHasInput())
-  }
+  })
 
   const validateInputs = () => {
     if (formDataRef.current["email"] === "") {
@@ -82,6 +114,8 @@ function LoginComponent(props) {
     setEmailErrorText("");
     setHasEmailError(false);
     setHasPasswordError(false);
+    setHasLoginError(false);
+    setLoginErrorText("");
   }
   return (
     <StyledFormBox 
@@ -94,12 +128,21 @@ function LoginComponent(props) {
           justifyContent="center"
           mb={marginBottomSpacing}
         >
-          {/* Holds the title */}
-          <Typography
-            variant="h2"
-          >
-            {props.title || "Login Portal"}
-          </Typography>
+          <Box component={"div"}>
+            {/* Holds the title */}
+            <Typography
+              variant="h2"
+            >
+              {props.title || "Login Portal"}
+            </Typography>
+            {props.isAdmin && (
+              <Box >
+                <Typography variant="h6" textAlign={"center"}>
+                  Admin
+                </Typography>
+              </Box>
+            )}
+          </Box>
         </Box>
         <StyledTextFieldBox>
           <TextField
@@ -109,6 +152,7 @@ function LoginComponent(props) {
             type={"email"}
             label="E-mail Address"
             placeholder="example@example.com"
+            autoComplete="email"
             onChange={handleInputsChanged}
             helperText={emailErrorText}
             required
@@ -121,6 +165,7 @@ function LoginComponent(props) {
             name="password"
             type={"password"}
             label="Password"
+            autoComplete="current-password"
             error={hasPasswordError}
             required
             onChange={handleInputsChanged}
@@ -138,7 +183,12 @@ function LoginComponent(props) {
             buttonColor={PALLET.mountainDewLime}
           />
         </Box>
-      </Box> 
+      </Box>
+      { hasLoginError && (
+        <Box mt={2}>
+          <ErrorMessage message={loginErrorText} />
+        </Box>
+      )}
     </StyledFormBox>
   )
 }
