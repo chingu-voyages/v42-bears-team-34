@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ValidateSignup(inputs) {
+export default function ValidateSignup(inputs, currentStep) {
     let errors = {}
 
     if (!inputs.firstName) {
@@ -36,8 +36,8 @@ export default function ValidateSignup(inputs) {
     } else if (inputs.password.length < 8) {
         errors.password = "Password must be at least 8 characters.";
     }
-    if (!inputs.ConfirmPassord && password !== ConfirmPassord) {
-        errors.ConfirmPassord = "The passwords must match.";
+    if (!inputs.confirmPassord && password !== confirmPassord) {
+        errors.confirmPassord = "The passwords must match.";
     }
 
 

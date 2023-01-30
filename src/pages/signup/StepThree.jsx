@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { TextField } from '@mui/material';
-import { useState } from 'react';
-import ValidateSignup from './ValidateSignup';
 
 export default function StepThree(props) {
 
-    const [value, setValue] = useState("");
+    const [values, setValues] = useState({
+        gender: "",
+        occupation: "",
+        amount: "",
+        use: "",
+        income: ""
+    });
 
     const handleChange = (e) => {
-        setValue(e.target.value);
+        setValues((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
     }
+    useEffect(() => {
+        props.onStepDataChange && props.onStepDataChange(
+            values
+        )
+    }, [values])
 
     const [errors, setErrors] = useState({});
 
@@ -28,7 +40,7 @@ export default function StepThree(props) {
                 margin="normal" 
                 variant="outlined" 
                 color="secondary" 
-                // value={income} 
+                value={values.income} 
                 onChange={handleChange} />
                 {errors.income && <p className="error">{errors.income}</p>}
             </FormControl>

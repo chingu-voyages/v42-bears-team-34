@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { TextField, Button, IconButton } from "@mui/material";
-import ValidateSignup from "./ValidateSignup";
+import React, { useState, useEffect } from "react";
+import { TextField } from "@mui/material";
 
 export default function StepTwo(props) {
 
@@ -19,6 +18,11 @@ export default function StepTwo(props) {
             [e.target.name]: e.target.value,
         }))
     }
+    useEffect(() => {
+        props.onStepDataChange && props.onStepDataChange(
+            inputs
+        )
+    }, [inputs])
 
   return (
     <div> 

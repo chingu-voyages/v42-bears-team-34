@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import { useState } from "react";
 import ValidateSignup from "./ValidateSignup";
@@ -18,13 +18,18 @@ export default function StepOne(props) {
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
-        e.preventDefault();
         setInputs((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }))
+        
     }
-
+    useEffect(() => {
+        props.onStepDataChange && props.onStepDataChange(
+            inputs
+        )
+    }, [inputs])
+    
   return (
     <div>
         <div>
