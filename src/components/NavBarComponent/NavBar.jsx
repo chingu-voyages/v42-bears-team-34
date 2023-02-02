@@ -20,6 +20,8 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
+import LogOutIcon from '@mui/icons-material/ExitToApp';
+import ViewUserApplicationsIcon from '@mui/icons-material/Assessment';
 
 import Icon from '../../assets/avcdo-md.png'
 import { PALLET } from '../../stylings/pallet'
@@ -115,28 +117,39 @@ export default function NavBar() {
                                     <ListItemIcon>
                                         <DescriptionIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon >
-                                    <Link to="blog" className="links" onClick={toggleDrawer(false)}>BLOG</Link>
+                                    <Link to="/blog" className="links" onClick={toggleDrawer(false)}>BLOG</Link>
                                 </ListItemButton>
 
                                 <ListItemButton sx={{ mb: 2 }}>
                                     <ListItemIcon>
                                         <CallRoundedIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon>
-                                    <Link to="contact" className="links" onClick={toggleDrawer(false)}>CONTACT</Link>
+                                    <Link to="/contact" className="links" onClick={toggleDrawer(false)}>CONTACT</Link>
                                 </ListItemButton>
 
                                 <ListItemButton sx={{ mb: 2 }}>
                                     <ListItemIcon>
                                         <LoginRoundedIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon>
-                                    <Link to="login" className="links" onClick={toggleDrawer(false)}>LOGIN</Link>
+                                    <Link to="/login" className="links" onClick={toggleDrawer(false)}>LOGIN</Link>
                                 </ListItemButton>
-
                                 <ListItemButton sx={{ mb: 2 }}>
                                     <ListItemIcon>
                                         <VpnKeyRoundedIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon>
-                                    <Link to="signup" className="links" onClick={toggleDrawer(false)}>SIGN UP</Link>
+                                    <Link to="/signup" className="links" onClick={toggleDrawer(false)}>SIGN UP</Link>
+                                </ListItemButton>
+                                <ListItemButton sx={{ mb: 2 }}>
+                                    <ListItemIcon>
+                                        <ViewUserApplicationsIcon sx={{ color: PALLET.pineGreen }} />
+                                    </ListItemIcon>
+                                    <Link to="/admin/applications" className="links" onClick={toggleDrawer(false)}>APPLICATIONS</Link>
+                                </ListItemButton>   
+                                <ListItemButton sx={{ mb: 2}}>
+                                    <ListItemIcon>
+                                        <LogOutIcon sx={{ color: PALLET.pineGreen }} />
+                                    </ListItemIcon>
+                                    <p>LOGOUT</p>
                                 </ListItemButton>
                             </Box>
                         </Box>
