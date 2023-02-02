@@ -3,8 +3,8 @@ import { BaseClient } from "./base-client";
   Handles log in, log out, account registration
 */
 export class AuthClient extends BaseClient {
-  constructor () {
-    super();
+  constructor (headers) {
+    super(headers);
   }
 
   /**
@@ -34,5 +34,13 @@ export class AuthClient extends BaseClient {
     isAdmin
   }) {
     return super.postData("/auth/login", { email, password, isAdmin })
+  }
+
+  /**
+   * This returns the profile of the requesting authenticated user. They need to have a JWT in session
+   * @returns {Promise<{ tok: string }>}
+   */
+  async refreshToken() {
+    return super.postData("/auth/refresh")
   }
 }

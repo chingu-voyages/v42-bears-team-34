@@ -1,10 +1,10 @@
-import { BaseClient } from "./base-client";
+import { BaseUserActionClient } from "./base-user-action-client";
 
 /**
  * This class should handle communication to our backend
  * for users that have a JWT
  */
-export class UserClient extends BaseClient {
+export class UserClient extends BaseUserActionClient {
   constructor({ authToken }) {
     super(
       {
