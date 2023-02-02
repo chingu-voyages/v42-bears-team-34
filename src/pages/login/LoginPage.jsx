@@ -27,47 +27,51 @@ const ResponsiveParentContainer = styled(Box)((props) => ({
 function LoginPage (props) {
   const navigate = useNavigate();
   const authToken = TokenManager.getToken();
-  const [ userProfile ] = useGetUserProfile(authToken)
   const { dispatch } = useContext(AppContext);
 
   const handleOnLoginSuccess = useCallback(() => {
     /* Handle log in. 
-      The token should be written at the LoginComponent level
-      Redirect the user to appropriate page on success depending on admin status
+    The token should be written at the LoginComponent level
+    Redirect the user to appropriate page on success depending on admin status
     */
     
     const getUserProfile = async() => {
       try {
-        const { id, firstName, lastName, role, iat, exp, expired } = userProfile;
-        // Update state
-        dispatch({
-          type: APP_ACTIONS.SET_STATE,
-          state: {
-            isAuthenticated: true,
-            user: {
-              id,
-              firstName,
-              lastName,
-              role,
-              iat,
-              exp,
-              expired
+          const userClient = new UserClient({ authToken });
+          const userProfile = await userClient.getUserProfile();
+          if (userProfile) {
+          const { id, firstName, lastName, role, iat, exp, expired } = userProfile;
+          // Update state
+          dispatch({
+            type: APP_ACTIONS.SET_STATE,
+            state: {
+              isAuthenticated: true,
+              user: {
+                id,
+                firstName,
+                lastName,
+                role,
+                iat,
+                exp,
+                expired
+              }
             }
+          })
+          // If the user's role is admin, redirect them to admin landing page
+          if (role === "admin" && props.isAdmin) {
+            navigate("/admin/applications")
+          } else {
+            /* Direct them to normal user landing page 
+            where user can view their pending application and status
+            */
+            navigate(`/user/applications`)
           }
-        })
-        // If the user's role is admin, redirect them to admin landing page
-        if (role === "admin" && props.isAdmin) {
-          navigate("/admin/applications")
-        } else {
-          /* Direct them to normal user landing page 
-          where user can view their pending application and status
-          */
-          navigate(`/user/applications`)
         }
       } catch (exception) {
         // If there's some error. Update state.
         // Clear any tokens
-        TokenManager.clearToken();
+        // TokenManager.clearToken();
+        console.log(exception)
         dispatch({
           type: APP_ACTIONS.SET_STATE,
           state: { 
@@ -84,7 +88,7 @@ function LoginPage (props) {
       }
     }
     getUserProfile();
-  })
+  }, [])
 
   return (
     <ResponsiveParentContainer>
