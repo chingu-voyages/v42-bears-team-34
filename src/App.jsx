@@ -1,17 +1,20 @@
+import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { LoginPage } from './pages/login';
+import { AdminApplicationsPage } from './pages/admin';
+import { RouteProtector } from './components/RouteProtector/RouteProtector';
+import { UserPage } from './pages/user';
 
 import Home from "./pages/home/Home";
 import Blog from "./pages/blog/Blog";
 import Contact from "./pages/contact/Contact";
 import Signup from "./pages/signup/Signup";
 import NavBar from './components/NavBarComponent/NavBar'
+import AppContext from './context/AppContext';
 import './App.css'
-import { AdminApplicationsPage } from './pages/admin';
-import { RouteProtector } from './components/RouteProtector/RouteProtector';
-import { UserPage } from './pages/user';
 
 function App() {
+  const { user } = useContext(AppContext);
   return (
     <div className="App">
       <NavBar />
