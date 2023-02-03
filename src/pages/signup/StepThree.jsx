@@ -32,11 +32,10 @@ export default function StepThree(props) {
 
   return (
     <div className="StepThreeForm">
-
         <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
             <TextField 
                 type="number" 
-                name="income"
+                name="applicantIncome"
                 label="What is your monthly income" 
                 margin="normal" 
                 variant="outlined" 
@@ -50,7 +49,7 @@ export default function StepThree(props) {
             <InputLabel>Select gender</InputLabel>
             <Select
                 labelId="genderEle"
-                name="gender"
+                name="applicantGender"
                 label="Gender"
                 onChange={handleChange}
                 {...errors.gender && <p className="error">{errors.gender}</p>}
@@ -65,7 +64,7 @@ export default function StepThree(props) {
         <InputLabel>Select occupation</InputLabel>
             <Select
                 labelId="occupationEle"
-                name="occupation"
+                name="applicantOccupation"
                 label="Occupation"
                 onChange={handleChange}
                 {...errors.occupation && <p className="error">{errors.occupation}</p>}
@@ -80,7 +79,7 @@ export default function StepThree(props) {
         <InputLabel>Select amount</InputLabel>
             <Select
                 labelId="amountEle"
-                name="amount"
+                name="requestedLoanAmount"
                 label="Amount"
                 onChange={handleChange}
                 {...errors.amount && <p className="error">{errors.amount}</p>}
@@ -100,7 +99,7 @@ export default function StepThree(props) {
         <InputLabel>Select use of loan</InputLabel>
             <Select
                 labelId="useEle"
-                name="use"
+                name="loanPurpose"
                 label="Use"
                 onChange={handleChange}
                 {...errors.use && <p className="error">{errors.use}</p>}
