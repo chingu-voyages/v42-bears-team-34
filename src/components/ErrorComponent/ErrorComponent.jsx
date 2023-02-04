@@ -1,4 +1,10 @@
-import { Alert } from "@mui/material";
+import { Alert, styled } from "@mui/material";
+
+const StyledAlertComponent = styled(Alert)((props) => ({
+  "&.MuiPaper-root" : {
+    border: "none"
+  }
+}))
 
 /**
  * 
@@ -8,9 +14,9 @@ import { Alert } from "@mui/material";
 function ErrorComponent(props) {
   return (
     <div>
-      <Alert severity="error">
+      <StyledAlertComponent severity="error" variant="outlined">
         {props.title || "Unknown error"}
-      </Alert>
+      </StyledAlertComponent>
     </div>
   )
 }
