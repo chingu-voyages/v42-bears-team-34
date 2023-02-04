@@ -18,6 +18,8 @@
     "plaid-threads": "^14.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-input-mask": "^3.0.0-alpha.2",
+    "react-number-format": "^5.1.3",
     "react-plaid-link": "^3.3.2",
     "react-router-dom": "^6.6.2"
   },
