@@ -8,7 +8,7 @@ import StepThree from './StepThree';
 import StepFour from './StepFour';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
-import ValidateSignup from './ValidateSignup';
+import { validateSignup } from './validate-signup';
 
 const steps = [
   "Your personal information", 
@@ -17,22 +17,17 @@ const steps = [
   "Your bank verification"
 ];
 
-function showSteps(step, handleStepDataChange ) {
-      switch(step) {
-        case 0:
-          // Retrieve the state from Step one (all of the inputs, etc)
-          // onStepDataChange refers to the function that gets called when
-          // an input in StepOne changes
-          // handleStepDataChange is the function that gets called by the parent
-          // component (SignupPage)
-          return <StepOne onStepDataChange={handleStepDataChange} />
-        case 1:
-          return <StepTwo onStepDataChange={handleStepDataChange} />
-        case 2:
-          return <StepThree onStepDataChange={handleStepDataChange} />
-        case 3:
-          return <StepFour />
-      }
+function showSteps(step, handleStepDataChange, errors) {
+  switch(step) {
+    case 0:
+      return <StepOne onStepDataChange={handleStepDataChange} errors={errors}/>
+    case 1:
+      return <StepTwo onStepDataChange={handleStepDataChange} errors={errors}/>
+    case 2:
+      return <StepThree onStepDataChange={handleStepDataChange} errors={errors} />
+    case 3:
+      return <StepFour />
+  }
 }
 
 function SignupPage() {
@@ -52,12 +47,16 @@ function SignupPage() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
+
+    // If there are errors, don't allow the user to go to the next step
+    const errors = validateSignup(stepData.current, activeStep)
+    if (Object.keys(errors).length > 0) {
+      console.log("errors?", errors)
+      setErrors(errors)
+      return;
+    }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
-
-    // telling the validate function what the current step is
-    // and what the current input is, represented by: stepData.current
-    ValidateSignup(stepData.current, activeStep)
   };
 
   const handleBack = () => {
@@ -65,57 +64,54 @@ function SignupPage() {
   };
 
   const handleStepDataChange = (data) => {
-    console.log("data", data);
     stepData.current = {
       ...stepData.current,
-      data,
+      ...data,
     }
-    console.log("72 StepDataCurrent", stepData.current)
   }
 
   return (
-    <Box sx={{ width: '50%', margin: 'auto' }}>
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {showSteps(activeStep, handleStepDataChange )}
+    <Box>
+      <Box mt={2}>
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+      </Box>
+      <Box component={"div"} display={"flex"} justifyContent={"center"}>
+        <Box ml={2} mr={2} component={"form"} id="questionnaire">
+          {showSteps(activeStep, handleStepDataChange, errors )}
+        </Box>
+      </Box>
       {activeStep === steps.length ? (
-        <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-          </Box>
-        </React.Fragment>
+        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+          <Box sx={{ flex: '1 1 auto' }} />
+        </Box>
       ) : (
-        <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              variant="contained"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-
-            <Button onClick={handleNext} variant="contained">
-              {activeStep === steps.length - 1 ? 'Next' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
+        <Box display={"flex"} flexDirection={"row"} pt={2} justifyContent={"center"}>
+          <Button
+            color="inherit"
+            variant="contained"
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ mr: 1 }}
+          >
+            Back
+          </Button>
+          <Button onClick={handleNext} variant="contained">
+            {activeStep === steps.length - 1 ? 'Next' : 'Next'}
+          </Button>
+        </Box>
       )}
     </Box>
   );
