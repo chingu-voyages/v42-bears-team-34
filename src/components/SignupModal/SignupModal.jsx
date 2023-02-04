@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { Box, Button, FormGroup, FormControlLabel, Typography, Modal } from '@mui/material';
+import { useState, useCallback } from 'react';
+import { Box, Button, FormGroup, FormControlLabel, Typography, Modal, Checkbox } from '@mui/material';
 import StyledButton from '../StyledButton/StyledButton';
+import { PALLET } from '../../stylings/pallet';
 
 const style = {
   position: 'absolute',
@@ -14,37 +15,51 @@ const style = {
   p: 4,
 };
 
-function SignupModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+function SignupModal(props) {
+  const handleConfirmModal = useCallback(() => {
+    // User confirms our terms
+    props.onConfirmModal && props.onConfirmModal()
+  },[])
 
+  const handleDeclineModal = useCallback(() => {
+    // User declines our terms
+    props.onClose && props.onClose();
+  })
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={props.open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Start the process
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Check if you are eligible or call us at 999-999-9999
+            Before we begin, please confirm:
           </Typography>
           <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="I am a Canadian resident" />
-            <FormControlLabel control={<Checkbox />} label="I am 18 years old or older" />
-            <FormControlLabel control={<Checkbox />} label="I have a minimum income of 1000$ (per month)" />
-            <FormControlLabel control={<Checkbox />} label="I am not in bankruptcy proceedings" />
+            <FormControlLabel control={<Checkbox />} label="You are a Canadian resident" />
+            <FormControlLabel control={<Checkbox />} label="You are 18 years old or older" />
+            <FormControlLabel control={<Checkbox />} label="You have a minimum income of 1000$ (per month)" />
+            <FormControlLabel control={<Checkbox />} label="You are not in bankruptcy proceedings" />
           </FormGroup>
-          <Box>
-            <StyledButton label={"I agree"} />
-            <StyledButton label={"Cancel"} />
+          <Box component={"div"} display="flex" justifyContent={"space-between"} mt={3} mb={3}>
+            <StyledButton 
+              onClick={handleConfirmModal} 
+              label={"I agree"}
+              buttonColor={PALLET.mountainDewLime}
+              borderRadius="20px"
+              style={{ fontWeight: "bold" }}
+            />
+            <StyledButton 
+              label={"Cancel"} 
+              borderRadius="20px"
+              style={{ fontWeight: "bold" }}
+              onClick={handleDeclineModal}
+            />
           </Box>
+          <Typography sx={{ marginTop: "10px", fontSize: "0.8rem" }}>
+            Check if you are eligible or call us at 999-999-9999
+          </Typography>
         </Box>
       </Modal>
     </div>

@@ -1,10 +1,13 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import './style.css'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { StyledButton } from '../../components/StyledButton'
 import { PALLET } from '../../stylings/pallet'
+import { SignupModal } from '../../components/SignupModal';
+import './style.css'
 
 function Home() {
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       <span
@@ -27,15 +30,19 @@ function Home() {
           textAlign: "center",
           marginTop: "4rem"
         }}>
-        <Link to='/signup'
-          style={{ textDecoration: "none", color: "#323232" }}>
-          <StyledButton
-            label="GET YOUR LOAN NOW!"
-            buttonColor={PALLET.mountainDewLime}
-            borderRadius="20px"
-            style={{ fontWeight: "bold" }}
-          />
-        </Link>
+          {/* This should bring up confirmation modal*/}
+        <StyledButton
+          label="GET YOUR LOAN NOW!"
+          buttonColor={PALLET.mountainDewLime}
+          borderRadius="20px"
+          style={{ fontWeight: "bold" }}
+          onClick={()=> setSignupModalOpen(true)}
+        />
+        <SignupModal 
+          open={signupModalOpen} 
+          onClose={() => setSignupModalOpen(false)} 
+          onConfirmModal={() => navigate("/signup", { replace: true })}
+        />
       </div>
     </>
   )
