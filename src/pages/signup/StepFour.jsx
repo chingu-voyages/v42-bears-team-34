@@ -24,9 +24,12 @@ export default function StepFour(props) {
         <Typography variant="h4" component="h2" align="center">
             Instant Bank Verification (IBV)
         </Typography>
-        <Box>
-          <p>Please click back and resolve these errors first before continuing.</p>
-        </Box>
+        { validationErrors && (
+          <Box>
+            <Typography align="center">Please click back and resolve these errors first before continuing.</Typography>
+          </Box>
+
+        )}
         <Typography  align="center">
           To complete your credit application, we need to perform a real-time verification of your primary bank account <br/> (active and where your paychecks are deposited)
         </Typography>
