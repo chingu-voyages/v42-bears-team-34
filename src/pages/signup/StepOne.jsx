@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import InputMask from "react-input-mask";
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
 import { SIGNUP_FIELDS } from "./sign-up-fields";
 import { ErrorComponent } from "../../components/ErrorComponent";
-import InputMask from "react-input-mask";
+import { SignupDataStore } from "../../services/SignupDataStore/signup-data-store";
+import { STEP_STATE } from "./steps-state";
+
 export default function StepOne(props) {
-  const [inputs, setInputs] = useState({
-    [SIGNUP_FIELDS.firstName]: "",
-    [SIGNUP_FIELDS.lastName]: "",
-    [SIGNUP_FIELDS.streetAddress]: "",
-    [SIGNUP_FIELDS.city]: "",
-    [SIGNUP_FIELDS.province]: "",
-    [SIGNUP_FIELDS.postalCode]: "",
-    [SIGNUP_FIELDS.phone]: ""
-  })
+  const [inputs, setInputs] = useState(STEP_STATE[0]);
 
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -25,7 +20,11 @@ export default function StepOne(props) {
       inputs
     )
   }, [inputs])
-    
+  
+  // When page renders, attempt to pre-populate data from sessionStorage
+  useEffect(() => {
+    setInputs(SignupDataStore.getData(Object.keys(inputs)))
+  },[])
   return (
     <div>
       <div>
@@ -84,16 +83,17 @@ export default function StepOne(props) {
         />
         {props.errors && props.errors.city && <ErrorComponent title={props.errors.city} />}
       </div>
-      <div>
+      <div style={{ marginTop: "10px"}}>
         <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
-          <InputLabel>Select province</InputLabel>
+          <InputLabel shrink={true}>Select province</InputLabel>
           <Select
             labelId="provinceEle"
             name={SIGNUP_FIELDS.province}
             label="Province"
+            value={inputs[SIGNUP_FIELDS.province]}
             onChange={handleChange}
           >  
-            <MenuItem value={undefined}></MenuItem>
+            <MenuItem value={null}></MenuItem>
             <MenuItem value={"bc"}>British Columbia</MenuItem>
             <MenuItem value={"ab"}>Alberta</MenuItem>
             <MenuItem value={"sk"}>Saskatchewan</MenuItem>
@@ -114,15 +114,15 @@ export default function StepOne(props) {
       <div>
         <TextField
           sx={{width:200}} 
+          value={inputs[SIGNUP_FIELDS.postalCode]} 
+          onChange={handleChange}
           type="text"
           name={SIGNUP_FIELDS.postalCode}
           label="Postal code"
-          inputProps={{ maxLength: 6 }}
+          inputProps={{ maxLength: 6, style: { textTransform: "uppercase"} }}
           margin="normal" 
           variant="outlined" 
-          color="secondary"
-          value={inputs[SIGNUP_FIELDS.postalCode]}
-          onChange={handleChange} 
+          color="secondary" 
         />
         {props.errors && props.errors[SIGNUP_FIELDS.postalCode] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.postalCode]} />}
       </div>
