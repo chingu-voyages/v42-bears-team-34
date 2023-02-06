@@ -8,7 +8,7 @@ import { UserPage } from './pages/user';
 import Home from "./pages/home/Home";
 import Blog from "./pages/blog/Blog";
 import Contact from "./pages/contact/Contact";
-import Signup from "./pages/signup/Signup";
+import SignupPage from "./pages/signup/SignupPage";
 import NavBar from './components/NavBarComponent/NavBar'
 import AppContext from './context/AppContext';
 import './App.css'
@@ -23,7 +23,7 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/admin/login" element={<LoginPage isAdmin={true} />} />
         <Route 
           path="/admin/applications" 
