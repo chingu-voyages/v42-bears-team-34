@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { TextField } from "@mui/material";
+import { InputLabel, TextField } from "@mui/material";
 import { SIGNUP_FIELDS } from "./sign-up-fields";
 import { ErrorComponent } from "../../components/ErrorComponent";
+import { SignupDataStore } from "../../services/SignupDataStore/signup-data-store";
+import { CustomDatePicker } from "../../components/CustomDatePicker";
+import dayjs from "dayjs";
 
+const MAX_ADULT_AGE = new dayjs().subtract(18, "year"); // Minimum adult age
 export default function StepTwo(props) {
   const [inputs, setInputs] = useState({
     [SIGNUP_FIELDS.email]: "",
+    [SIGNUP_FIELDS.dateOfBirth]: null,
     [SIGNUP_FIELDS.password1]: "",
     [SIGNUP_FIELDS.password2]: ""
   })
@@ -17,12 +22,27 @@ export default function StepTwo(props) {
           [e.target.name]: e.target.value,
       }))
   }
+
+  // Dates are handle differently
+  const handleDateChange = (dateValue) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [SIGNUP_FIELDS.dateOfBirth]: dateValue,
+    }))
+  }
+
   useEffect(() => {
       props.onStepDataChange && props.onStepDataChange(
         inputs
       )
   }, [inputs])
 
+  // Preload any data from the sessionStorage
+  useEffect(() => {
+    setInputs(SignupDataStore.getData(Object.keys(inputs)))
+  },[]);
+
+  
   return (
     <div> 
       <div>
@@ -38,6 +58,17 @@ export default function StepTwo(props) {
           onChange={handleChange} 
         />
         {props.errors && props.errors[SIGNUP_FIELDS.email] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.email]} />}
+      </div>
+      <div>
+        <InputLabel shrink={true}>Date of birth</InputLabel>
+        <CustomDatePicker 
+          readOnly 
+          name={SIGNUP_FIELDS.dateOfBirth}
+          maxDate={MAX_ADULT_AGE}
+          value={inputs[SIGNUP_FIELDS.dateOfBirth]}
+          onDateChange={handleDateChange}
+        />
+        {props.errors && props.errors[SIGNUP_FIELDS.dateOfBirth] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.dateOfBirth]} />}
       </div>
       <div>
         <TextField 

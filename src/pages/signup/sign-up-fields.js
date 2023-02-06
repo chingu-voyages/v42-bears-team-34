@@ -8,6 +8,7 @@ export const SIGNUP_FIELDS = {
   phone: "phone",
 
   email: "email",
+  dateOfBirth: "dateOfBirth",
   password1: "password1",
   password2: "password2",
 
