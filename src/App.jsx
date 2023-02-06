@@ -2,9 +2,8 @@ import './App.css'
 import Home from "./pages/home/Home";
 import Blog from "./pages/blog/Blog";
 import Contact from "./pages/contact/Contact";
-
-import Signup from "./pages/signup/Signup";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Signup from "./pages/signup/SignupPage";
+import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import { LoginPage } from './pages/login';
 import NavBar from './components/NavBarComponent/NavBar'
 

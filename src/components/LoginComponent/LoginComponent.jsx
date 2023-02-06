@@ -2,7 +2,6 @@ import { Box, TextField, styled, Button, Typography } from "@mui/material";
 import { PALLET } from "../../stylings/pallet";
 import { StyledButton } from "../StyledButton";
 import { useRef, useState } from "react";
-import "./style.css";
 import { STRING_HELPERS } from "../../utils/string-helpers";
 
 
@@ -66,7 +65,7 @@ function LoginComponent(props) {
     }
     if (formDataRef.current["password"] === "") {
       setHasPasswordError(true);
-      return false;
+      return false;dd
     }
     return true;
   }
