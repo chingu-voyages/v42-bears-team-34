@@ -9,7 +9,7 @@ export class AuthClient extends BaseClient {
 
   /**
    * Creates a user account
-   * @param {{ firstName: string, lastName: string, email: string, password: string, dateOfBirth: ISODateString }}
+   * @param {{ firstName: string, lastName: string, email: string, password: string, dateOfBirth: ISODateString, gender: string }}
    * @returns {Promise<void>}
    */
   async createUserAccount ({
@@ -17,9 +17,10 @@ export class AuthClient extends BaseClient {
     lastName,
     email,
     password,
-    dateOfBirth
+    dateOfBirth,
+    gender
   }) {
-    return super.postData("/auth/signup", { firstName, lastName, email, password, dateOfBirth })
+    return super.postData("/auth/signup", { firstName, lastName, email, password, dateOfBirth, gender })
   }
 
   /**
