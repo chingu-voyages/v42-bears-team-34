@@ -110,7 +110,7 @@ const VALIDATION_RULES = [
     },
     validationMessage: "Date of birth should be in the correct format.",
   },
-  // Step 3
+  // Step 2
   {
     name: "Applicant income must be present",
     fieldName: SIGNUP_FIELDS.applicantIncome,
@@ -140,6 +140,18 @@ const VALIDATION_RULES = [
     fieldName: SIGNUP_FIELDS.loanPurpose,
     rule: (field) => !field,
     validationMessage: "Please specify the loan purpose"
+  },
+  {
+    name: "Number of installments must be selected",
+    fieldName: SIGNUP_FIELDS.numberOfInstallments,
+    rule: (field) => !field,
+    validationMessage: "Please specify the number of installments"
+  },
+  {
+    name: "Installment amount $ can't be null or 0",
+    fieldName: SIGNUP_FIELDS.installmentAmount,
+    rule: (field) => (field === null || field === undefined || field <= 0 || isNaN(field)),
+    validationMessage: "Please specify an installment amount greater than zero $"
   },
 ]
 

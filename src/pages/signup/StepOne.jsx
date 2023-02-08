@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import InputMask from "react-input-mask";
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
 import { SIGNUP_FIELDS } from "./sign-up-fields";
 import { ErrorComponent } from "../../components/ErrorComponent";
 import { SignupDataStore } from "../../services/SignupDataStore/signup-data-store";
 import { STEP_STATE } from "./steps-state";
+import InputMask from "react-input-mask";
 
 export default function StepOne(props) {
   const [inputs, setInputs] = useState(STEP_STATE[0]);
