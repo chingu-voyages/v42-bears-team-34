@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -12,6 +12,8 @@ import { Box } from '@mui/system';
 import { SignupValidator } from './validate-signup';
 import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
 import { STEP_STATE } from './steps-state';
+import { SignUpHelper } from '../../services/sign-up-helper/sign-up-helper';
+import { SIGNUP_FIELDS } from './sign-up-fields';
 
 const steps = [
   "Your personal information", 
@@ -35,6 +37,21 @@ function showSteps(step, handleStepDataChange, errors, state, setConfirmationVal
   }
 }
 
+// Regular next button
+const ConfirmButton = (props) => {
+  const { title, onClick } = props;
+  return (
+    <Button 
+      color="inherit"
+      variant="contained"
+      sx={{ mr: 1 }}
+      onClick={onClick}
+    >
+      {title}
+    </Button>
+  )
+
+}
 function SignupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -82,6 +99,43 @@ function SignupPage() {
     }
   }
 
+  const handleSignupFlow = useCallback(() => {
+    /* Increment the active step, which should hide the back button
+      This will attempt to create an account
+      Increment the activeStep to show the final step which is the plaid screen.
+    */
+    const doSignupFlow = async () => {
+      try {
+        /* 
+          - This should create an account, log the user in, and get a plaidToken.
+          - If an e-mail already exists in our db, attempt to sign-in with the e-mail & password
+            supplied in the application.
+
+            If that fails, an error will be caught where we can notify the user that they 
+            need to log in to their portal to continue their application.
+        */
+        const token = await SignUpHelper.run({
+          firstName: stepData.current[SIGNUP_FIELDS.firstName],
+          lastName: stepData.current[SIGNUP_FIELDS.lastName],
+          email: stepData.current[SIGNUP_FIELDS.email],
+          password: stepData.current[SIGNUP_FIELDS.password1],
+          dateOfBirth: stepData.current[SIGNUP_FIELDS.dateOfBirth].toISOString(),
+          applicantGender: stepData.current[SIGNUP_FIELDS.applicantGender]
+        });
+
+        // Create a new application. 
+        console.log("Sign up flow worked. Token is", token)
+      } catch (error) {
+        // If we get to this block, the sign-up flow catastrophically failed
+        // And we should prompt user to login and continue their application
+        // under their established credentials
+        console.log(error);
+      }
+    }
+    doSignupFlow();
+  }, [])
+
+
   return (
     <Box>
       <Box mt={2}>
@@ -119,6 +173,7 @@ function SignupPage() {
         <Box display={"flex"} flexDirection={"row"} pt={2} justifyContent={"center"}>
         { activeStep < 4 && (
           <>
+          { activeStep < 4 && (
             <Button
               color="inherit"
               variant="contained"
@@ -128,9 +183,17 @@ function SignupPage() {
             >
               Back
             </Button>
-            <Button onClick={handleNext} variant="contained">
-              {activeStep === steps.length - 1 ? 'Next' : 'Next'}
-            </Button>
+          )}
+            { activeStep < 3 && (
+              <Button onClick={handleNext} variant="contained">
+                {activeStep === steps.length - 1 ? 'Next' : 'Next'}
+              </Button>
+            )}
+            { 
+              activeStep === 3 && (
+                <ConfirmButton title={"Confirm"} onClick={handleSignupFlow} />
+              )
+            }
           </>
           )}
         </Box>
