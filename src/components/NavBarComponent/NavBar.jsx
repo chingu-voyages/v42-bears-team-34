@@ -21,7 +21,7 @@ import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 
-import Logo from '../../assets/logo.jpg'
+import Icon from '../../assets/avcdo-md.png'
 import { PALLET } from '../../stylings/pallet'
 
 
@@ -52,6 +52,7 @@ export default function NavBar() {
         <AppBar position="static" sx={{ backgroundColor: PALLET.pineGreen }}>
             <Container maxWidth="lg" disableGutters={true}>
                 <Toolbar>
+                    <img src={Icon} alt='logo' height='60' />
                     <Typography variant="h3" sx={{ flexGrow: 1, fontWeight: 900, color: PALLET.mountainDewLime }}>
                         AVCDOLOAN
                     </Typography>
