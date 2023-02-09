@@ -17,7 +17,7 @@ const SIGNUP_FLOW_RESULT_STATUS = {
 // TODO: How much data from the application before plaid should we send over?
 export class SignUpHelper {
   /**
-   * Streamline the signup, login, plaidToken workflow. Errors thrown will bubble up.
+   * Streamline the signup, login, plaid linktoken workflow. Errors thrown will bubble up.
    * @param {{ firstName: string, lastName: string, dateOfBirth: string, email: string, password: string, applicantGender: string }} fields
    * @returns {Promise<string>} should return a link token
    */
