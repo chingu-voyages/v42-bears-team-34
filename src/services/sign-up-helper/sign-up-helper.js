@@ -18,18 +18,18 @@ const SIGNUP_FLOW_RESULT_STATUS = {
 export class SignUpHelper {
   /**
    * Streamline the signup, login, plaidToken workflow. Errors thrown will bubble up.
-   * @param {{ firstName: string, lastName: string, dateOfBirth: string, email: string, password: string, gender: string }} fields
+   * @param {{ firstName: string, lastName: string, dateOfBirth: string, email: string, password: string, applicantGender: string }} fields
    * @returns {Promise<string>} should return a link token
    */
   static async run (fields) {
-    const { firstName, lastName, email, password, dateOfBirth, gender } = fields;
+    const { firstName, lastName, email, password, dateOfBirth, applicantGender } = fields;
     // Attempt to register a new account. This will return a string response indicating the result of the request.
-    const registrationResult = await SignUpFlow
-      .#attemptToRegister({ firstName, lastName, email, password, dateOfBirth, gender });
+    const registrationResult = await SignUpHelper
+      .#attemptToRegister({ firstName, lastName, email, password, dateOfBirth, applicantGender });
 
     if (registrationResult === SIGNUP_FLOW_RESULT_STATUS.success || registrationResult === SIGNUP_FLOW_RESULT_STATUS.emailExists) {
       // This could potentially throw an error
-      return SignUpFlow.#LoginAndGetLinkToken({ email, password });
+      return SignUpHelper.#LoginAndGetLinkToken({ email, password });
     } else {
       throw new Error(`$FAIL Signup flow failed ${registrationResult}`)
     }
@@ -47,13 +47,13 @@ export class SignUpHelper {
    * @returns {Promise<string>} linkToken
    */
   static async #LoginAndGetLinkToken({ email, password }) {
-    const jwtTokenData = await SignUpFlow.#logIn({ email, password });
+    const jwtTokenData = await SignUpHelper.#logIn({ email, password });
     if (jwtTokenData && jwtTokenData.tok) {
       TokenManager.writeToken(jwtTokenData.tok); // Write the auth token to session storage
-      const linkToken = await SignUpFlow.#getLinkToken({ authToken: jwtTokenData.tok })
+      const linkToken = await SignUpHelper.#getLinkToken({ authToken: jwtTokenData.tok })
       return linkToken.link_token;
     } else {
-      throw new Error(`SignUpFlow: jwt token error`)
+      throw new Error(`SignUpHelper: jwt token error`)
     }
   }
 
@@ -67,11 +67,12 @@ export class SignUpHelper {
    * Attempt to create a new user. This swallows errors. If this is a success it will return
    * the success string. If it errors out, return the error message. If it's the case that the e-mail
    * already exists, return a string indicating so.
-   * @param {{ firstName: string, lastName: string, password: string, dateOfBirth: string}} param0 
+   * @param {{ firstName: string, lastName: string, password: string, dateOfBirth: string, applicantGender: "male" | "female" | "other"}} param0 
    * @returns {Promise<string>}
    */
-  static async #attemptToRegister({ email, firstName, lastName, password, dateOfBirth, gender }) {
+  static async #attemptToRegister({ email, firstName, lastName, password, dateOfBirth, applicantGender }) {
     // Attempt to signup
+    console.log("75 Attempt to signup applicantGender", applicantGender)
     try {
       const authClient = new AuthClient();
       await authClient
@@ -81,7 +82,7 @@ export class SignUpHelper {
           email,
           password,
           dateOfBirth,
-          gender
+          applicantGender
         });
       return SIGNUP_FLOW_RESULT_STATUS.success;
     } catch (error) {
