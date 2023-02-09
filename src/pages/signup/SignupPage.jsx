@@ -14,6 +14,7 @@ import { SignupDataStore } from '../../services/SignupDataStore/signup-data-stor
 import { STEP_STATE } from './steps-state';
 import { SignUpHelper } from '../../services/sign-up-helper/sign-up-helper';
 import { SIGNUP_FIELDS } from './sign-up-fields';
+import { ApplicationClient } from '../../services/api-clients/application-client';
 
 const steps = [
   "Your personal information", 
@@ -61,6 +62,7 @@ function SignupPage() {
   };
 
   const [errors, setErrors] = useState({});
+  const [isConfirmLoggingIn, setIsConfirmLoggingIn] = useState(false);
   const stepData = useRef(STEP_STATE[0]);
 
   const handleNext = () => {
@@ -106,6 +108,8 @@ function SignupPage() {
     */
     const doSignupFlow = async () => {
       try {
+        // Disable the confirm button
+        setIsConfirmLoggingIn(true);
         /* 
           - This should create an account, log the user in, and get a plaidToken.
           - If an e-mail already exists in our db, attempt to sign-in with the e-mail & password
@@ -113,6 +117,8 @@ function SignupPage() {
 
             If that fails, an error will be caught where we can notify the user that they 
             need to log in to their portal to continue their application.
+
+            If there are password issues at this point, they can do a password recovery
         */
         const token = await SignUpHelper.run({
           firstName: stepData.current[SIGNUP_FIELDS.firstName],
@@ -122,13 +128,26 @@ function SignupPage() {
           dateOfBirth: stepData.current[SIGNUP_FIELDS.dateOfBirth].toISOString(),
           applicantGender: stepData.current[SIGNUP_FIELDS.applicantGender]
         });
-
+        // if success, increment the activeStep that will lead us to the plaid process
+        // If the user aborts the sign up process at this step, they can re-register, but their
+        // email and password need to match what they entered in their first application. If it doesn't match, they will get
+        // an error and should be prompted to sign in to the user portal / recover their password (V2)
         // Create a new application. 
+
+        // Submit the initial application before the plaid link
+        const applicationClient = new ApplicationClient({ authToken: token });
+        const res = await applicationClient.postNewApplication({
+          requestedLoanAmount: stepData.current[SIGNUP_FIELDS.requestedLoanAmount],
+          numberOfInstallments: stepData.current[SIGNUP_FIELDS.numberOfInstallments],
+          installmentAmount: stepData.current[SIGNUP_FIELDS.installmentAmount],
+          loanPurpose: stepData.current[SIGNUP_FIELDS.loanPurpose],
+        })
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
         console.log("Sign up flow worked. Token is", token)
       } catch (error) {
         // If we get to this block, the sign-up flow catastrophically failed
         // And we should prompt user to login and continue their application
-        // under their established credentials
+        // under their established credentials or do a password recovery
         console.log(error);
       }
     }
@@ -191,7 +210,7 @@ function SignupPage() {
             )}
             { 
               activeStep === 3 && (
-                <ConfirmButton title={"Confirm"} onClick={handleSignupFlow} />
+                <ConfirmButton title={"Confirm"} onClick={handleSignupFlow} disabled={isConfirmLoggingIn} />
               )
             }
           </>
