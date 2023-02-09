@@ -20,7 +20,7 @@ export class AuthClient extends BaseClient {
     dateOfBirth,
     applicantGender
   }) {
-    return super.postData("/auth/signup", { firstName, lastName, email, password, dateOfBirth, applicantGender })
+    return super.postData("/auth/signup", { firstName, lastName, email, password, dateOfBirth, gender })
   }
 
   /**
