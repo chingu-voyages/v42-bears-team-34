@@ -72,7 +72,6 @@ export class SignUpHelper {
    */
   static async #attemptToRegister({ email, firstName, lastName, password, dateOfBirth, applicantGender }) {
     // Attempt to signup
-    console.log("75 Attempt to signup applicantGender", applicantGender)
     try {
       const authClient = new AuthClient();
       await authClient
