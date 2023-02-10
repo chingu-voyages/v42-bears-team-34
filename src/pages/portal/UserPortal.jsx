@@ -1,25 +1,57 @@
 import React from 'react';
-import { Box } from '@mui/system';
 import { Container } from '@mui/system';
-import { Drawer } from '@mui/material';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 
 
 export default function UserPortal() {
+
+    const listElements = [
+        {
+            id: "",
+            name: "Last name: ",
+            address: "Address: ",
+            phone: "Phone: ",
+            email: "Email: ",
+            loanAmount: "Loan amount: ",
+            instalment: "Number of months to pay: ",
+            total: "Total amount to be paid: "
+        }
+    ]
+
   return (
     <div>
         <Container fixed>
-            <List style={style} key={index} component="div" disablePadding>
-                <ListItem>
-                    <ListItemText primary="Last Name: " />
-                </ListItem>
+            <Typography variant="h4" align="center">User Dashboard</Typography>
+            <List>
+                {listElements.map(item => (
+                    <>
+                        <ListItem key={item.id} variant="h5">
+                            <ListItemText>{item.name}</ListItemText>
+                        </ListItem>
+                        <ListItem key={item.id}>
+                            <ListItemText>{item.address}</ListItemText>
+                        </ListItem>
+                        <ListItem key={item.id}>
+                            <ListItemText>{item.phone}</ListItemText>
+                        </ListItem>
+                        <ListItem key={item.id}>
+                            <ListItemText>{item.email}</ListItemText>
+                        </ListItem>
+                        <ListItem key={item.id}>
+                            <ListItemText>{...item.loanAmount}</ListItemText>
+                        </ListItem>
+                        <ListItem key={item.id}>
+                            <ListItemText>{...item.instalment}</ListItemText>
+                        </ListItem>
+                        <ListItem key={item.id}>
+                            <ListItemText>{...item.total}</ListItemText>
+                        </ListItem>
+                    </>
+                ))}
             </List>
         </Container>
     </div>
