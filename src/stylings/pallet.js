@@ -1,4 +1,5 @@
 export const PALLET = {
+  hemoglobinErrorRed: "#8B0000",
   white: "#FFFFFF",
   paleGoldYellow: "#FBFFCA",
   pineGreen: "#248e38",
