@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState, useCallback, useContext } from 'react'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -6,7 +6,8 @@ import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import StepThree from './StepThree';
 import StepFour from './StepFour';
-import PlaidConfirm from './PlaidConfirm';
+import PlaidLinkPage from './PlaidLinkPage';
+import AppContext from '../../context/AppContext';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { SignupValidator } from './validate-signup';
@@ -15,7 +16,8 @@ import { STEP_STATE } from './steps-state';
 import { SignUpHelper } from '../../services/sign-up-helper/sign-up-helper';
 import { SIGNUP_FIELDS } from './sign-up-fields';
 import { ApplicationClient } from '../../services/api-clients/application-client';
-
+import { APP_ACTIONS } from '../../context/app.actions';
+import { TokenManager } from '../../services/token-manager/token-manager';
 const steps = [
   "Your personal information", 
   "Create your password", 
@@ -34,7 +36,7 @@ function showSteps(step, handleStepDataChange, errors, state, setConfirmationVal
     case 3:
       return <StepFour onStepDataChange={handleStepDataChange} submitState={state} onInvalidState={setConfirmationValidationState} />
     case 4:
-      return <PlaidConfirm />
+      return <PlaidLinkPage />
   }
 }
 
@@ -57,6 +59,7 @@ function SignupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [confirmationValidationError, setConfirmationValidationError] = useState(false);
+  const { dispatch } = useContext(AppContext);
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -120,7 +123,7 @@ function SignupPage() {
 
             If there are password issues at this point, they can do a password recovery
         */
-        const token = await SignUpHelper.run({
+        const linkToken = await SignUpHelper.run({
           firstName: stepData.current[SIGNUP_FIELDS.firstName],
           lastName: stepData.current[SIGNUP_FIELDS.lastName],
           email: stepData.current[SIGNUP_FIELDS.email],
@@ -128,6 +131,15 @@ function SignupPage() {
           dateOfBirth: stepData.current[SIGNUP_FIELDS.dateOfBirth].toISOString(),
           applicantGender: stepData.current[SIGNUP_FIELDS.applicantGender]
         });
+
+        // Dispatch the link token to the app state
+        dispatch({
+          type: APP_ACTIONS.SET_STATE,
+          state: {
+            linkToken: linkToken
+          }
+        })
+        
         // if success, increment the activeStep that will lead us to the plaid process
         // If the user aborts the sign up process at this step, they can re-register, but their
         // email and password need to match what they entered in their first application. If it doesn't match, they will get
@@ -135,15 +147,26 @@ function SignupPage() {
         // Create a new application. 
 
         // Submit the initial application before the plaid link
-        const applicationClient = new ApplicationClient({ authToken: token });
+        const jwtToken = TokenManager.getToken();
+        const applicationClient = new ApplicationClient({ authToken: jwtToken });
         const res = await applicationClient.postNewApplication({
-          requestedLoanAmount: stepData.current[SIGNUP_FIELDS.requestedLoanAmount],
-          numberOfInstallments: stepData.current[SIGNUP_FIELDS.numberOfInstallments],
+          applicantIncome: stepData.current[SIGNUP_FIELDS.applicantIncome],
+          applicantOccupation: stepData.current[SIGNUP_FIELDS.applicantOccupation],
           installmentAmount: stepData.current[SIGNUP_FIELDS.installmentAmount],
           loanPurpose: stepData.current[SIGNUP_FIELDS.loanPurpose],
+          numberOfInstallments: stepData.current[SIGNUP_FIELDS.numberOfInstallments],
+          requestedLoanAmount: stepData.current[SIGNUP_FIELDS.requestedLoanAmount],
+        });
+
+        // Store the new application ID
+        dispatch({
+          type: APP_ACTIONS.SET_STATE,
+          state: {
+            newApplicationId: res.id
+          }
         })
+        console.log("158, applicaiton data", res)
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        console.log("Sign up flow worked. Token is", token)
       } catch (error) {
         // If we get to this block, the sign-up flow catastrophically failed
         // And we should prompt user to login and continue their application
