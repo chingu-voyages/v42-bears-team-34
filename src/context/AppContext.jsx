@@ -16,7 +16,7 @@ const initialState = {
 
   // Link process went through
   linkSuccess: false,
-
+  linkToken: null,
   user: {
     id: null,
     firstName: null,
@@ -29,6 +29,7 @@ const initialState = {
   },
   // We could use this to keep track of which stage the sign-up (application) process is in
   signUpProgress: null,
+  newApplicationId: null,
 }
 
 const AppContext = createContext(initialState);
