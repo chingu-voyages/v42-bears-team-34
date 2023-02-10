@@ -6,6 +6,7 @@ import Signup from "./pages/signup/SignupPage";
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import { LoginPage } from './pages/login';
 import NavBar from './components/NavBarComponent/NavBar'
+import UserPortal from './pages/portal/UserPortal';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="userportal" element={<UserPortal />} />
         </Routes>
       </div>
     </>
