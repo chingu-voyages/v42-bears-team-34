@@ -8,11 +8,7 @@
 import { AuthClient } from "../api-clients/auth-client"
 import { PlaidClient } from "../api-clients/plaid-client";
 import { TokenManager } from "../token-manager/token-manager";
-
-const SIGNUP_FLOW_RESULT_STATUS = {
-  success: "$REGISTER_SUCCESS",
-  emailExists: "$EMAIL_EXISTS",
-}
+import { SIGNUP_FLOW_RESULT_STATUS } from "./signup-flow-result-status";
 
 // TODO: How much data from the application before plaid should we send over?
 export class SignUpHelper {
@@ -31,7 +27,7 @@ export class SignUpHelper {
       // This could potentially throw an error
       return SignUpHelper.#LoginAndGetLinkToken({ email, password });
     } else {
-      throw new Error(`$FAIL Signup flow failed ${registrationResult}`)
+      throw new Error(registrationResult);
     }
   }
   
@@ -86,8 +82,10 @@ export class SignUpHelper {
       return SIGNUP_FLOW_RESULT_STATUS.success;
     } catch (error) {
       if (error.response?.status === 400) {
-        if (error.response?.data?.msg?.startsWith(SIGNUP_FLOW_RESULT_STATUS.emailExists)) {
+        if (error.response?.data?.code?.startsWith(SIGNUP_FLOW_RESULT_STATUS.emailExists)) {
           return SIGNUP_FLOW_RESULT_STATUS.emailExists;
+        } else if (error.response?.data?.code?.startsWith(SIGNUP_FLOW_RESULT_STATUS.invalidUsernamePassword)) {
+          return SIGNUP_FLOW_RESULT_STATUS.invalidUsernamePassword;
         }
       }
       return error.message;
