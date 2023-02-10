@@ -64,8 +64,9 @@ function SignupPage() {
     return skipped.has(step);
   };
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({}); // This refers to errors for individual fields in the application
   const [isConfirmLoggingIn, setIsConfirmLoggingIn] = useState(false);
+  const [hasSignupError, setHasSignUpError] = useState(false); // This refers to errors encountered when sending data to our API
   const stepData = useRef(STEP_STATE[0]);
 
   const handleNext = () => {
@@ -149,7 +150,7 @@ function SignupPage() {
         // Submit the initial application before the plaid link
         const jwtToken = TokenManager.getToken();
         const applicationClient = new ApplicationClient({ authToken: jwtToken });
-        const res = await applicationClient.postNewApplication({
+        await applicationClient.postNewApplication({
           applicantIncome: stepData.current[SIGNUP_FIELDS.applicantIncome],
           applicantOccupation: stepData.current[SIGNUP_FIELDS.applicantOccupation],
           installmentAmount: stepData.current[SIGNUP_FIELDS.installmentAmount],
@@ -157,21 +158,13 @@ function SignupPage() {
           numberOfInstallments: stepData.current[SIGNUP_FIELDS.numberOfInstallments],
           requestedLoanAmount: stepData.current[SIGNUP_FIELDS.requestedLoanAmount],
         });
-
-        // Store the new application ID
-        dispatch({
-          type: APP_ACTIONS.SET_STATE,
-          state: {
-            newApplicationId: res.id
-          }
-        })
-        console.log("158, applicaiton data", res)
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       } catch (error) {
         // If we get to this block, the sign-up flow catastrophically failed
         // And we should prompt user to login and continue their application
         // under their established credentials or do a password recovery
         console.log(error);
+        // Determine the type of error and if we should show a special modal
       }
     }
     doSignupFlow();
