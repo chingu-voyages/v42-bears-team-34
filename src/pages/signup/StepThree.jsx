@@ -1,14 +1,15 @@
 import React, { useState, useEffect }  from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { Box, TextField } from '@mui/material';
 import { SIGNUP_FIELDS } from './sign-up-fields';
 import { ErrorComponent } from '../../components/ErrorComponent';
 import { NumericFormat } from 'react-number-format';
 import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
 import { STEP_STATE } from './steps-state';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 const NumberFormatCustom = React.forwardRef((props, ref) => {
   const { onChange, ...other } = props;
@@ -103,7 +104,7 @@ export default function StepThree(props) {
   </FormControl>
 
   <FormControl sx={{width: 400, marginBottom: 3}}>
-    <InputLabel shrink={true}>Select amount</InputLabel>
+    <InputLabel shrink={true}>Requested loan amount</InputLabel>
       <Select
         labelId="requestedLoanAmountEle"
         name={SIGNUP_FIELDS.requestedLoanAmount}
@@ -123,9 +124,43 @@ export default function StepThree(props) {
       </Select>
       {props.errors && props.errors[SIGNUP_FIELDS.requestedLoanAmount] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.requestedLoanAmount]} />}
     </FormControl> 
-
     <FormControl sx={{width: 400, marginBottom: 3}}>
-    <InputLabel shrink={true}>Select use of loan</InputLabel>
+      <InputLabel shrink={true}>Number of installments</InputLabel>
+      {/* number of installments */}
+      <Select
+        labelId="numberOfInstallmentsEle"
+        name={SIGNUP_FIELDS.numberOfInstallments}
+        label="Number of installments"
+        onChange={handleChange}
+        value={values[SIGNUP_FIELDS.numberOfInstallments]}
+      >
+        <MenuItem value={null}></MenuItem>
+        {[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((installmentValue) => (
+          <MenuItem value={installmentValue} key={`${SIGNUP_FIELDS.numberOfInstallments}_${installmentValue}`}>
+            {installmentValue.toString()}
+          </MenuItem>
+        ))}
+      </Select>
+      {props.errors && props.errors[SIGNUP_FIELDS.numberOfInstallments] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.numberOfInstallments]} />}
+    </FormControl>
+    <FormControl>
+      <InputLabel shrink={true}>Installment amount $</InputLabel>
+        <TextField 
+          sx={{width:200}}
+          name={SIGNUP_FIELDS.installmentAmount}
+          margin="normal" 
+          variant="outlined"
+          color="secondary"
+          onChange={handleChange} 
+          value={values[SIGNUP_FIELDS.installmentAmount]}
+          InputProps={{
+            inputComponent: NumberFormatCustom
+          }}
+        />
+      {props.errors && props.errors[SIGNUP_FIELDS.installmentAmount] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.installmentAmount]} />}
+    </FormControl>
+    <FormControl sx={{width: 400, marginBottom: 3}}>
+      <InputLabel shrink={true}>Select use of loan</InputLabel>
       <Select
         labelId="loanPurposeEle"
         name={SIGNUP_FIELDS.loanPurpose}
