@@ -69,9 +69,7 @@ function LoginPage (props) {
         }
       } catch (exception) {
         // If there's some error. Update state.
-        // Clear any tokens
-        // TokenManager.clearToken();
-        console.log(exception)
+        console.error(exception)
         dispatch({
           type: APP_ACTIONS.SET_STATE,
           state: { 
