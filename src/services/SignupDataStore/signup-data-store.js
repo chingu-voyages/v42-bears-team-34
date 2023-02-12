@@ -23,11 +23,22 @@ export class SignupDataStore {
         } else {
           console.warn("Data store error (PUT) - date format is not a dayjs object ")
         }
+      } else if (key === SIGNUP_FIELDS.unitNumber || key ===  SIGNUP_FIELDS.additionalAddress) {
+          // Special case as these fields are optional
+          if (!value) {
+            session.removeItem(key);
+          } else {
+            if (value && value.trim && value.trim() === "") {
+              session.removeItem(key)
+            } else {
+              session.setItem(key, value);
+            }
+          }
       } else {
         if (value) {
           session.setItem(key, value);
         }
-      } 
+      }
     }
   }
 
