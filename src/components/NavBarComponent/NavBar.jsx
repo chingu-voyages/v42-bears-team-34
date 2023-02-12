@@ -137,7 +137,7 @@ export default function NavBar() {
                                     <ListItemIcon>
                                         <VpnKeyRoundedIcon sx={{ color: PALLET.pineGreen }} />
                                     </ListItemIcon>
-                                    <Link to="/signup" className="links" onClick={toggleDrawer(false)}>SIGN UP</Link>
+                                    <Link to="/" className="links" onClick={toggleDrawer(false)}>SIGN UP</Link>
                                 </ListItemButton>
                                 <ListItemButton sx={{ mb: 2 }}>
                                     <ListItemIcon>
