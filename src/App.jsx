@@ -12,6 +12,7 @@ import SignupPage from "./pages/signup/SignupPage";
 import NavBar from './components/NavBarComponent/NavBar'
 import AppContext from './context/AppContext';
 import './App.css'
+import { ApplicationViewContainer } from './components/ApplicationViewContainer/ApplicationViewContainer';
 
 function App() {
   const { user } = useContext(AppContext);
@@ -32,6 +33,24 @@ function App() {
               <AdminApplicationsPage />
             </RouteProtector>
           } 
+        />
+        <Route 
+          path="/admin/applications/view/:id"
+          element={
+            <RouteProtector admin={true} redirectionComponent={<LoginPage isAdmin={true} />}>
+              <ApplicationViewContainer />
+            </RouteProtector>
+          }
+        
+        />
+        <Route 
+          path="/user/applications/view/:id"
+          element={
+            <RouteProtector requiresAuth={true} redirectionComponent={<LoginPage isAdmin={false} />}>
+              <ApplicationViewContainer />
+            </RouteProtector>
+          }
+        
         />
         <Route 
           path="/user/applications" 
