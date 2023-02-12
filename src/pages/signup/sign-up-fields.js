@@ -29,7 +29,6 @@ export const SIGNUP_FIELDS = {
 }
 
 export const FIELD_DICT = {
-   // Step 0
    firstName: "First Name",
    lastName: "Last Name",
    streetAddress: "Street Address",
@@ -39,21 +38,15 @@ export const FIELD_DICT = {
    province: "Province",
    postalCode: "Postal Code",
    phone: "Phone Number",
- 
-   // Step 1
    email: "E-mail Address",
    dateOfBirth: "Date of Birth",
-   password1: "Enter your password",
-   password2: "Confirm your password",
- 
-   // Step 2
+   password1: "Enter Your Password",
+   password2: "Confirm Your Password",
    applicantIncome: "Income",
    applicantGender: "Gender",
    applicantOccupation: "Occupation",
- 
-   numberOfInstallments: "Number of installments",
-   installmentAmount: "Installment Amount",
- 
-   requestedLoanAmount: "Loan amount requested",
-   loanPurpose: "Purpose for loan"
+   numberOfInstallments: "Number of Installments",
+   installmentAmount: "Installment Amount", 
+   requestedLoanAmount: "Loan Amount Requested",
+   loanPurpose: "Purpose for Loan"
 }

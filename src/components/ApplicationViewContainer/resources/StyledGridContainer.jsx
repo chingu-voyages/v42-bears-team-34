@@ -8,14 +8,19 @@ export const CustomGridContainer = styled(Grid)((props) => ({
 }))
 
 export function StyledGridContainer(props) {
-  const { spacing, title, container } = props;
+  const { spacing, title, container, icon } = props;
   return (
     <>
       <CustomGridContainer {...props} container={container} spacing={spacing}>
         <Grid container>
           {title && (
-            <Box>
-              <Typography variant='h5' fontWeight={"bold"}>{title}</Typography>
+            <Box display="flex" justifyContent={"space-between"}>
+              <>
+                { icon && (
+                  {...icon}
+                )}
+              </>
+              <Typography variant='h5' fontWeight={"bold"} ml={2}>{title}</Typography>
             </Box>
           )}
         </Grid>

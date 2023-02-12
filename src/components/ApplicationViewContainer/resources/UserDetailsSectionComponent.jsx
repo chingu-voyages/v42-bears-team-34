@@ -3,6 +3,8 @@ import { StyledGridItem } from "./StyledGridItem";
 import { FIELD_DICT, SIGNUP_FIELDS } from "../../../pages/signup/sign-up-fields";
 import { STRING_HELPERS } from "../../../utils/string-helpers";
 import { StyledGridContainer } from "./StyledGridContainer";
+import Face5Icon from '@mui/icons-material/Face5';
+import { PALLET } from "../../../stylings/pallet";
 /**
 * Takes once piece of user profile data for display in the application
 * Renders it in a list
@@ -14,13 +16,13 @@ import { StyledGridContainer } from "./StyledGridContainer";
 * firstName: string,
 * lastName: string,
 * address: { streetAddress, unitNumber: string, additionalAddress: string, postalCode: string, province: string }}} props
-* @returns JSX.Element
+* @returns JSX.Element  
  */
 export const UserDetailsSectionComponent = (props) => {
   const { applicantGender, email, dateOfBirth, firstName, lastName, address } = props;
   const { streetAddress, unitNumber, postalCode, additionalAddress, city, province } = address;
   return (
-    <StyledGridContainer container spacing={1} title={"Applicant details"}>
+    <StyledGridContainer container spacing={1} title={"Applicant details"} icon={<Face5Icon fontSize="large" sx={{ color: PALLET.pineGreen }} />}>
       <Grid item>
         <StyledGridItem
           headerText={FIELD_DICT[SIGNUP_FIELDS.firstName]}
