@@ -6,11 +6,12 @@ import { Alert, AlertTitle, Box } from "@mui/material";
  * @returns 
  */
 function ErrorMessage (props) {
+  const { message } = props;
   return (
     <Box>
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
-        {props.message || "An unknown error occurred"}
+        {message || "An unknown error occurred"}
       </Alert>
     </Box>
   )
