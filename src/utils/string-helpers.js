@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 export const STRING_HELPERS = {
   /**
    * 
@@ -28,4 +29,13 @@ export const STRING_HELPERS = {
     const regEx = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return regEx.test(pwd);
   },
+  formatDate: (input) => {
+    return dayjs(input).format('YYYY-MMM-D')
+  },
+  formatToCurrency: (input) => {
+    return `$${input}`
+  },
+  capitalizeFirstLetter: (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 }
