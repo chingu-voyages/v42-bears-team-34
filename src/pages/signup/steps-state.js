@@ -8,6 +8,8 @@ export const STEP_STATE = [
     [SIGNUP_FIELDS.firstName]: "",
     [SIGNUP_FIELDS.lastName]: "",
     [SIGNUP_FIELDS.streetAddress]: "",
+    [SIGNUP_FIELDS.unitNumber]: null,
+    [SIGNUP_FIELDS.additionalAddress]: null,
     [SIGNUP_FIELDS.city]: "",
     [SIGNUP_FIELDS.province]: null,
     [SIGNUP_FIELDS.postalCode]: "",

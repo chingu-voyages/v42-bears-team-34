@@ -8,8 +8,7 @@ import StepThree from './StepThree';
 import StepFour from './StepFour';
 import PlaidLinkPage from './PlaidLinkPage';
 import AppContext from '../../context/AppContext';
-import { Button, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Button, Box } from '@mui/material';
 import { SignupValidator } from './validate-signup';
 import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
 import { STEP_STATE } from './steps-state';
@@ -137,7 +136,13 @@ function SignupPage() {
           email: stepData.current[SIGNUP_FIELDS.email],
           password: stepData.current[SIGNUP_FIELDS.password1],
           dateOfBirth: stepData.current[SIGNUP_FIELDS.dateOfBirth].toISOString(),
-          applicantGender: stepData.current[SIGNUP_FIELDS.applicantGender]
+          applicantGender: stepData.current[SIGNUP_FIELDS.applicantGender],
+          streetAddress: stepData.current[SIGNUP_FIELDS.streetAddress],
+          additionalAddress: stepData.current[SIGNUP_FIELDS.additionalAddress],
+          unitNumber: stepData.current[SIGNUP_FIELDS.unitNumber],
+          city: stepData.current[SIGNUP_FIELDS.city],
+          postalCode: stepData.current[SIGNUP_FIELDS.postalCode],
+          province: stepData.current[SIGNUP_FIELDS.province]
         });
 
         // Dispatch the link token to the app state
