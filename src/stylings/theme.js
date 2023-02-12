@@ -5,6 +5,6 @@ export const THEME = createTheme({
     fontFamily: [
       'Gilda Display',
     ],
-    fontSize: 25
+    fontSize: 12
   },
 })
