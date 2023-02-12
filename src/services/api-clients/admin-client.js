@@ -49,4 +49,13 @@ export class AdminClient extends BaseUserActionClient {
   async adminGetApplicationById(id) {
     return super.getData(`/application/view/${id}`)
   }
+
+  /**
+   * Gets financial liabilities from Plaid via our API
+   * @param {string} id userID
+   */
+  async getFinancialLiabilitiesByUserID (id) {
+    return super.getData(`/plaid/financial_details/${id}?category=liabilities`);
+  }
 }
+  
