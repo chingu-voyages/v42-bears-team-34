@@ -35,6 +35,7 @@ export const FIELD_DICT = {
    additionalAddress: "Additional Address",
    unitNumber: "Unit Number",
    city: "City",
+   name: "Name",
    province: "Province",
    postalCode: "Postal Code",
    phone: "Phone Number",
