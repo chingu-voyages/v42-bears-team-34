@@ -1,0 +1,34 @@
+import { TableRow, TableCell, styled } from "@mui/material";
+import { useCallback } from "react";
+import { PALLET } from "../../../stylings/pallet";
+import { STRING_HELPERS } from "../../../utils/string-helpers";
+
+const StyledTableRow = styled(TableRow)((props) => ({
+  "&:hover": {
+    cursor: "pointer",
+    backgroundColor: PALLET.mountainDewLime,
+  }
+}))
+
+/**
+ * This returns summary card details. Clickable
+ * @param {{ application: Object, user: Object}} props 
+ * @returns JSX.Element
+ */
+export function ApplicationSummaryTableRow (props) {
+  const { application, user, onApplicationClicked } = props;
+  const handleOnClick = useCallback(() => {
+    onApplicationClicked && onApplicationClicked(application._id);  
+  })
+  return (
+    <StyledTableRow onClick={handleOnClick}>
+      <TableCell align="right">{STRING_HELPERS.capitalizeFirstLetter(application?.status)}</TableCell>
+      <TableCell align="right">{user?.lastName} {user?.firstName}</TableCell>
+      <TableCell align="right">{STRING_HELPERS.capitalizeFirstLetter(user?.applicantGender)}</TableCell>
+      <TableCell align="right">{user?.address?.city?.toUpperCase()}</TableCell>
+      <TableCell align="right">{user?.address?.province?.toUpperCase()}</TableCell>
+      <TableCell align="right">{STRING_HELPERS.toCurrency(application?.requestedLoanAmount)}</TableCell>
+      <TableCell align="right">{STRING_HELPERS.toCurrency(application?.applicantIncome)}</TableCell>
+    </StyledTableRow>
+  )
+}

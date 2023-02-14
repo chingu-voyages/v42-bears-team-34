@@ -12,7 +12,7 @@ export class AdminClient extends BaseUserActionClient {
       }
     )
   }
- 
+  
   async adminGetAllApplications() {
     return super.getData("/admin/application/all");
   }
@@ -29,7 +29,11 @@ export class AdminClient extends BaseUserActionClient {
    * address: { streetAddress: string, unitNumber: string, city: string, additionalAddress: string, postalCode: string, province: string }}}
    */
   async adminGetUserById(id) {
-    return super.getData(`/auth/user/${id}`)
+    try {
+      return super.getData(`/auth/user/${id}`)
+    } catch (error) {
+      return null
+    }
   }
 
   /**
