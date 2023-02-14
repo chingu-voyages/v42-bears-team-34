@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { LoginComponent } from "../../components/LoginComponent";
 import { APP_ACTIONS } from "../../context/app.actions";
 import AppContext from "../../context/AppContext";
-import useGetUserProfile from "../../hooks/UseGetUserProfile";
 import { UserClient } from "../../services/api-clients/user-client";
 import { TokenManager } from "../../services/token-manager/token-manager";
 
@@ -26,64 +25,64 @@ const ResponsiveParentContainer = styled(Box)((props) => ({
  */
 function LoginPage (props) {
   const navigate = useNavigate();
-  const authToken = TokenManager.getToken();
   const { dispatch } = useContext(AppContext);
-
+  
   const handleOnLoginSuccess = useCallback(() => {
     /* Handle log in. 
     The token should be written at the LoginComponent level
     Redirect the user to appropriate page on success depending on admin status
     */
-    
-    const getUserProfile = async() => {
-      try {
-          const userClient = new UserClient({ authToken });
-          const userProfile = await userClient.getUserProfile();
-          if (userProfile) {
-          const { id, firstName, lastName, role, iat, exp, expired } = userProfile;
-          // Update state
-          dispatch({
-            type: APP_ACTIONS.SET_STATE,
-            state: {
-              isAuthenticated: true,
-              user: {
-                id,
-                firstName,
-                lastName,
-                role,
-                iat,
-                exp,
-                expired
-              }
-            }
-          })
-          // If the user's role is admin, redirect them to admin landing page
-          if (role === "admin" && props.isAdmin) {
-            navigate("/admin/applications")
-          } else {
-            /* Direct them to normal user landing page 
-            where user can view their pending application and status
-            */
-            navigate(`/user/applications`)
-          }
-        }
-      } catch (exception) {
-        // If there's some error. Update state.
-        console.error(exception)
+   
+   const getUserProfile = async() => {
+     try {
+      const authToken = TokenManager.getToken();
+      const userClient = new UserClient({ authToken });
+      const userProfile = await userClient.getUserProfile();
+      if (userProfile) {
+        const { id, firstName, lastName, role, iat, exp, expired } = userProfile;
+        // Update state
         dispatch({
           type: APP_ACTIONS.SET_STATE,
-          state: { 
-            isAuthenticated: false,
+          state: {
+            isAuthenticated: true,
             user: {
-              id: null,
-              firstName: null,
-              lastName: null,
-              email: null,
-              role: 'user',
+              id,
+              firstName,
+              lastName,
+              role,
+              iat,
+              exp,
+              expired
             }
           }
         })
+        // If the user's role is admin, redirect them to admin landing page
+        if (role === "admin" && props.isAdmin) {
+          navigate("/admin/applications", { replace: true })
+        } else {
+          /* Direct them to normal user landing page 
+          where user can view their pending application and status
+          */
+          navigate(`/user/applications`, { replace: true })
+        }
       }
+    } catch (exception) {
+      // If there's some error. Update state.
+      console.error(exception)
+      dispatch({
+        type: APP_ACTIONS.SET_STATE,
+        state: { 
+          isAuthenticated: false,
+          user: {
+            id: null,
+            firstName: null,
+            lastName: null,
+            email: null,
+            role: 'user',
+          }
+        }
+      })
+    }
     }
     getUserProfile();
   }, [])

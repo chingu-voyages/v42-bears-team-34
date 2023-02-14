@@ -8,8 +8,7 @@ import StepThree from './StepThree';
 import StepFour from './StepFour';
 import PlaidLinkPage from './PlaidLinkPage';
 import AppContext from '../../context/AppContext';
-import { Button } from '@mui/material';
-import { Box } from '@mui/system';
+import { Button, Box } from '@mui/material';
 import { SignupValidator } from './validate-signup';
 import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
 import { STEP_STATE } from './steps-state';
@@ -18,6 +17,11 @@ import { SIGNUP_FIELDS } from './sign-up-fields';
 import { ApplicationClient } from '../../services/api-clients/application-client';
 import { APP_ACTIONS } from '../../context/app.actions';
 import { TokenManager } from '../../services/token-manager/token-manager';
+import AlertModal from '../../components/AlertModal/AlertModal';
+import { generateSignupError } from '../../utils/signup-error-generator';
+import { useNavigate } from 'react-router-dom';
+import { StyledTextLink } from '../../components/StyledTextLink';
+
 const steps = [
   "Your personal information", 
   "Create your password", 
@@ -42,18 +46,18 @@ function showSteps(step, handleStepDataChange, errors, state, setConfirmationVal
 
 // Regular next button
 const ConfirmButton = (props) => {
-  const { title, onClick } = props;
+  const { title, onClick, disabled } = props;
   return (
     <Button 
       color="inherit"
       variant="contained"
       sx={{ mr: 1 }}
       onClick={onClick}
+      disabled={disabled}
     >
       {title}
     </Button>
   )
-
 }
 function SignupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -66,9 +70,11 @@ function SignupPage() {
 
   const [errors, setErrors] = useState({}); // This refers to errors for individual fields in the application
   const [isConfirmLoggingIn, setIsConfirmLoggingIn] = useState(false);
-  const [hasSignupError, setHasSignUpError] = useState(false); // This refers to errors encountered when sending data to our API
+  const [signupErrorMessage, setSignupErrorMessage] = useState({ title: "", bodyText: "" });
+  const [hasSignupError, setHasSignupError] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const stepData = useRef(STEP_STATE[0]);
-
+  const navigate = useNavigate();
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -76,7 +82,7 @@ function SignupPage() {
       newSkipped.delete(activeStep);
     }
 
-    // Extract errors
+    // Extract form field errors
     const errors = SignupValidator.validate(Object.keys(STEP_STATE[activeStep]), stepData.current);
 
     if (Object.keys(errors).length > 0) {
@@ -130,7 +136,13 @@ function SignupPage() {
           email: stepData.current[SIGNUP_FIELDS.email],
           password: stepData.current[SIGNUP_FIELDS.password1],
           dateOfBirth: stepData.current[SIGNUP_FIELDS.dateOfBirth].toISOString(),
-          applicantGender: stepData.current[SIGNUP_FIELDS.applicantGender]
+          applicantGender: stepData.current[SIGNUP_FIELDS.applicantGender],
+          streetAddress: stepData.current[SIGNUP_FIELDS.streetAddress],
+          additionalAddress: stepData.current[SIGNUP_FIELDS.additionalAddress],
+          unitNumber: stepData.current[SIGNUP_FIELDS.unitNumber],
+          city: stepData.current[SIGNUP_FIELDS.city],
+          postalCode: stepData.current[SIGNUP_FIELDS.postalCode],
+          province: stepData.current[SIGNUP_FIELDS.province]
         });
 
         // Dispatch the link token to the app state
@@ -165,6 +177,8 @@ function SignupPage() {
         // under their established credentials or do a password recovery
         console.log(error);
         // Determine the type of error and if we should show a special modal
+        setHasSignupError(true);
+        generateSignupError(error, setModalOpen, setSignupErrorMessage);
       }
     }
     doSignupFlow();
@@ -231,6 +245,18 @@ function SignupPage() {
             }
           </>
           )}
+          
+        </Box>
+      )}
+      <AlertModal 
+        open={modalOpen} 
+        onDismiss={()=> setModalOpen(false)} 
+        title={signupErrorMessage.title}
+        bodyText={signupErrorMessage.bodyText}
+      />
+      {hasSignupError && (
+        <Box display="flex" justifyContent={"center"} mt={3}>
+          <StyledTextLink url={"/login"} text={"Sign in to your account"} navigate={navigate} />
         </Box>
       )}
     </Box>

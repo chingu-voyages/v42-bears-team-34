@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { Box, Button, FormGroup, FormControlLabel, Typography, Modal, Checkbox } from '@mui/material';
+import { useCallback } from 'react';
+import { Box, FormGroup, FormControlLabel, Typography, Modal, Checkbox } from '@mui/material';
 import StyledButton from '../StyledButton/StyledButton';
 import { PALLET } from '../../stylings/pallet';
 

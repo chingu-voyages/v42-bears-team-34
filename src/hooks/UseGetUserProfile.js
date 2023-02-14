@@ -5,6 +5,9 @@ const useGetUserProfile = (authToken) => {
   const [userProfile, setUserProfile] = useState(null);
   useEffect(() => {
     const getAuth = async() => {
+      if (!authToken) {
+        return;
+      }
       const userClient = new UserClient({ authToken });
       const data = await userClient.getUserProfile();
       setUserProfile(data);

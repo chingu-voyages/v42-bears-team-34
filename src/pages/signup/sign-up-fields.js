@@ -3,6 +3,8 @@ export const SIGNUP_FIELDS = {
   firstName: "firstName",
   lastName: "lastName",
   streetAddress: "streetAddress",
+  additionalAddress: "additionalAddress",
+  unitNumber: "unitNumber",
   city: "city",
   province: "province",
   postalCode: "postalCode",
@@ -24,4 +26,27 @@ export const SIGNUP_FIELDS = {
 
   requestedLoanAmount: "requestedLoanAmount",
   loanPurpose: "loanPurpose"
+}
+
+export const FIELD_DICT = {
+   firstName: "First Name",
+   lastName: "Last Name",
+   streetAddress: "Street Address",
+   additionalAddress: "Additional Address",
+   unitNumber: "Unit Number",
+   city: "City",
+   province: "Province",
+   postalCode: "Postal Code",
+   phone: "Phone Number",
+   email: "E-mail Address",
+   dateOfBirth: "Date of Birth",
+   password1: "Enter Your Password",
+   password2: "Confirm Your Password",
+   applicantIncome: "Income",
+   applicantGender: "Gender",
+   applicantOccupation: "Occupation",
+   numberOfInstallments: "Number of Installments",
+   installmentAmount: "Installment Amount", 
+   requestedLoanAmount: "Loan Amount Requested",
+   loanPurpose: "Purpose for Loan"
 }

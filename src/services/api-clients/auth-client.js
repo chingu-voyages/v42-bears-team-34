@@ -9,7 +9,8 @@ export class AuthClient extends BaseClient {
 
   /**
    * Creates a user account
-   * @param {{ firstName: string, lastName: string, email: string, password: string, dateOfBirth: ISODateString, applicantGender: string }}
+   * @param {{ firstName: string, lastName: string, email: string, password: string, dateOfBirth: ISODateString, applicantGender: string, streetAddress: string, 
+   * city: string, unitNumber: string, additionalAddress: string, postalCode: string, province: string }}
    * @returns {Promise<void>}
    */
   async createUserAccount ({
@@ -18,9 +19,15 @@ export class AuthClient extends BaseClient {
     email,
     password,
     dateOfBirth,
-    applicantGender
+    applicantGender,
+    streetAddress,
+    city,
+    unitNumber,
+    additionalAddress,
+    postalCode,
+    province
   }) {
-    return super.postData("/auth/signup", { firstName, lastName, email, password, dateOfBirth, applicantGender })
+    return super.postData("/auth/signup", { firstName, lastName, email, password, dateOfBirth, applicantGender, streetAddress, city, unitNumber, additionalAddress, postalCode, province })
   }
 
   /**

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
+import { TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { SIGNUP_FIELDS } from "./sign-up-fields";
 import { ErrorComponent } from "../../components/ErrorComponent";
 import { SignupDataStore } from "../../services/SignupDataStore/signup-data-store";
@@ -38,6 +38,7 @@ export default function StepOne(props) {
           color="secondary" 
           value={inputs[SIGNUP_FIELDS.firstName]} 
           onChange={handleChange} 
+          InputProps={{ maxLength: 50 }}
         />
         {props.errors && props.errors[SIGNUP_FIELDS.firstName] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.firstName]}/>}
       </div>
@@ -51,7 +52,8 @@ export default function StepOne(props) {
           variant="outlined" 
           color="secondary" 
           value={inputs[SIGNUP_FIELDS.lastName]}
-          onChange={handleChange} 
+          onChange={handleChange}
+          InputProps={{ maxLength: 50 }}
         />
         {props.errors &&props.errors.lastName && <ErrorComponent title={props.errors.lastName}/>}
       </div>
@@ -65,9 +67,40 @@ export default function StepOne(props) {
           variant="outlined" 
           color="secondary"
           value={inputs[SIGNUP_FIELDS.streetAddress]} 
-          onChange={handleChange} 
+          onChange={handleChange}
+          InputProps={{ maxLength: 50 }}
         />
         {props.errors && props.errors[SIGNUP_FIELDS.streetAddress] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.streetAddress]} />}
+      </div>
+      <div>
+        <TextField 
+          sx={{width:400}}
+          type="text"
+          name={SIGNUP_FIELDS.unitNumber}
+          label="Unit Number" 
+          margin="normal" 
+          variant="outlined" 
+          color="secondary"
+          value={inputs[SIGNUP_FIELDS.unitNumber]}
+          inputProps={{ maxLength: 12 }}
+          onChange={handleChange} 
+        />
+        {props.errors && props.errors[SIGNUP_FIELDS.unitNumber] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.unitNumber]} />}
+      </div>
+      <div>
+        <TextField 
+          sx={{width:400}}
+          type="text"
+          name={SIGNUP_FIELDS.additionalAddress}
+          label="Additional Address" 
+          margin="normal" 
+          variant="outlined" 
+          color="secondary"
+          inputProps={{ maxLength: 40 }}
+          value={inputs[SIGNUP_FIELDS.additionalAddress]} 
+          onChange={handleChange} 
+        />
+        {props.errors && props.errors[SIGNUP_FIELDS.additionalAddress] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.additionalAddress]} />}
       </div>
       <div>
         <TextField
@@ -79,7 +112,8 @@ export default function StepOne(props) {
           variant="outlined" 
           color="secondary"
           value={inputs[SIGNUP_FIELDS.city]} 
-          onChange={handleChange} 
+          onChange={handleChange}
+          InputProps={{ maxLength: 25 }}
         />
         {props.errors && props.errors.city && <ErrorComponent title={props.errors.city} />}
       </div>
