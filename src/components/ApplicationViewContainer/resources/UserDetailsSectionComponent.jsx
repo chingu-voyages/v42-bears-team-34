@@ -1,10 +1,11 @@
-import { Box, Grid, List } from "@mui/material";
+import { Grid  } from "@mui/material";
 import { StyledGridItem } from "./StyledGridItem";
 import { FIELD_DICT, SIGNUP_FIELDS } from "../../../pages/signup/sign-up-fields";
 import { STRING_HELPERS } from "../../../utils/string-helpers";
 import { StyledGridContainer } from "./StyledGridContainer";
 import Face5Icon from '@mui/icons-material/Face5';
 import { PALLET } from "../../../stylings/pallet";
+
 /**
 * Takes once piece of user profile data for display in the application
 * Renders it in a list

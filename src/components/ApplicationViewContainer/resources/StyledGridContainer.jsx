@@ -3,7 +3,7 @@ import { Grid, styled, Box, Typography } from '@mui/material';
 export const CustomGridContainer = styled(Grid)((props) => ({
   "&.MuiGrid-root": {
     padding: "4rem",
-    backgroundColor: props.backgroundColor || "white"
+    backgroundColor: "inherit"
   }
 }))
 

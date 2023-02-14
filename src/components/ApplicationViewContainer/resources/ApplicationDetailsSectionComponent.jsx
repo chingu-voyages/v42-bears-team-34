@@ -1,8 +1,9 @@
-import { Box, Grid} from "@mui/material";
+import { Grid} from "@mui/material";
 import { FIELD_DICT, SIGNUP_FIELDS } from "../../../pages/signup/sign-up-fields";
 import { STRING_HELPERS } from "../../../utils/string-helpers";
 import { StyledGridItem } from "./StyledGridItem";
 import { StyledGridContainer } from "./StyledGridContainer";
+import ApplicationDetailsSharpIcon from '@mui/icons-material/DescriptionSharp';
 import { PALLET } from "../../../stylings/pallet";
 /**
  * 
@@ -21,7 +22,7 @@ import { PALLET } from "../../../stylings/pallet";
 export const ApplicationDetailsSectionComponent = (props) => {
   const { requestedLoanAmount, installmentAmount, numberOfInstallments, loanPurpose, status, rejectedReason, requestedAt, applicantIncome } = props;
   return (
-    <StyledGridContainer container title="Application Details">
+    <StyledGridContainer container title="Application Details" icon={<ApplicationDetailsSharpIcon fontSize="large" sx={{ color: PALLET.pineGreen }} />} >
        <Grid item>
         <StyledGridItem headerText={FIELD_DICT[SIGNUP_FIELDS.applicantIncome]} subText={STRING_HELPERS.formatToCurrency(applicantIncome)} />
       </Grid>

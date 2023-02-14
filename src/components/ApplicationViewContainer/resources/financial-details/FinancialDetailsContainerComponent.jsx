@@ -1,6 +1,10 @@
 import { Spinner } from "../../../Spinner";
+import { NoInformationFound } from "../NoInformationFoundComponent";
 import { StyledGridContainer } from "../StyledGridContainer";
-import AccountsContainerCard from "./accounts/AccountsContainerCard";
+import AccountsContainerComponent from "./accounts/AccountsContainerComponent";
+import FinancialDetailsSharpIcon from '@mui/icons-material/AccountBalanceSharp';
+import LiabilitiesContainerComponent from "./liabilities/LiabilitiesContainerComponent";
+import { PALLET } from "../../../../stylings/pallet";
 
 /**
  * Render the plaid financial info data. Also errors and loading state are passed to this
@@ -17,18 +21,20 @@ function FinancialDetailsContainerComponent (props) {
 
   if (!data) {
     return (
-      <StyledGridContainer title="Financial Details">
-
+      <StyledGridContainer>
+        <NoInformationFound title={errorInfo?.message || "No data found"} />
       </StyledGridContainer>
     )
   }
-  const { accounts = {} } = data;
+  const { accounts = [], liabilities = {} } = data;
   return (
-    <StyledGridContainer title="Financial Details">
+    <StyledGridContainer title={"Financial Details"} icon={<FinancialDetailsSharpIcon fontSize="large" sx={{ color: PALLET.pineGreen }} />}>
        {isLoading && (
         <Spinner />
        )}
-       <AccountsContainerCard accounts={accounts} />
+       {/* <AccountsContainerCard accounts={accounts} title="Accounts" /> */}
+       <AccountsContainerComponent accounts={accounts} title={"Accounts"} />
+       <LiabilitiesContainerComponent liabilities={liabilities} title="Liabilities" />
     </StyledGridContainer>
   )
 }
