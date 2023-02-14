@@ -11,6 +11,7 @@ export class SignupDataStore {
    * @param {{ [key in string]: string }} data 
    */
   static putData (data) {
+    //TODO: Refactor this
     const session = window.sessionStorage;
     for (const [ key, value ] of Object.entries(data)) {
       // Iterate through the object keys and set the data in sessionStorage

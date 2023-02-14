@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
+import { TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { SIGNUP_FIELDS } from "./sign-up-fields";
 import { ErrorComponent } from "../../components/ErrorComponent";
 import { SignupDataStore } from "../../services/SignupDataStore/signup-data-store";

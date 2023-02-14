@@ -1,12 +1,13 @@
 import { styled, Paper, Box, Typography } from "@mui/material";
 const StyledGridItem = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  backgroundColor: "inherit",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
   "&.MuiPaper-root": {
-    boxShadow: "none"
+    boxShadow: "none",
+    maxWidth: "min-content"
   }
 }));
 

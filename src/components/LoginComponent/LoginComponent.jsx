@@ -1,12 +1,11 @@
-import { useCallback } from "react";
-import { Box, TextField, styled, Button, Typography } from "@mui/material";
+import { useCallback, useRef, useState } from "react";
+import { Box, TextField, styled, Typography } from "@mui/material";
 import { PALLET } from "../../stylings/pallet";
 import { StyledButton } from "../StyledButton";
-import { useRef, useState } from "react";
 import { STRING_HELPERS } from "../../utils/string-helpers";
 import { AuthClient } from "../../services/api-clients/auth-client";
-import { ErrorMessage } from "../ErrorMessage";
 import { TokenManager } from "../../services/token-manager/token-manager";
+import { ErrorComponent } from "../ErrorComponent";
 const StyledFormBox = styled(Box)(( props) => ({
   [props.theme.breakpoints.up("md")]: {
     "borderColor": PALLET.charcoal,
@@ -97,7 +96,7 @@ function LoginComponent(props) {
     }
     if (formDataRef.current["password"] === "") {
       setHasPasswordError(true);
-      return false;dd
+      return false;
     }
     return true;
   }
@@ -186,7 +185,7 @@ function LoginComponent(props) {
       </Box>
       { hasLoginError && (
         <Box mt={2}>
-          <ErrorMessage message={loginErrorText} />
+          <ErrorComponent title={loginErrorText} />
         </Box>
       )}
     </StyledFormBox>

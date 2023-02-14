@@ -6,6 +6,9 @@ export const PALLET = {
   oceanBlue: "#abdca7",
   charcoal: "#323232",
   mountainDewLime: "#AFD91A",
+  applicationDetails: {
+    backgroundColor: "#E8E8E8"
+  },
   application: {
     pending: "#FFC300",
     approved: "#43A541",

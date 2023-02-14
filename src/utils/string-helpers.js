@@ -36,6 +36,22 @@ export const STRING_HELPERS = {
     return `$${input}`
   },
   capitalizeFirstLetter: (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    if (string && string.charAt) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    return string;
+  },
+  removeQuotesFromJSONString: (string) => {
+    return string.replace(/['"]+/g, '')
+  },
+  toCurrency: (string) => {
+    if (string && string.toLocaleString) {
+      const converted = string.toLocaleString('en-US', {
+        style: 'currency',
+        currency: "USD"
+      })
+      return converted;
+    }
+    return string;
   }
 }
