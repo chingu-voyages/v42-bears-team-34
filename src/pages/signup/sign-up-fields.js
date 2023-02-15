@@ -35,6 +35,7 @@ export const FIELD_DICT = {
    additionalAddress: "Additional Address",
    unitNumber: "Unit Number",
    city: "City",
+   name: "Name",
    province: "Province",
    postalCode: "Postal Code",
    phone: "Phone Number",
@@ -48,5 +49,6 @@ export const FIELD_DICT = {
    numberOfInstallments: "Number of Installments",
    installmentAmount: "Installment Amount", 
    requestedLoanAmount: "Loan Amount Requested",
-   loanPurpose: "Purpose for Loan"
+   loanPurpose: "Purpose for Loan",
+   updatedAt: "Last Updated",
 }

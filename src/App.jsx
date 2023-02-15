@@ -1,10 +1,7 @@
-import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from './pages/login';
-import { AdminApplicationsPage } from './pages/admin';
+import { ApplicationsPage } from './pages/applications';
 import { RouteProtector } from './components/RouteProtector/RouteProtector';
-import { UserPage } from './pages/user';
-
 import Home from "./pages/home/Home";
 import Blog from "./pages/blog/Blog";
 import Contact from "./pages/contact/Contact";
@@ -29,7 +26,7 @@ function App() {
           path="/admin/applications" 
           element={
             <RouteProtector admin={true} redirectionComponent={<LoginPage isAdmin={true} />}>
-              <AdminApplicationsPage />
+              <ApplicationsPage />
             </RouteProtector>
           } 
         />
@@ -55,7 +52,7 @@ function App() {
           path="/user/applications" 
           element={
           <RouteProtector requiresAuth={true} redirectionComponent={ <LoginPage />} >
-              <UserPage />
+              <ApplicationsPage />
             </RouteProtector>
           } 
         />

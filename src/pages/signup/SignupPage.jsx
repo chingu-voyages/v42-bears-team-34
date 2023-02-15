@@ -21,6 +21,7 @@ import AlertModal from '../../components/AlertModal/AlertModal';
 import { generateSignupError } from '../../utils/signup-error-generator';
 import { useNavigate } from 'react-router-dom';
 import { StyledTextLink } from '../../components/StyledTextLink';
+import { SummaryFinishPage } from './SummaryFinishPage';
 
 const steps = [
   "Your personal information", 
@@ -29,7 +30,7 @@ const steps = [
   "Your bank verification"
 ];
 
-function showSteps(step, handleStepDataChange, errors, state, setConfirmationValidationState ) {
+function showSteps(step, handleStepDataChange, errors, state, setConfirmationValidationState, handleLinkSuccess ) {
   switch(step) {
     case 0:
       return <StepOne onStepDataChange={handleStepDataChange} errors={errors}/>
@@ -40,7 +41,9 @@ function showSteps(step, handleStepDataChange, errors, state, setConfirmationVal
     case 3:
       return <StepFour onStepDataChange={handleStepDataChange} submitState={state} onInvalidState={setConfirmationValidationState} />
     case 4:
-      return <PlaidLinkPage />
+      return <PlaidLinkPage onLinkSuccess={handleLinkSuccess} />
+    case 5:
+      return <SummaryFinishPage />
   }
 }
 
@@ -162,7 +165,7 @@ function SignupPage() {
         // Submit the initial application before the plaid link
         const jwtToken = TokenManager.getToken();
         const applicationClient = new ApplicationClient({ authToken: jwtToken });
-        await applicationClient.postNewApplication({
+        const responseData = await applicationClient.postNewApplication({
           applicantIncome: stepData.current[SIGNUP_FIELDS.applicantIncome],
           applicantOccupation: stepData.current[SIGNUP_FIELDS.applicantOccupation],
           installmentAmount: stepData.current[SIGNUP_FIELDS.installmentAmount],
@@ -170,6 +173,14 @@ function SignupPage() {
           numberOfInstallments: stepData.current[SIGNUP_FIELDS.numberOfInstallments],
           requestedLoanAmount: stepData.current[SIGNUP_FIELDS.requestedLoanAmount],
         });
+        // Save the newly created applicationID to global state
+        dispatch({
+          type: APP_ACTIONS.SET_STATE,
+          state: {
+            pendingApplicationId: responseData.id,
+            user: TokenManager.parseToken(jwtToken)
+          }
+        })
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       } catch (error) {
         // If we get to this block, the sign-up flow catastrophically failed
@@ -184,6 +195,10 @@ function SignupPage() {
     doSignupFlow();
   }, [])
 
+  const handleLinkSuccess = useCallback(() => {
+    // Increment step and show a summary and final page
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  })
 
   return (
     <Box>
@@ -210,7 +225,8 @@ function SignupPage() {
             handleStepDataChange, 
             errors, 
             stepData.current, 
-            setConfirmationValidationError 
+            setConfirmationValidationError,
+            handleLinkSuccess
           )}
         </Box>
       </Box>

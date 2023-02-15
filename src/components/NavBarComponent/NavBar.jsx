@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom'
+import React, { useState, useCallback, useContext } from "react";
+import { Link, useNavigate } from 'react-router-dom'
 import './style.css'
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,138 +25,131 @@ import ViewUserApplicationsIcon from '@mui/icons-material/Assessment';
 
 import Icon from '../../assets/avcdo-md.png'
 import { PALLET } from '../../stylings/pallet'
+import { NavBarOption } from "./NavBarOption";
+import AppContext from "../../context/AppContext";
+import { TokenManager } from "../../services/token-manager/token-manager";
+import { APP_ACTIONS } from "../../context/app.actions";
 
 
 
 export default function NavBar() {
 
-    /*
-    react useState hook to save the current open/close state of the drawer,
-    normally variables dissapear afte the function was executed
-    */
-    const [open, setState] = useState(false);
+  /*
+  react useState hook to save the current open/close state of the drawer,
+  normally variables dissapear afte the function was executed
+  */
+  const [open, setState] = useState(false);
 
+  const { user, dispatch } = useContext(AppContext);
+  const navigate = useNavigate();
+  /*
+  function that is being called every time the drawer should open or close,
+  the keys tab and shift are excluded so the user can focus between
+  the elements with the keys
+  */
+  const toggleDrawer = (open) => (event) => {
+      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+          return;
+      }
+      //changes the function state according to the value of open
+      setState(open);
+  };
 
-    /*
-    function that is being called every time the drawer should open or close,
-    the keys tab and shift are excluded so the user can focus between
-    the elements with the keys
-    */
-    const toggleDrawer = (open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-        //changes the function state according to the value of open
-        setState(open);
-    };
+  const handleLogOut = useCallback(() => {
+    // Clear the token and navigate
 
-    return (
-        <AppBar position="static" sx={{ backgroundColor: PALLET.pineGreen }}>
-            <Container maxWidth="lg" disableGutters={true}>
-                <Toolbar>
-                    <img src={Icon} alt='logo' height='60' />
-                    <Typography variant="h3" sx={{ flexGrow: 1, fontWeight: 900, color: PALLET.mountainDewLime }}>
-                        AVCDOLOAN
-                    </Typography>
+    // Clear the global user state. We may need to clear other attributes here
+    dispatch({
+      type: APP_ACTIONS.SET_STATE,
+      state: {
+        user: null
+      }
+    })
+    setState(false);
+    TokenManager.clearToken();
+    navigate("/", { replace: true });
+  }, [])
 
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={toggleDrawer(true)}
-                        sx={{
-                            ml: 3,
-                            display:
-                            {
-                                xs: 'block',
-                                sm: 'block',
-                            },
-                            color: PALLET.mountainDewLime,
-                        }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+  return (
+    <AppBar position="static" sx={{ backgroundColor: PALLET.pineGreen }}>
+      <Container maxWidth="lg" disableGutters={true}>
+        <Toolbar>
+            <img src={Icon} alt='logo' height='60' />
+            <Typography variant="h3" sx={{ flexGrow: 1, fontWeight: 900, color: PALLET.mountainDewLime }}>
+                AVCDOLOAN
+            </Typography>
 
-                    {/* The outside of the drawer */}
-                    <Drawer
-                        //from which side the drawer slides in
-                        anchor="right"
-                        //if open is true --> drawer is shown
-                        open={open}
-                        //function that is called when the drawer should close
-                        onClose={toggleDrawer(false)}
-                        //function that is called when the drawer should open
-                        onOpen={toggleDrawer(true)}
-                    >
-                        {/* The inside of the drawer */}
-                        <Box sx={{
-                            p: 2,
-                            height: 1,
-                            backgroundColor: PALLET.paleGoldYellow,
-                        }}>
+            <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={toggleDrawer(true)}
+                sx={{
+                    ml: 3,
+                    display:
+                    {
+                        xs: 'block',
+                        sm: 'block',
+                    },
+                    color: PALLET.mountainDewLime,
+                }}
+            >
+                <MenuIcon />
+            </IconButton>
 
-                            {/* 
-                  when clicking the icon it calls the function toggleDrawer 
-                  and closes the drawer by setting the variable open to false
-                  */}
-                            <IconButton onClick={toggleDrawer(false)} sx={{ mb: 2 }}>
-                                <CloseIcon />
-                            </IconButton>
-
-                            <Divider sx={{ mb: 2 }} />
-
-                            <Box sx={{ mb: 2 }}>
-                                <ListItemButton sx={{ mb: 2 }}>
-                                    <ListItemIcon>
-                                        <HomeRoundedIcon sx={{ color: PALLET.pineGreen }} />
-                                    </ListItemIcon>
-                                    <Link to="/" className="links" onClick={toggleDrawer(false)}>HOME</Link>
-                                </ListItemButton>
-
-                                <ListItemButton sx={{ mb: 2 }}>
-                                    <ListItemIcon>
-                                        <DescriptionIcon sx={{ color: PALLET.pineGreen }} />
-                                    </ListItemIcon >
-                                    <Link to="/blog" className="links" onClick={toggleDrawer(false)}>BLOG</Link>
-                                </ListItemButton>
-
-                                <ListItemButton sx={{ mb: 2 }}>
-                                    <ListItemIcon>
-                                        <CallRoundedIcon sx={{ color: PALLET.pineGreen }} />
-                                    </ListItemIcon>
-                                    <Link to="/contact" className="links" onClick={toggleDrawer(false)}>CONTACT</Link>
-                                </ListItemButton>
-
-                                <ListItemButton sx={{ mb: 2 }}>
-                                    <ListItemIcon>
-                                        <LoginRoundedIcon sx={{ color: PALLET.pineGreen }} />
-                                    </ListItemIcon>
-                                    <Link to="/login" className="links" onClick={toggleDrawer(false)}>LOGIN</Link>
-                                </ListItemButton>
-                                <ListItemButton sx={{ mb: 2 }}>
-                                    <ListItemIcon>
-                                        <VpnKeyRoundedIcon sx={{ color: PALLET.pineGreen }} />
-                                    </ListItemIcon>
-                                    <Link to="/" className="links" onClick={toggleDrawer(false)}>SIGN UP</Link>
-                                </ListItemButton>
-                                <ListItemButton sx={{ mb: 2 }}>
-                                    <ListItemIcon>
-                                        <ViewUserApplicationsIcon sx={{ color: PALLET.pineGreen }} />
-                                    </ListItemIcon>
-                                    <Link to="/admin/applications" className="links" onClick={toggleDrawer(false)}>APPLICATIONS</Link>
-                                </ListItemButton>   
-                                <ListItemButton sx={{ mb: 2}}>
-                                    <ListItemIcon>
-                                        <LogOutIcon sx={{ color: PALLET.pineGreen }} />
-                                    </ListItemIcon>
-                                    <p>LOGOUT</p>
-                                </ListItemButton>
-                            </Box>
-                        </Box>
-                    </Drawer>
-                </Toolbar>
-            </Container>
-        </AppBar>
-
-    );
+            {/* The outside of the drawer */}
+          <Drawer
+            //from which side the drawer slides in
+            anchor="right"
+            //if open is true --> drawer is shown
+            open={open}
+            //function that is called when the drawer should close
+            onClose={toggleDrawer(false)}
+            //function that is called when the drawer should open
+            onOpen={toggleDrawer(true)}
+          >
+            {/* The inside of the drawer */}
+            <Box sx={{
+                p: 2,
+                height: 1,
+                backgroundColor: PALLET.paleGoldYellow,
+            }}>
+            {/* 
+            when clicking the icon it calls the function toggleDrawer 
+            and closes the drawer by setting the variable open to false
+            */}
+              <IconButton onClick={toggleDrawer(false)} sx={{ mb: 2 }}>
+                <CloseIcon />
+              </IconButton>
+              <Divider sx={{ mb: 2 }} />
+              { user && user.role === "admin" && (
+                <>
+                <Typography color={PALLET.pineGreen} fontWeight={"bold"} pb={2} textAlign={"center"} alignSelf={"center"}>ADMIN</Typography>
+                <Divider sx={{ mb: 2 }} />
+                </>
+              )}
+              <Box sx={{ mb: 2 }}>
+                <NavBarOption url="/" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="HOME" icon={<HomeRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
+                <NavBarOption url="/blog" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="BLOG" icon={<DescriptionIcon sx={{ color: PALLET.pineGreen }} />} />
+                <NavBarOption url="/contact" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="CONTACT" icon={<CallRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
+                { !user && (
+                  <NavBarOption url="/login" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="LOGIN" icon={<LoginRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
+                )}
+                <NavBarOption url="/" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="SIGN UP" icon={<VpnKeyRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
+                { user && user.role === "admin" && (
+                  <NavBarOption url="/admin/applications" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="APPLICATIONS" icon={<ViewUserApplicationsIcon sx={{ color: PALLET.pineGreen }} />} />
+                )}
+                { user && user.role === "user" && (
+                  <NavBarOption url="/user/applications" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="MY APPLICATIONS" icon={<ViewUserApplicationsIcon sx={{ color: PALLET.pineGreen }} />} />
+                )}
+                { user && user.id && (
+                  <NavBarOption onOptionClicked={handleLogOut} title="LOG OUT" icon={<LogOutIcon sx={{ color: PALLET.pineGreen }} />} />
+                )}
+              </Box>
+            </Box>
+          </Drawer>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
 }

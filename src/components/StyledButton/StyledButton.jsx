@@ -9,9 +9,8 @@ const MuiStyledButton = styled(Button)(({ ...props }) => ({
 
 /**
  * 
- * @param {label}} string: button label
- * @parm {onClick } optional callback function for when button is clicked 
- * @returns React.JSX Element
+ * @param {{ label: string, onClick: () => void }} props 
+ * @returns 
  */
 function StyledButton (props) {
   const handleOnClick = () => {

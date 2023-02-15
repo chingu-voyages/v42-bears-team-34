@@ -22,7 +22,7 @@ function FinancialDetailsContainerComponent (props) {
   if (!data) {
     return (
       <StyledGridContainer>
-        <NoInformationFound title={errorInfo?.message || "No data found"} />
+        <NoInformationFound title={errorInfo?.message || ""} />
       </StyledGridContainer>
     )
   }

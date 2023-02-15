@@ -62,6 +62,7 @@ export function AdminControlsComponent(props) {
             buttonColor={PALLET.application.rejected}
             label={"Reject"}
             disabled={rejectButtonDisabled}
+            onClick={handleRejectedClick}
           />
         </Box>
       </Box>
