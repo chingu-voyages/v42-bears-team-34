@@ -119,9 +119,15 @@ export default function NavBar() {
             and closes the drawer by setting the variable open to false
             */}
               <IconButton onClick={toggleDrawer(false)} sx={{ mb: 2 }}>
-                  <CloseIcon />
+                <CloseIcon />
               </IconButton>
               <Divider sx={{ mb: 2 }} />
+              { user && user.role === "admin" && (
+                <>
+                <Typography color={PALLET.pineGreen} fontWeight={"bold"} pb={2} textAlign={"center"} alignSelf={"center"}>ADMIN</Typography>
+                <Divider sx={{ mb: 2 }} />
+                </>
+              )}
               <Box sx={{ mb: 2 }}>
                 <NavBarOption url="/" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="HOME" icon={<HomeRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
                 <NavBarOption url="/blog" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="BLOG" icon={<DescriptionIcon sx={{ color: PALLET.pineGreen }} />} />

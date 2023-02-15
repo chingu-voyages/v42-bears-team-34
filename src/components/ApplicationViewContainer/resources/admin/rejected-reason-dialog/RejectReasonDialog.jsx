@@ -45,8 +45,8 @@ export function RejectReasonDialog (props) {
       </Box>
     </DialogContent>
     <DialogActions>
-      <Button onClick={handleClose}>Cancel</Button>
-      <Button onClick={handleConfirmReject}>Submit</Button>
+      <Button variant="outlined" disableElevation onClick={handleClose}>Cancel</Button>
+      <Button variant="outlined" disableElevation onClick={handleConfirmReject}>Submit</Button>
     </DialogActions>
    </Dialog>
   )
