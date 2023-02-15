@@ -36,7 +36,7 @@ export function ApplicationsList (props) {
         </TableHead>
         <TableBody>
           { userApplications && userApplications.map((app) => (
-            <ApplicationSummaryTableRow {...{...app}} onApplicationClicked={handleApplicationClicked} />
+            <ApplicationSummaryTableRow key={app.id} {...{...app}} onApplicationClicked={handleApplicationClicked} />
           ))}
         </TableBody>
       </Table>

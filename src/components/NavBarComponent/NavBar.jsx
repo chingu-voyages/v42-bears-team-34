@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { Link } from 'react-router-dom'
+import React, { useState, useCallback, useContext } from "react";
+import { Link, useNavigate } from 'react-router-dom'
 import './style.css'
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -26,6 +26,9 @@ import ViewUserApplicationsIcon from '@mui/icons-material/Assessment';
 import Icon from '../../assets/avcdo-md.png'
 import { PALLET } from '../../stylings/pallet'
 import { NavBarOption } from "./NavBarOption";
+import AppContext from "../../context/AppContext";
+import { TokenManager } from "../../services/token-manager/token-manager";
+import { APP_ACTIONS } from "../../context/app.actions";
 
 
 
@@ -37,8 +40,8 @@ export default function NavBar() {
   */
   const [open, setState] = useState(false);
 
-
-
+  const { user, dispatch } = useContext(AppContext);
+  const navigate = useNavigate();
   /*
   function that is being called every time the drawer should open or close,
   the keys tab and shift are excluded so the user can focus between
@@ -53,8 +56,19 @@ export default function NavBar() {
   };
 
   const handleLogOut = useCallback(() => {
-    // Do something with logout
-  })
+    // Clear the token and navigate
+
+    // Clear the global user state. We may need to clear other attributes here
+    dispatch({
+      type: APP_ACTIONS.SET_STATE,
+      state: {
+        user: null
+      }
+    })
+    setState(false);
+    TokenManager.clearToken();
+    navigate("/", { replace: true });
+  }, [])
 
   return (
     <AppBar position="static" sx={{ backgroundColor: PALLET.pineGreen }}>
@@ -112,10 +126,16 @@ export default function NavBar() {
                 <NavBarOption url="/" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="HOME" icon={<HomeRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
                 <NavBarOption url="/blog" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="BLOG" icon={<DescriptionIcon sx={{ color: PALLET.pineGreen }} />} />
                 <NavBarOption url="/contact" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="CONTACT" icon={<CallRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
-                <NavBarOption url="/login" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="LOGIN" icon={<LoginRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
+                { !user && (
+                  <NavBarOption url="/login" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="LOGIN" icon={<LoginRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
+                )}
                 <NavBarOption url="/" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="SIGN UP" icon={<VpnKeyRoundedIcon sx={{ color: PALLET.pineGreen }} />} />
-                <NavBarOption url="/admin/applications" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="APPLICATIONS" icon={<ViewUserApplicationsIcon sx={{ color: PALLET.pineGreen }} />} />
-                <NavBarOption onOptionClicked={toggleDrawer(false)} title="LOG OUT" icon={<LogOutIcon sx={{ color: PALLET.pineGreen }} />} />
+                { user && user.role === "admin" && (
+                  <NavBarOption url="/admin/applications" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="APPLICATIONS" icon={<ViewUserApplicationsIcon sx={{ color: PALLET.pineGreen }} />} />
+                )}
+                { user && user.id && (
+                  <NavBarOption onOptionClicked={handleLogOut} title="LOG OUT" icon={<LogOutIcon sx={{ color: PALLET.pineGreen }} />} />
+                )}
               </Box>
             </Box>
           </Drawer>

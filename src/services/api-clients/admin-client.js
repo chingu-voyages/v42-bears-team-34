@@ -61,5 +61,24 @@ export class AdminClient extends BaseUserActionClient {
   async getFinancialLiabilitiesByUserID (id) {
     return super.getData(`/plaid/financial_details/${id}?category=liabilities`);
   }
+
+  /**
+   * Send requested to reject appp
+   * @param {string} id application Id
+   * @param {string} reason optional text to explain reason for rejection
+   * @returns {Promise<{msg: string,  reason: string, id: string }>}
+   */
+  async rejectApplication(id, reason) {
+    return super.patchData(`/admin/application/reject/${id}`, { reason });
+  }
+
+  /**
+   * Sends request to approve an app
+   * @param {string} id  application ID
+   * @returns {Promise<{ id: string, msg: string}>}
+   */
+  async approveApplication(id) {
+    return super.patchData(`/admin/application/approve/${id}`);
+  }
 }
   

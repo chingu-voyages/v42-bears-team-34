@@ -4,15 +4,16 @@ import PlaidLinkWidget from "../../components/PlaidLinkWidget/Plaid-link-widget"
 import AppContext from "../../context/AppContext";
 /**
  * The
- * @param {{ linkToken: string }} props 
+ * @param {{ onLinkSuccess: () => void}} props 
  * @returns 
  */
 export default function PlaidLinkPage (props) {
   const { linkToken } = useContext(AppContext);
+  const { onLinkSuccess } = props;
   const handleLinkSuccess = useCallback(() => {
     // Do something with the success state. Maybe do a summary page or render an APPLY or DONE button?
     console.log("Plaid Link was completed");
-    // Show the summary page on success
+    onLinkSuccess && onLinkSuccess();
   },[])
   return (
     <Box>

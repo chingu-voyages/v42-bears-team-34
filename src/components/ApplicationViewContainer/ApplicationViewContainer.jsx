@@ -11,6 +11,8 @@ import { NoInformationFound } from "./resources/NoInformationFoundComponent";
 import { AdminControlsComponent } from "./resources/AdminControlsComponent";
 import { FinancialDetailsContainerComponent } from "./resources/financial-details";
 import { PALLET } from "../../stylings/pallet";
+import { useCallback } from "react";
+import { RejectReasonDialog } from "./resources/admin/rejected-reason-dialog/RejectReasonDialog";
 
 
 const StyledMainBlock = styled(Box)((props) => ({
@@ -35,6 +37,10 @@ export function ApplicationViewContainer () {
   const [isLoadingFinancialData, setIsLoadingFinancialData] = useState(false);
   const [financialDataError, setFinancialDataError] = useState({ error: false, message: "" });
   const [adminControlsDisabled, setAdminControlsDisabled] = useState(false);
+  const [approveButtonDisabled, setApproveButtonDisabled] = useState(false);
+  const [rejectButtonDisabled, setRejectButtonDisabled] = useState(false);
+
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const navigate = useNavigate();
   // When the page loads, do the fetching of the data
   useEffect(() => {
@@ -42,9 +48,9 @@ export function ApplicationViewContainer () {
       try {
         const jwtToken = TokenManager.getToken();
         if (user && user.role === "admin") {
-          await fetchApplicationAndUserDataAdmin(jwtToken);
+          await fetchApplicationAndUserDataAdmin();
         } else if (user && user.role === "user") {
-          await fetchApplicationAndUserDataUser(jwtToken);
+          await fetchApplicationAndUserDataUser();
         }
       } catch (error) {
         console.error(error)
@@ -53,7 +59,8 @@ export function ApplicationViewContainer () {
     fetchApplicationById();
   },[user]);
 
-  const fetchApplicationAndUserDataAdmin = async(jwtToken) => {
+  const fetchApplicationAndUserDataAdmin = async() => {
+    const jwtToken = TokenManager.getToken();
     const adminClient = new AdminClient({ authToken: jwtToken });
     const applicationResponseData = await adminClient.adminGetApplicationById(id);
     setApplicationData(applicationResponseData);
@@ -65,7 +72,8 @@ export function ApplicationViewContainer () {
     setUserData(userResponseData);
   }
 
-  const fetchApplicationAndUserDataUser = async(jwtToken) => {
+  const fetchApplicationAndUserDataUser = async() => {
+    const jwtToken = TokenManager.getToken();
     const userClient = new UserClient({ authToken: jwtToken });
     const userApplicationData = await userClient.getApplicationById(id);
     setApplicationData(userApplicationData);
@@ -90,12 +98,54 @@ export function ApplicationViewContainer () {
 
   const backNavigationTargetUrl = user && user.role === "admin" ? `/admin/applications` : `/user/applications`
   useEffect(() => {
-    if (!userData) {
-      setAdminControlsDisabled(true);
-    } else {
-      setAdminControlsDisabled(false);
+    setAdminControlsDisabled(determineAdminControlStatus());
+  },[userData, applicationData]);
+
+  const determineAdminControlStatus = () => {
+    if (!userData) return true;
+    if (!applicationData) return true;
+
+    // Disable approve and reject buttons if the status is not "pending"
+    if (applicationData.status !== "pending") return true;
+    return false;
+  }
+
+  const handleOpenRejectDialog = () => {
+    // Opens the rejection reason dialog box so admin can enter a reason
+    setRejectDialogOpen(true);
+  }
+
+  const handleConfirmRejectApplication = async (reason) => {
+    // Send a request to reject this application
+    const jwtToken = TokenManager.getToken();
+    if (jwtToken) {
+      try {
+        const adminClient = new AdminClient({ authToken: jwtToken});
+        await adminClient.rejectApplication(id, reason); // from params
+
+        // Re-fetch the data after this is done
+        await fetchApplicationAndUserDataAdmin();
+      } catch (error) {
+        console.log(error);
+      }
     }
-  },[userData])
+  }
+
+  const handleConfirmApproveApplication = async () => {
+    // Send a request to approve this application
+    const jwtToken = TokenManager.getToken();
+    if (jwtToken) {
+      try {
+        const adminClient = new AdminClient({ authToken: jwtToken});
+        await adminClient.approveApplication(id); // from params
+        // Re-fetch the data after this is done
+        await fetchApplicationAndUserDataAdmin();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
   return (
     <StyledMainBlock mt={3} bgcolor={PALLET.applicationDetails.backgroundColor}>
       <Box>
@@ -124,15 +174,16 @@ export function ApplicationViewContainer () {
           { user && user.role && user.role === "admin" && (
             <AdminControlsComponent 
               onFetchFinancialDataClick={handleFetchFinancialData} 
-              onApproveClick={()=> {}}
-              onRejectClick={()=> {}}
+              onApproveClick={handleConfirmApproveApplication}
+              onRejectClick={handleOpenRejectDialog}
               fetchButtonDisabled={adminControlsDisabled}
-              approveButtonDisabled={adminControlsDisabled}
-              rejectButtonDisabled={adminControlsDisabled}
+              approveButtonDisabled={adminControlsDisabled || approveButtonDisabled}
+              rejectButtonDisabled={adminControlsDisabled || rejectButtonDisabled}
               />
           )}
         </Box>
       </Box>
+      <RejectReasonDialog open={rejectDialogOpen} onClose={()=> setRejectDialogOpen(false)} onConfirmReject={handleConfirmRejectApplication} />
     </StyledMainBlock>
   )
 }

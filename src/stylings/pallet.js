@@ -10,7 +10,7 @@ export const PALLET = {
     backgroundColor: "#E8E8E8"
   },
   application: {
-    pending: "#FFC300",
+    pending: "#663724",
     approved: "#43A541",
     rejected: "#FF5733",
   }

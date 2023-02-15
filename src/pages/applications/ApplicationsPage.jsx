@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useContext } from "react";
 import { TokenManager } from "../../services/token-manager/token-manager";
 import { AdminClient } from "../../services/api-clients/admin-client";
 import { Box } from "@mui/system";
-import { ApplicationsList } from "./applications-list/ApplicationsList";
+import { ApplicationsList } from "../admin/applications-list/ApplicationsList";
 import { styled, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AppContext from "../../context/AppContext";
@@ -72,9 +72,9 @@ function ApplicationsPage (props) {
         setIsBusy(true);
         const userClient = new UserClient({ authToken: jwtToken });
         const applicationsData = await userClient.getApplications();
-        const { id } = TokenManager.parseToken(jwt);
+        const { id } = TokenManager.parseToken(jwtToken);
         const usersOwnData = await userClient.getUserById(id);
-        const groupedData = groupApplicationsAndUsers([usersOwnData], applicationsData);
+        const groupedData = groupApplicationsAndUsers([{ value: usersOwnData }], applicationsData);
         setUserApplications(groupedData);
         setIsBusy(false);
       } catch (error) {
@@ -85,8 +85,10 @@ function ApplicationsPage (props) {
   }
   const handleApplicationClicked = useCallback((id) => {
     // Programmatically navigate to application view
-    if (user && user  .role === "admin") {
+    if (user && user.role === "admin") {
       navigate(`/admin/applications/view/${id}`)
+    } else if (user && user.role === "user") {
+      navigate(`/user/applications/view/${id}`);
     }
   })
 

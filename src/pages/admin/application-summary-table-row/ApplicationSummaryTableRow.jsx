@@ -18,7 +18,7 @@ const StyledTableRow = styled(TableRow)((props) => ({
 export function ApplicationSummaryTableRow (props) {
   const { application, user, onApplicationClicked } = props;
   const handleOnClick = useCallback(() => {
-    onApplicationClicked && onApplicationClicked(application._id);  
+    onApplicationClicked && onApplicationClicked(application.id);
   })
   return (
     <StyledTableRow onClick={handleOnClick}>

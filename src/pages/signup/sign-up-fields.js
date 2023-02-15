@@ -49,5 +49,6 @@ export const FIELD_DICT = {
    numberOfInstallments: "Number of Installments",
    installmentAmount: "Installment Amount", 
    requestedLoanAmount: "Loan Amount Requested",
-   loanPurpose: "Purpose for Loan"
+   loanPurpose: "Purpose for Loan",
+   updatedAt: "Last Updated",
 }

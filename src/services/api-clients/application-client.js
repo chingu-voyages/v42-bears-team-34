@@ -16,9 +16,10 @@ export class ApplicationClient extends BaseClient {
 
   /**
    * POST request creates a new application on our DB and sends the data
+   * Should return the id of the newly created application
    *
    * @param {{ }} data 
-   * @returns {Promise<void>}
+   * @returns {Promise<{ message: string, id: string }>}
    */
   async postNewApplication(data) {
     return super.postData("/application/apply", data); // This needs to be updated to the proper route

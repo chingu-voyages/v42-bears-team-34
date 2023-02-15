@@ -33,15 +33,15 @@ function LiabilityAssetAccordion (props) {
 const renderAssetType = (assetType, arrayData) => {
   switch (assetType) {
     case "credit":
-      return arrayData.map((d) => (
+      return arrayData?.map((d) => (
         <CreditLiabilityCard {...{...d}}/>
       ));
     case "mortgage":
-      return arrayData.map((d) => (
+      return arrayData?.map((d) => (
         <MortgageLiabilityCard {...{...d}} />
       ))
     case "student":
-      return arrayData.map((d) => (
+      return arrayData?.map((d) => (
         <StudentLiabilityCard {...{...d}} />
       ))
     default:

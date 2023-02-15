@@ -23,7 +23,7 @@ export const UserDetailsSectionComponent = (props) => {
   const { applicantGender, email, dateOfBirth, firstName, lastName, address } = props;
   const { streetAddress, unitNumber, postalCode, additionalAddress, city, province } = address;
   return (
-    <StyledGridContainer container spacing={1} title={"Applicant details"} icon={<Face5Icon fontSize="large" sx={{ color: PALLET.pineGreen }} />}>
+    <StyledGridContainer justifyContent={"space-evenly"} container spacing={1} title={"Applicant details"} icon={<Face5Icon fontSize="large" sx={{ color: PALLET.pineGreen }} />}>
       <Grid item>
         <StyledGridItem
           headerText={FIELD_DICT[SIGNUP_FIELDS.firstName]}

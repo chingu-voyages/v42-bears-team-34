@@ -17,16 +17,18 @@ const initialState = {
   // Link process went through
   linkSuccess: false,
   linkToken: null,
-  user: {
-    id: null,
-    firstName: null,
-    lastName: null,
-    email: null,
-    role: 'user',
-    iat: null,
-    exp: null,
-    expired: undefined
-  },
+  user: null,
+  pendingApplicationId: null,
+  // {
+  //   id: null,
+  //   firstName: null,
+  //   lastName: null,
+  //   email: null,
+  //   role: 'user',
+  //   iat: null,
+  //   exp: null,
+  //   expired: undefined
+  // },
   // We could use this to keep track of which stage the sign-up (application) process is in
   signUpProgress: null,
 }
