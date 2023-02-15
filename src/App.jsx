@@ -1,34 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { LoginPage } from './pages/login';
+import { ApplicationsPage } from './pages/applications';
+import { RouteProtector } from './components/RouteProtector/RouteProtector';
+import Home from "./pages/home/Home";
+import Blog from "./pages/blog/Blog";
+import Contact from "./pages/contact/Contact";
+import SignupPage from "./pages/signup/SignupPage";
+import NavBar from './components/NavBarComponent/NavBar'
+import AppContext from './context/AppContext';
 import './App.css'
+import { ApplicationViewContainer } from './components/ApplicationViewContainer/ApplicationViewContainer';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/admin/login" element={<LoginPage isAdmin={true} />} />
+        <Route 
+          path="/admin/applications" 
+          element={
+            <RouteProtector admin={true} redirectionComponent={<LoginPage isAdmin={true} />}>
+              <ApplicationsPage />
+            </RouteProtector>
+          } 
+        />
+        <Route 
+          path="/admin/applications/view/:id"
+          element={
+            <RouteProtector admin={true} redirectionComponent={<LoginPage isAdmin={true} />}>
+              <ApplicationViewContainer />
+            </RouteProtector>
+          }
+        
+        />
+        <Route 
+          path="/user/applications/view/:id"
+          element={
+            <RouteProtector requiresAuth={true} redirectionComponent={<LoginPage isAdmin={false} />}>
+              <ApplicationViewContainer />
+            </RouteProtector>
+          }
+        
+        />
+        <Route 
+          path="/user/applications" 
+          element={
+          <RouteProtector requiresAuth={true} redirectionComponent={ <LoginPage />} >
+              <ApplicationsPage />
+            </RouteProtector>
+          } 
+        />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
