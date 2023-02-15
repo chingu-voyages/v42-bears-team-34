@@ -133,6 +133,9 @@ export default function NavBar() {
                 { user && user.role === "admin" && (
                   <NavBarOption url="/admin/applications" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="APPLICATIONS" icon={<ViewUserApplicationsIcon sx={{ color: PALLET.pineGreen }} />} />
                 )}
+                { user && user.role === "user" && (
+                  <NavBarOption url="/user/applications" classNameInfo="links" onOptionClicked={toggleDrawer(false)} title="MY APPLICATIONS" icon={<ViewUserApplicationsIcon sx={{ color: PALLET.pineGreen }} />} />
+                )}
                 { user && user.id && (
                   <NavBarOption onOptionClicked={handleLogOut} title="LOG OUT" icon={<LogOutIcon sx={{ color: PALLET.pineGreen }} />} />
                 )}
