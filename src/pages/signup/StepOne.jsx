@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import { SIGNUP_FIELDS } from "./sign-up-fields";
 import { ErrorComponent } from "../../components/ErrorComponent";
 import { SignupDataStore } from "../../services/SignupDataStore/signup-data-store";
@@ -29,7 +29,7 @@ export default function StepOne(props) {
   },[])
   return (
     <div>
-      <div>
+      <Box mt={3} mb={3}>
         <TextField 
           sx={{width:400}}
           type="text" 
@@ -43,8 +43,8 @@ export default function StepOne(props) {
           InputProps={{ maxLength: 50 }}
         />
         {props.errors && props.errors[SIGNUP_FIELDS.firstName] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.firstName]}/>}
-      </div>
-      <div>
+      </Box>
+      <Box mb={3}>
         <TextField
           sx={{width:400}} 
           type="text" 
@@ -58,8 +58,8 @@ export default function StepOne(props) {
           InputProps={{ maxLength: 50 }}
         />
         {props.errors &&props.errors.lastName && <ErrorComponent title={props.errors.lastName}/>}
-      </div>
-      <div>
+      </Box>
+      <Box mb={3}>
         <TextField 
           sx={{width:400}}
           type="text"
@@ -73,8 +73,8 @@ export default function StepOne(props) {
           InputProps={{ maxLength: 50 }}
         />
         {props.errors && props.errors[SIGNUP_FIELDS.streetAddress] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.streetAddress]} />}
-      </div>
-      <div>
+      </Box>
+      <Box mb={3}>
         <TextField 
           sx={{width:400}}
           type="text"
@@ -88,8 +88,8 @@ export default function StepOne(props) {
           onChange={handleChange} 
         />
         {props.errors && props.errors[SIGNUP_FIELDS.unitNumber] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.unitNumber]} />}
-      </div>
-      <div>
+      </Box>
+      <Box mb={3}>
         <TextField 
           sx={{width:400}}
           type="text"
@@ -103,8 +103,8 @@ export default function StepOne(props) {
           onChange={handleChange} 
         />
         {props.errors && props.errors[SIGNUP_FIELDS.additionalAddress] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.additionalAddress]} />}
-      </div>
-      <div>
+      </Box>
+      <Box mb={3}>
         <TextField
           sx={{width:400}} 
           type="text"
@@ -118,8 +118,8 @@ export default function StepOne(props) {
           InputProps={{ maxLength: 25 }}
         />
         {props.errors && props.errors.city && <ErrorComponent title={props.errors.city} />}
-      </div>
-      <div style={{ marginTop: "10px"}}>
+      </Box>
+      <Box mb={3}>
         <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
           <InputLabel shrink={true} id="province-label">Select province</InputLabel>
           <Select
@@ -146,8 +146,8 @@ export default function StepOne(props) {
           </Select>
           {props.errors && props.errors[SIGNUP_FIELDS.province] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.province]} />}
           </FormControl>
-      </div>
-      <div>
+      </Box>
+      <Box mb={3}>
         <TextField
           sx={{width:200}} 
           value={inputs[SIGNUP_FIELDS.postalCode] || ""} 
@@ -161,8 +161,8 @@ export default function StepOne(props) {
           color="secondary" 
         />
         {props.errors && props.errors[SIGNUP_FIELDS.postalCode] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.postalCode]} />}
-      </div>
-      <div>
+      </Box>
+      <Box mb={3}>
         <InputMask mask="999-999-9999" onChange={handleChange} value={inputs[SIGNUP_FIELDS.phone]}> 
           <TextField 
             sx={{width:200}}
@@ -175,7 +175,7 @@ export default function StepOne(props) {
           />
         </InputMask>
         {props.errors && props.errors[SIGNUP_FIELDS.phone] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.phone]} />}
-      </div>
+      </Box>
     </div>
   )
 }
