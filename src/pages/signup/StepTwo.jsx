@@ -50,14 +50,15 @@ export default function StepTwo(props) {
           margin="normal"
           variant="outlined"
           color="secondary"
-          value={inputs[SIGNUP_FIELDS.email]}
+          value={inputs[SIGNUP_FIELDS.email] || ""}
           onChange={handleChange} 
         />
         {props.errors && props.errors[SIGNUP_FIELDS.email] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.email]} />}
       </div>
       <div>
-        <InputLabel shrink={true}>Date of birth</InputLabel>
         <CustomDatePicker 
+          labelId="date-of-birth-label" 
+          label={"Date of Birth"}
           readOnly 
           name={SIGNUP_FIELDS.dateOfBirth}
           maxDate={MAX_ADULT_AGE}
@@ -75,7 +76,7 @@ export default function StepTwo(props) {
           margin="normal"
           variant="outlined"
           color="secondary"
-          value={inputs[SIGNUP_FIELDS.password1]}
+          value={inputs[SIGNUP_FIELDS.password1] || ""}
           onChange={handleChange}
         />
         {props.errors && props.errors[SIGNUP_FIELDS.password1] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.password1]} />}
@@ -89,7 +90,7 @@ export default function StepTwo(props) {
           margin="normal"
           variant="outlined"
           color="secondary"
-          value={inputs[SIGNUP_FIELDS.password2]}
+          value={inputs[SIGNUP_FIELDS.password2] || ""}
           onChange={handleChange}
         />
         {props.errors && props.errors[SIGNUP_FIELDS.password2] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.password2]} />}

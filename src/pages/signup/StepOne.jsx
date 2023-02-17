@@ -6,6 +6,8 @@ import { SignupDataStore } from "../../services/SignupDataStore/signup-data-stor
 import { STEP_STATE } from "./steps-state";
 import InputMask from "react-input-mask";
 
+
+
 export default function StepOne(props) {
   const [inputs, setInputs] = useState(STEP_STATE[0]);
 
@@ -36,7 +38,7 @@ export default function StepOne(props) {
           margin="normal" 
           variant="outlined" 
           color="secondary" 
-          value={inputs[SIGNUP_FIELDS.firstName]} 
+          value={inputs[SIGNUP_FIELDS.firstName] || ""} 
           onChange={handleChange} 
           InputProps={{ maxLength: 50 }}
         />
@@ -51,7 +53,7 @@ export default function StepOne(props) {
           margin="normal" 
           variant="outlined" 
           color="secondary" 
-          value={inputs[SIGNUP_FIELDS.lastName]}
+          value={inputs[SIGNUP_FIELDS.lastName] || ""}
           onChange={handleChange}
           InputProps={{ maxLength: 50 }}
         />
@@ -66,7 +68,7 @@ export default function StepOne(props) {
           margin="normal" 
           variant="outlined" 
           color="secondary"
-          value={inputs[SIGNUP_FIELDS.streetAddress]} 
+          value={inputs[SIGNUP_FIELDS.streetAddress] || ""} 
           onChange={handleChange}
           InputProps={{ maxLength: 50 }}
         />
@@ -97,7 +99,7 @@ export default function StepOne(props) {
           variant="outlined" 
           color="secondary"
           inputProps={{ maxLength: 40 }}
-          value={inputs[SIGNUP_FIELDS.additionalAddress]} 
+          value={inputs[SIGNUP_FIELDS.additionalAddress] || ""} 
           onChange={handleChange} 
         />
         {props.errors && props.errors[SIGNUP_FIELDS.additionalAddress] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.additionalAddress]} />}
@@ -111,7 +113,7 @@ export default function StepOne(props) {
           margin="normal" 
           variant="outlined" 
           color="secondary"
-          value={inputs[SIGNUP_FIELDS.city]} 
+          value={inputs[SIGNUP_FIELDS.city] || ""} 
           onChange={handleChange}
           InputProps={{ maxLength: 25 }}
         />
@@ -119,12 +121,12 @@ export default function StepOne(props) {
       </div>
       <div style={{ marginTop: "10px"}}>
         <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
-          <InputLabel shrink={true}>Select province</InputLabel>
+          <InputLabel shrink={true} id="province-label">Select province</InputLabel>
           <Select
-            labelId="provinceEle"
+            labelId="province-label"
             name={SIGNUP_FIELDS.province}
-            label="Province"
-            value={inputs[SIGNUP_FIELDS.province]}
+            label="Select Province"
+            value={inputs[SIGNUP_FIELDS.province] || ""}
             onChange={handleChange}
           >  
             <MenuItem value={null}></MenuItem>
@@ -148,7 +150,7 @@ export default function StepOne(props) {
       <div>
         <TextField
           sx={{width:200}} 
-          value={inputs[SIGNUP_FIELDS.postalCode]} 
+          value={inputs[SIGNUP_FIELDS.postalCode] || ""} 
           onChange={handleChange}
           type="text"
           name={SIGNUP_FIELDS.postalCode}

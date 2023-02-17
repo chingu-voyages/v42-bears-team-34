@@ -9,7 +9,7 @@ import AppContext from "../../context/AppContext";
  */
 export default function PlaidLinkPage (props) {
   const { linkToken } = useContext(AppContext);
-  const { onLinkSuccess } = props;
+  const { onLinkSuccess, onAbort } = props;
   const handleLinkSuccess = useCallback(() => {
     // Do something with the success state. Maybe do a summary page or render an APPLY or DONE button?
     console.log("Plaid Link was completed");
@@ -22,7 +22,12 @@ export default function PlaidLinkPage (props) {
           Click on the button below to link your financial information
         </Typography>
       </Box>
-      <PlaidLinkWidget linkToken={linkToken} onLinkButtonClicked={()=> console.log("link button clicked")} onPlaidSuccessComplete={handleLinkSuccess} />
+      <PlaidLinkWidget 
+        linkToken={linkToken} 
+        onLinkButtonClicked={()=> console.log("link button clicked")} 
+        onPlaidSuccessComplete={handleLinkSuccess} 
+        onAbort={onAbort}
+      />
     </Box>
   )
 }

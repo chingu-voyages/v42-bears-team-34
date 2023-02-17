@@ -53,8 +53,9 @@ export default function StepThree(props) {
   return (
   <Box className="StepThreeForm" mt={2}>
     <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
-      <InputLabel shrink={true}>What is your monthly income?</InputLabel>
       <TextField 
+        labelId="month-income-id"
+        label="Monthly income"
         InputProps={{
           inputComponent: NumberFormatCustom
         }}
@@ -63,20 +64,20 @@ export default function StepThree(props) {
         margin="normal" 
         variant="outlined" 
         color="secondary" 
-        value={values[SIGNUP_FIELDS.applicantIncome]} 
+        value={values[SIGNUP_FIELDS.applicantIncome] || ""} 
         onChange={handleChange}
        />
       {props.errors && props.errors[SIGNUP_FIELDS.applicantIncome] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.applicantIncome]} />}
     </FormControl>
 
     <FormControl sx={{width: 400, marginBottom: 3}} className="StepThreeInput">
-      <InputLabel shrink={true}>Select gender</InputLabel>
+      <InputLabel id="applicantGenderEle" shrink={true}>Gender</InputLabel>
       <Select
         labelId="applicantGenderEle"
         name={SIGNUP_FIELDS.applicantGender}
         label="Gender"
-        onChange={handleChange}
-        value={values[SIGNUP_FIELDS.applicantGender]}
+        onChange={handleChange} 
+        value={values[SIGNUP_FIELDS.applicantGender] || ""}
         >
         <MenuItem value={null}></MenuItem>
         <MenuItem value={"male"}>Male</MenuItem>
@@ -87,13 +88,13 @@ export default function StepThree(props) {
     </FormControl>
 
   <FormControl sx={{width: 400, marginBottom: 3}}>
-  <InputLabel shrink={true}>Select occupation</InputLabel>
+  <InputLabel id="applicantOccupationEle" shrink={true}>Occupation</InputLabel>
     <Select
       labelId="applicantOccupationEle"
       name={SIGNUP_FIELDS.applicantOccupation}
       label="Occupation"
       onChange={handleChange}
-      value={values[SIGNUP_FIELDS.applicantOccupation]}
+      value={values[SIGNUP_FIELDS.applicantOccupation] || ""}
       >
       <MenuItem value={null}></MenuItem>
       <MenuItem value={"employee"}>Employee</MenuItem>
@@ -104,13 +105,13 @@ export default function StepThree(props) {
   </FormControl>
 
   <FormControl sx={{width: 400, marginBottom: 3}}>
-    <InputLabel shrink={true}>Requested loan amount</InputLabel>
+    <InputLabel id="requestedLoanAmountEle" shrink={true}>Requested loan amount</InputLabel>
       <Select
         labelId="requestedLoanAmountEle"
         name={SIGNUP_FIELDS.requestedLoanAmount}
-        label="Amount"
+        label="Requested loan amount"
         onChange={handleChange}
-        value={values[SIGNUP_FIELDS.requestedLoanAmount]}
+        value={values[SIGNUP_FIELDS.requestedLoanAmount] || ""}
         >
           <MenuItem value={null}></MenuItem>
           <MenuItem value={300}>$ 300</MenuItem>
@@ -125,14 +126,14 @@ export default function StepThree(props) {
       {props.errors && props.errors[SIGNUP_FIELDS.requestedLoanAmount] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.requestedLoanAmount]} />}
     </FormControl> 
     <FormControl sx={{width: 400, marginBottom: 3}}>
-      <InputLabel shrink={true}>Number of installments</InputLabel>
+      <InputLabel id="numberOfInstallmentsEle" shrink={true}>Number of installments</InputLabel>
       {/* number of installments */}
       <Select
         labelId="numberOfInstallmentsEle"
         name={SIGNUP_FIELDS.numberOfInstallments}
         label="Number of installments"
         onChange={handleChange}
-        value={values[SIGNUP_FIELDS.numberOfInstallments]}
+        value={values[SIGNUP_FIELDS.numberOfInstallments] || ""}
       >
         <MenuItem value={null}></MenuItem>
         {[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((installmentValue) => (
@@ -144,15 +145,16 @@ export default function StepThree(props) {
       {props.errors && props.errors[SIGNUP_FIELDS.numberOfInstallments] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.numberOfInstallments]} />}
     </FormControl>
     <FormControl>
-      <InputLabel shrink={true}>Installment amount $</InputLabel>
-        <TextField 
+      <InputLabel id="installmentAmountEle" shrink={true}>Installment amount $</InputLabel>
+        <TextField
+          labelId="installmentAmountEle"
           sx={{width:200}}
           name={SIGNUP_FIELDS.installmentAmount}
           margin="normal" 
           variant="outlined"
           color="secondary"
           onChange={handleChange} 
-          value={values[SIGNUP_FIELDS.installmentAmount]}
+          value={values[SIGNUP_FIELDS.installmentAmount] || ""}
           InputProps={{
             inputComponent: NumberFormatCustom
           }}
@@ -160,13 +162,13 @@ export default function StepThree(props) {
       {props.errors && props.errors[SIGNUP_FIELDS.installmentAmount] && <ErrorComponent title={props.errors[SIGNUP_FIELDS.installmentAmount]} />}
     </FormControl>
     <FormControl sx={{width: 400, marginBottom: 3}}>
-      <InputLabel shrink={true}>Select use of loan</InputLabel>
+      <InputLabel id="loanPurposeEle" shrink={true}>Purpose for Loan</InputLabel>
       <Select
         labelId="loanPurposeEle"
         name={SIGNUP_FIELDS.loanPurpose}
-        label="Use"
+        label="Purpose for Loan"
         onChange={handleChange}
-        value={values[SIGNUP_FIELDS.loanPurpose]}
+        value={values[SIGNUP_FIELDS.loanPurpose] || ""}
         >
           <MenuItem value={null}></MenuItem>
           <MenuItem value={"rent"}>Rent</MenuItem>
