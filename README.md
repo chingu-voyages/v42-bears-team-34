@@ -2,7 +2,10 @@
 ## About
 This app allows a person seeking a loan to apply for one by filling out their information and financial details. We use the Plaid API to connect to the applicant's financial institution data and retrieve more detailed specifics to allow the creditor / administrator (the other user of this app) to make a decision. The creditor can then subsequently approve or decline an application.
 
-[Image](https://github.com/chingu-voyages/v42-bears-team-34/blob/916659bd00e1c9bd9be89e3a74ef526a18eec729/screenshots/home.png)
+## Live Deploy
+<https://avcdoloan.web.app/>
+
+![Image](https://github.com/chingu-voyages/v42-bears-team-34/blob/916659bd00e1c9bd9be89e3a74ef526a18eec729/screenshots/home.png)
 ## Features (V1)
 1. User login (users and admin), using token authentication
 2. Application form (wizard)
