@@ -73,6 +73,7 @@ function PlaidLinkWidget (props) {
         }
       }
     })
+    if (exit) exit({ force: true });
     // Do something
     props.onAbort && props.onAbort();
   }, [])
@@ -98,7 +99,7 @@ function PlaidLinkWidget (props) {
     plaidConfig.receivedRedirectUri = window.location.href;
     isOauth = true;
   }
-  const { open, ready } = usePlaidLink(plaidConfig);
+  const { open, exit, ready } = usePlaidLink(plaidConfig);
   return (
     // Plaid button
     <StyledCustomPlaidButton 

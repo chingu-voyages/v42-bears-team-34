@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useEffect } from "react";
 
 function CustomDatePicker (props) {
-  const { minDate, maxDate, disableFuture, onDateChange, readOnly, name, value, ...rest } = props; 
+  const { minDate, maxDate, disableFuture, onDateChange, readOnly, name, value, label, ...rest } = props; 
   const [dateValue, setDateValue] = useState(value);
 
   const handleKeyboardInput = (e) => {
@@ -24,6 +24,7 @@ function CustomDatePicker (props) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         {...rest}
+        label={label}
         maxDate={maxDate}
         minDate={minDate}
         openTo={"year"}
