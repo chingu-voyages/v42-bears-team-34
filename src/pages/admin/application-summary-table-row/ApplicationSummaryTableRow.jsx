@@ -2,6 +2,7 @@ import { TableRow, TableCell, styled } from "@mui/material";
 import { useCallback } from "react";
 import { PALLET } from "../../../stylings/pallet";
 import { STRING_HELPERS } from "../../../utils/string-helpers";
+import { FIELD_DICT } from "../../signup/sign-up-fields";
 
 const StyledTableRow = styled(TableRow)((props) => ({
   "&:hover": {
@@ -22,7 +23,7 @@ export function ApplicationSummaryTableRow (props) {
   })
   return (
     <StyledTableRow onClick={handleOnClick}>
-      <TableCell align="right">{STRING_HELPERS.capitalizeFirstLetter(application?.status)}</TableCell>
+      <TableCell align="right">{STRING_HELPERS.capitalizeFirstLetter(FIELD_DICT.applicationStatus[application?.status])}</TableCell>
       <TableCell align="right">{user?.lastName} {user?.firstName}</TableCell>
       <TableCell align="right">{STRING_HELPERS.capitalizeFirstLetter(user?.applicantGender)}</TableCell>
       <TableCell align="right">{user?.address?.city?.toUpperCase()}</TableCell>
