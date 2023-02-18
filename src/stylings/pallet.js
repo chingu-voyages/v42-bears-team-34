@@ -13,5 +13,6 @@ export const PALLET = {
     pending: "#663724",
     approved: "#43A541",
     rejected: "#FF5733",
+    more_info_required: "#663724"
   }
 }
