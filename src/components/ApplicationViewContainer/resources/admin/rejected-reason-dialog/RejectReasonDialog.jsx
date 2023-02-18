@@ -1,6 +1,6 @@
 
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button } from "@mui/material";
+
 import { useState } from "react";
 /**
  * Dialog that prompts the admin to enter a reason for the reject
