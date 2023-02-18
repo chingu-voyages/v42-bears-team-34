@@ -51,4 +51,12 @@ export const FIELD_DICT = {
    requestedLoanAmount: "Loan Amount Requested",
    loanPurpose: "Purpose for Loan",
    updatedAt: "Last Updated",
+   applicationStatus: {
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "incomplete": "Incomplete",
+    pending: "Pending",
+    cancelled: "Cancelled",
+    more_info_required: "More information Requested",
+   }
 }
