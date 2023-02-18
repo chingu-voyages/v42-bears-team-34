@@ -18,6 +18,7 @@ export function AdminControlsComponent(props) {
   const { onFetchFinancialDataClick, 
           onApproveClick, 
           onRejectClick,
+          onAdminOptionsClick,
           fetchButtonDisabled,
           approveButtonDisabled,
           rejectButtonDisabled
@@ -35,10 +36,14 @@ export function AdminControlsComponent(props) {
     onRejectClick && onRejectClick();
   })
 
+  const handleMoreAdminOptionsClicked = useCallback(() => {
+    onAdminOptionsClick && onAdminOptionsClick()
+  })
+
   return (
-    <Box display="flex" justifyContent={"center"}>
+    <Box display="flex" justifyContent={"center"} pl={2} pr={2}>
       <Box>
-        <Box p={2}>
+        <Box p={2} display={"flex"} justifyContent={"center"}>
           <StyledButton
             borderRadius="20px"
             buttonColor={PALLET.mountainDewLime}
@@ -47,7 +52,7 @@ export function AdminControlsComponent(props) {
             disabled={fetchButtonDisabled}
           />
         </Box>
-        <Box display="flex" p={2} justifyContent={"space-around"}>
+        <Box display="flex" p={2} justifyContent={"space-evenly"}>
           <StyledButton 
             borderRadius="20px"
             buttonTextColor={PALLET.white}
@@ -63,6 +68,13 @@ export function AdminControlsComponent(props) {
             label={"Reject"}
             disabled={rejectButtonDisabled}
             onClick={handleRejectedClick}
+          />
+          <StyledButton 
+            borderRadius="20px"
+            buttonTextColor={PALLET.white}
+            buttonColor={PALLET.pineGreen}
+            label={"More Admin Options..."}
+            onClick={handleMoreAdminOptionsClicked}
           />
         </Box>
       </Box>
