@@ -6,6 +6,7 @@ import { StyledGridContainer } from "./StyledGridContainer";
 import ApplicationDetailsSharpIcon from '@mui/icons-material/DescriptionSharp';
 import { PALLET } from "../../../stylings/pallet";
 import HelpSharpIcon from '@mui/icons-material/HelpSharp';
+import InfoSharpIcon from '@mui/icons-material/InfoSharp';
 /**
  * 
  * @param {{
@@ -17,12 +18,13 @@ import HelpSharpIcon from '@mui/icons-material/HelpSharp';
  * requestedAt: DateString,
  * updatedAt: DateString,
  * rejectedReason?: string,
- * applicantIncome: number
+ * applicantIncome: number,
+ * statusMessage?: string
  * }} props 
  * @returns 
  */
 export const ApplicationDetailsSectionComponent = (props) => {
-  const { requestedLoanAmount, installmentAmount, numberOfInstallments, loanPurpose, status, rejectedReason, requestedAt, applicantIncome, updatedAt } = props;
+  const { requestedLoanAmount, installmentAmount, numberOfInstallments, loanPurpose, status, rejectedReason, requestedAt, applicantIncome, updatedAt, statusMessage } = props;
   return (
     <Box>
       <StyledGridContainer justifyContent={"space-evenly"} container title="Application Details" icon={<ApplicationDetailsSharpIcon fontSize="large" sx={{ color: PALLET.pineGreen }} />} >
@@ -56,11 +58,26 @@ export const ApplicationDetailsSectionComponent = (props) => {
           Application Status
         </Typography>
         { status != "rejected" && (
-          <Typography textAlign={"center"} variant="h5" fontWeight={"bold"} color={renderStatusColor(status)}>{status.toUpperCase()}</Typography>
+          <Typography textAlign={"center"} variant="h5" fontWeight={"bold"} color={renderStatusColor(status)}>{FIELD_DICT.applicationStatus[status].toUpperCase()}</Typography>
+        )}
+        { statusMessage && (
+          <SpecialStatusApplet message={statusMessage} status={status} />
         )}
         { status === "rejected" && (
-          <RejectedApplet reason={rejectedReason} status={status} />
+          <RejectedReasonApplet reason={rejectedReason} status={status} />
         )}
+      </Box>
+    </Box>
+  )
+}
+
+const SpecialStatusApplet = (props) => {
+  const { message, status } = props;
+  return (
+    <Box display="flex" justifyContent={"center"}>
+      <Box display="flex">
+        <InfoSharpIcon sx={{ color: renderStatusColor(status)}} />
+        <Typography>{message}</Typography>
       </Box>
     </Box>
   )
@@ -71,7 +88,7 @@ export const ApplicationDetailsSectionComponent = (props) => {
  * @param {{ reason?: string }} props 
  * @returns 
  */
-const RejectedApplet = (props) => {
+const RejectedReasonApplet = (props) => {
   const { reason, status } = props;
   return (
     <Box mt={2  }>
@@ -92,7 +109,9 @@ const renderStatusColor = (status) => {
     case "rejected":
       return PALLET.application.rejected;
     case "approved":
-      return PALLET.application.approved
+      return PALLET.application.approved;
+    case "more_info_required": 
+      return PALLET.application.more_info_required
     default:
       return "black"
   }

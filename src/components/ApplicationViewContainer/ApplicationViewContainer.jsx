@@ -1,5 +1,5 @@
 import { Box, styled } from "@mui/material";
-import { useState, useContext, useEffect  } from "react";
+import { useState, useContext, useEffect, useCallback  } from "react";
 import AppContext from "../../context/AppContext";
 import { AdminClient } from "../../services/api-clients/admin-client";
 import { UserClient } from "../../services/api-clients/user-client";
@@ -11,8 +11,8 @@ import { NoInformationFound } from "./resources/NoInformationFoundComponent";
 import { AdminControlsComponent } from "./resources/AdminControlsComponent";
 import { FinancialDetailsContainerComponent } from "./resources/financial-details";
 import { PALLET } from "../../stylings/pallet";
-import { useCallback } from "react";
 import { RejectReasonDialog } from "./resources/admin/rejected-reason-dialog/RejectReasonDialog";
+import { AdminOptionsDialog } from "./resources/admin/admin-options-dialog/AdminOptionsDialog";
 
 
 const StyledMainBlock = styled(Box)((props) => ({
@@ -42,12 +42,12 @@ export function ApplicationViewContainer () {
   const [fetchFinancialDetailsButtonDisabled, setFetchFinancialDetailsButtonDisabled] = useState(false);
 
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+  const [adminOptionsDialogOpen, setAdminOptionsDialogOpen] = useState(false);
   const navigate = useNavigate();
   // When the page loads, do the fetching of the data
   useEffect(() => {
     const fetchApplicationById = async() => {
       try {
-        const jwtToken = TokenManager.getToken();
         if (user && user.role === "admin") {
           await fetchApplicationAndUserDataAdmin();
         } else if (user && user.role === "user") {
@@ -99,19 +99,10 @@ export function ApplicationViewContainer () {
 
   const backNavigationTargetUrl = user && user.role === "admin" ? `/admin/applications` : `/user/applications`
   useEffect(() => {
-    setAdminControlsDisabled(determineAdminControlStatus());
     setFetchFinancialDetailsButtonDisabled(determineFetchFinancialDetailsStatus());
-
+    setApproveButtonDisabled(applicationData.status === "approved");
+    setRejectButtonDisabled(applicationData.status === "rejected")
   },[userData, applicationData]);
-
-  const determineAdminControlStatus = () => {
-    if (!userData) return true;
-    if (!applicationData) return true;
-    
-    // Disable approve and reject buttons if the status is not "pending"
-    if (applicationData.status !== "pending") return true;
-    return false;
-  }
 
   const determineFetchFinancialDetailsStatus = () => {
     // We'll still enable the financial details fetch button even if the application status is not pending
@@ -122,6 +113,10 @@ export function ApplicationViewContainer () {
   const handleOpenRejectDialog = () => {
     // Opens the rejection reason dialog box so admin can enter a reason
     setRejectDialogOpen(true);
+  }
+
+  const handleAdminOptionsClicked = () => {
+    setAdminOptionsDialogOpen(true);
   }
 
   const handleConfirmRejectApplication = async (reason) => {
@@ -151,6 +146,21 @@ export function ApplicationViewContainer () {
         await fetchApplicationAndUserDataAdmin();
       } catch (error) {
         console.log(error);
+      }
+    }
+  }
+
+  const handleAdminOptionsSubmit = async({ action, message }) => {
+    // Send a request to update the status of the application in context
+    const jwtToken = TokenManager.getToken();
+    if (jwtToken) {
+      try {
+        const adminClient = new AdminClient({ authToken: jwtToken});
+        await adminClient.patchApplicationStatus(id, { action, message });
+        setAdminOptionsDialogOpen(false);
+        await fetchApplicationAndUserDataAdmin();
+      } catch (error) {
+        console.log(error)
       }
     }
   }
@@ -185,6 +195,7 @@ export function ApplicationViewContainer () {
               onFetchFinancialDataClick={handleFetchFinancialData} 
               onApproveClick={handleConfirmApproveApplication}
               onRejectClick={handleOpenRejectDialog}
+              onAdminOptionsClick={handleAdminOptionsClicked}
               fetchButtonDisabled={fetchFinancialDetailsButtonDisabled}
               approveButtonDisabled={adminControlsDisabled || approveButtonDisabled}
               rejectButtonDisabled={adminControlsDisabled || rejectButtonDisabled}
@@ -193,6 +204,7 @@ export function ApplicationViewContainer () {
         </Box>
       </Box>
       <RejectReasonDialog open={rejectDialogOpen} onClose={()=> setRejectDialogOpen(false)} onConfirmReject={handleConfirmRejectApplication} />
+      <AdminOptionsDialog open={adminOptionsDialogOpen} onClose={()=> setAdminOptionsDialogOpen(false)} onSubmit={handleAdminOptionsSubmit} />
     </StyledMainBlock>
   )
 }

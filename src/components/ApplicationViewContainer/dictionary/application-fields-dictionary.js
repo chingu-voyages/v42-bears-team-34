@@ -18,7 +18,7 @@ export const APP_FIELDS_DICT = {
   disbursement_dates: "Disbursement Dates",
   description: "Description",
   end_date: "End Date",
-  estimated_eligibility_date: "EST Eligibility Date",
+  estimated_eligibility_date: "Est. Eligibility Date",
   expected_payoff_date: "Expected payoff Date",
   guarantor: "Guarantor",
   interest_charge_amount: "Interest Charge Amount",
