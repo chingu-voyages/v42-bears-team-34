@@ -80,5 +80,15 @@ export class AdminClient extends BaseUserActionClient {
   async approveApplication(id) {
     return super.patchData(`/admin/application/approve/${id}`);
   }
+
+  /**
+   * 
+   * @param {string} id The applicationId
+   * @param {{ action: string, message: string }} data 
+   * @returns 
+   */
+  async patchApplicationStatus(id, data) {
+    return super.patchData(`/admin/application/update/${id}`, data)
+  }
 }
   
