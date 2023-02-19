@@ -5,7 +5,7 @@ module.exports = {
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended", "airbnb", "prettier"
+        "plugin:react/recommended", "prettier"
     ],
     "overrides": [
     ],
