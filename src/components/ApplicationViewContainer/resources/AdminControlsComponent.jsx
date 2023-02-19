@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { PALLET } from '../../../stylings/pallet';
 import StyledButton from '../../StyledButton/StyledButton';
 

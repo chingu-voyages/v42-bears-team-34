@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react';
 import {
 	styled,
 	Paper,
@@ -8,17 +9,16 @@ import {
 	TableBody,
 	TableRow,
 } from '@mui/material';
-import { useCallback } from 'react';
 import { PALLET } from '../../../stylings/pallet';
 import { FIELD_DICT, SIGNUP_FIELDS } from '../../signup/sign-up-fields';
 import { ApplicationSummaryTableRow } from '../application-summary-table-row/ApplicationSummaryTableRow';
 import { headerCellStyles } from '../header-cell-style/header-cell-style';
 
-const StyledTableHeaderCell = styled(TableCell)((props) => ({
+const StyledTableHeaderCell = styled(TableCell)(() => ({
 	...headerCellStyles,
 }));
 
-const CustomStyledTableContainer = styled(TableContainer)((props) => ({}));
+const CustomStyledTableContainer = styled(TableContainer)(() => ({}));
 
 export function ApplicationsList(props) {
 	const { userApplications, onApplicationClicked } = props;

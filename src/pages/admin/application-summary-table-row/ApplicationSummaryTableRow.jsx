@@ -1,10 +1,10 @@
+import React, { useCallback } from 'react';
 import { TableRow, TableCell, styled } from '@mui/material';
-import { useCallback } from 'react';
 import { PALLET } from '../../../stylings/pallet';
 import { STRING_HELPERS } from '../../../utils/string-helpers';
 import { FIELD_DICT } from '../../signup/sign-up-fields';
 
-const StyledTableRow = styled(TableRow)((props) => ({
+const StyledTableRow = styled(TableRow)(() => ({
 	'&:hover': {
 		cursor: 'pointer',
 		backgroundColor: PALLET.application.summaryRow.highlightColor,

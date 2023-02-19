@@ -13,11 +13,11 @@ import {
 	DialogContentText,
 	styled,
 } from '@mui/material';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { PALLET } from '../../../../../stylings/pallet';
 import { ADMIN_OPTIONS_ACTION } from './admin-options-actions';
 
-const StyledDialog = styled(Dialog)((props) => ({
+const StyledDialog = styled(Dialog)(() => ({
 	'& .MuiPaper-root': {
 		width: '100vw',
 	},
