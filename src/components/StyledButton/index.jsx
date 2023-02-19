@@ -1,2 +1,2 @@
-import StyledButton from "./StyledButton";
+import StyledButton from './StyledButton';
 export { StyledButton };

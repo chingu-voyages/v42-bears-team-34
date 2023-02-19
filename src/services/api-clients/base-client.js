@@ -1,5 +1,5 @@
-import axios from "axios";
-import { ENV } from "../../environment";
+import axios from 'axios';
+import { ENV } from '../../environment';
 
 /* 
 This is the base client (abstract) class used to communicate with our API. 
@@ -19,9 +19,9 @@ export class BaseClient {
     });
   }
   /**
-   * 
+   *
    * @param {string} url
-   * @returns 
+   * @returns
    */
   async getData(url) {
     const response = await this.api.get(url);
@@ -29,10 +29,10 @@ export class BaseClient {
   }
 
   /**
-   * 
-   * @param {string} url 
-   * @param {*} data 
-   * @returns 
+   *
+   * @param {string} url
+   * @param {*} data
+   * @returns
    */
   async postData(url, data) {
     const response = await this.api.post(url, data);
@@ -40,10 +40,10 @@ export class BaseClient {
   }
 
   /**
-   * 
-   * @param {string} url 
-   * @param {*} data 
-   * @returns 
+   *
+   * @param {string} url
+   * @param {*} data
+   * @returns
    */
   async patchData(url, data) {
     const response = await this.api.patch(url, data);
@@ -51,10 +51,10 @@ export class BaseClient {
   }
 
   /**
-   * 
-   * @param {string} url 
-   * @param {*} data 
-   * @returns 
+   *
+   * @param {string} url
+   * @param {*} data
+   * @returns
    */
   async putData(url, data) {
     const response = await this.api.put(url, data);
@@ -62,10 +62,10 @@ export class BaseClient {
   }
 
   /**
-   * 
-   * @param {string} url 
-   * @param {*} data 
-   * @returns 
+   *
+   * @param {string} url
+   * @param {*} data
+   * @returns
    */
   async deleteData(url, data) {
     const response = await this.api.delete(url, { data: data });

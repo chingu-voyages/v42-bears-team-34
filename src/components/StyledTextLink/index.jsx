@@ -1,2 +1,2 @@
-import StyledTextLink from "./StyledTextLink";
+import StyledTextLink from './StyledTextLink';
 export { StyledTextLink };

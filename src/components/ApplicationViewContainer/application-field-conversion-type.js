@@ -1,4 +1,4 @@
 export const ConversionType = {
-  fromObject: "fromObject",
-  fromArrayOfObjects: "fromArrayOfObjects",
-}
+  fromObject: 'fromObject',
+  fromArrayOfObjects: 'fromArrayOfObjects',
+};

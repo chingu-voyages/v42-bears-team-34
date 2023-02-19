@@ -1,9 +1,9 @@
-import { Paper, styled } from "@mui/material";
-import { PALLET } from "../../../../stylings/pallet";
+import { Paper, styled } from '@mui/material';
+import { PALLET } from '../../../../stylings/pallet';
 export const StyledFinancialItemCard = styled(Paper)((props) => ({
-  "&.MuiPaper-root": {
+  '&.MuiPaper-root': {
     backgroundColor: PALLET.paleGoldYellow,
-    padding: "10px",
-    maxWidth: "min-content"
-  }
-}))
+    padding: '10px',
+    maxWidth: 'min-content',
+  },
+}));

@@ -1,2 +1,2 @@
-import ApplicationsPage from "./ApplicationsPage";
+import ApplicationsPage from './ApplicationsPage';
 export { ApplicationsPage };

@@ -1,13 +1,13 @@
+import React from 'react';
+import { Box } from '@mui/material';
+import { STRING_HELPERS } from '../../../../../../utils/string-helpers';
 
-import { Box } from "@mui/material";
-import { STRING_HELPERS } from "../../../../../../utils/string-helpers";
-
-import { AttributeComponent } from "../AttributeComponent";
-import { StyledFinancialItemCard } from "../../StyledLiabilityCard";
-import { ConversionType } from "../../../../application-field-conversion-type";
+import { AttributeComponent } from '../AttributeComponent';
+import { StyledFinancialItemCard } from '../../StyledLiabilityCard';
+import { ConversionType } from '../../../../application-field-conversion-type';
 // This is one student loan liability item. It could be arranged in an array
 /**
- * 
+ *
  * @param {{
  * account_id: string
  * account_number: string
@@ -28,12 +28,12 @@ import { ConversionType } from "../../../../application-field-conversion-type";
  * repayment_plan: Object
  * ytd_interest_paid: number
  * ytd_principal_paid: number
- * }} props 
- * @returns 
+ * }} props
+ * @returns
  */
-function StudentLiabilityCard (props) {
-  const { 
-    account_id, 
+function StudentLiabilityCard(props) {
+  const {
+    account_id,
     account_number,
     disbursement_dates,
     expected_payoff_date,
@@ -51,7 +51,7 @@ function StudentLiabilityCard (props) {
     pslf_status,
     repayment_plan,
     ytd_interest_paid,
-    ytd_principal_paid
+    ytd_principal_paid,
   } = props;
   const extractedData = {
     account_id,
@@ -67,22 +67,27 @@ function StudentLiabilityCard (props) {
     last_statement_issue_date,
     loan_name,
     loan_status: { type: ConversionType.fromObject, data: loan_status },
-    origination_principal_amount: STRING_HELPERS.toCurrency(origination_principal_amount),
-    outstanding_interest_amount: STRING_HELPERS.toCurrency(outstanding_interest_amount),
+    origination_principal_amount: STRING_HELPERS.toCurrency(
+      origination_principal_amount
+    ),
+    outstanding_interest_amount: STRING_HELPERS.toCurrency(
+      outstanding_interest_amount
+    ),
     pslf_status: { type: ConversionType.fromObject, data: pslf_status },
     repayment_plan: { type: ConversionType.fromObject, data: repayment_plan },
     ytd_interest_paid: STRING_HELPERS.toCurrency(ytd_interest_paid),
     ytd_principal_paid: STRING_HELPERS.toCurrency(ytd_principal_paid),
-  }
+  };
   return (
     <Box>
       <StyledFinancialItemCard elevation={1}>
-        {extractedData && Object.entries(extractedData).map(( [key, value] ) => (
-          <AttributeComponent key={key} propName={key} propValue={value} />
-        ))}
+        {extractedData &&
+          Object.entries(extractedData).map(([key, value]) => (
+            <AttributeComponent key={key} propName={key} propValue={value} />
+          ))}
       </StyledFinancialItemCard>
     </Box>
-  )
+  );
 }
 
 export default StudentLiabilityCard;

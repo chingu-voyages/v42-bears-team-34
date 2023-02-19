@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
-import { useCallback } from "react";
-import { PALLET } from "../../../stylings/pallet";
-import StyledButton from "../../StyledButton/StyledButton";
+import { Box } from '@mui/material';
+import React, { useCallback } from 'react';
+import { PALLET } from '../../../stylings/pallet';
+import StyledButton from '../../StyledButton/StyledButton';
 
 /**
  * Admin controls, fetch plaid financial, approve decline
@@ -11,17 +11,21 @@ import StyledButton from "../../StyledButton/StyledButton";
  * fetchButtonDisabled?: boolean
  * approveButtonDisabled?: boolean
  * rejectButtonDisabled?: boolean
- *  }} props 
- * @returns 
+ * adminOptionsButtonDisabled?: boolean
+ *  }} props
+ * @returns
  */
 export function AdminControlsComponent(props) {
-  const { onFetchFinancialDataClick, 
-          onApproveClick, 
-          onRejectClick,
-          fetchButtonDisabled,
-          approveButtonDisabled,
-          rejectButtonDisabled
-        } = props;
+  const {
+    onFetchFinancialDataClick,
+    onApproveClick,
+    onRejectClick,
+    onAdminOptionsClick,
+    fetchButtonDisabled,
+    approveButtonDisabled,
+    rejectButtonDisabled,
+    adminOptionsButtonDisabled,
+  } = props;
 
   const handleFetchFinancialDataClick = useCallback(() => {
     onFetchFinancialDataClick && onFetchFinancialDataClick();
@@ -29,43 +33,55 @@ export function AdminControlsComponent(props) {
 
   const handleApproveClick = useCallback(() => {
     onApproveClick && onApproveClick();
-  })
+  });
 
   const handleRejectedClick = useCallback(() => {
     onRejectClick && onRejectClick();
-  })
+  });
+
+  const handleMoreAdminOptionsClicked = useCallback(() => {
+    onAdminOptionsClick && onAdminOptionsClick();
+  });
 
   return (
-    <Box display="flex" justifyContent={"center"}>
+    <Box display="flex" justifyContent={'center'} pl={2} pr={2}>
       <Box>
-        <Box p={2}>
+        <Box p={2} display={'flex'} justifyContent={'center'}>
           <StyledButton
             borderRadius="20px"
             buttonColor={PALLET.mountainDewLime}
-            label={"Get Financial Details"}
+            label={'Get Financial Details'}
             onClick={handleFetchFinancialDataClick}
             disabled={fetchButtonDisabled}
           />
         </Box>
-        <Box display="flex" p={2} justifyContent={"space-around"}>
-          <StyledButton 
+        <Box display="flex" p={2} justifyContent={'space-evenly'}>
+          <StyledButton
             borderRadius="20px"
             buttonTextColor={PALLET.white}
             buttonColor={PALLET.application.approved}
             onClick={handleApproveClick}
-            label={"Approve"}
+            label={'Approve'}
             disabled={approveButtonDisabled}
           />
           <StyledButton
             borderRadius="20px"
             buttonTextColor={PALLET.white}
             buttonColor={PALLET.application.rejected}
-            label={"Reject"}
+            label={'Reject'}
             disabled={rejectButtonDisabled}
             onClick={handleRejectedClick}
+          />
+          <StyledButton
+            borderRadius="20px"
+            buttonTextColor={PALLET.white}
+            buttonColor={PALLET.pineGreen}
+            label={'More Admin Options...'}
+            disabled={adminOptionsButtonDisabled}
+            onClick={handleMoreAdminOptionsClicked}
           />
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
