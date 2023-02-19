@@ -37,6 +37,14 @@ export class TokenManager {
   static parseToken(token) {
     // Split token by "." get the second element (the payload)
     const payLoad = token.split('.')[1];
-    return JSON.parse(window.atob(payLoad));
+    return JSON.parse(TokenManager.#decode(window.atob(payLoad)));
+  }
+
+  static #decode(str) {
+    const decoder = new TextDecoder('utf-8');
+    const arr = new Uint8Array(new ArrayBuffer(str.length));
+    for (let i = 0; i < str.length; i++) arr[i] = str.charCodeAt(i);
+    const text = decoder.decode(arr);
+    return text;
   }
 }
