@@ -1,4 +1,5 @@
 ### There are many types of liabilities
+
 - Credit
 
 - Mortgage

@@ -1,2 +1,2 @@
-import LoginComponent from "./LoginComponent";
+import LoginComponent from './LoginComponent';
 export { LoginComponent };

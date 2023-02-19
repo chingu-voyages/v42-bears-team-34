@@ -1,2 +1,2 @@
-import AlertModal from "./AlertModal";
+import AlertModal from './AlertModal';
 export { AlertModal };

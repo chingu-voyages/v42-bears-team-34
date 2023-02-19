@@ -1,19 +1,19 @@
-import { BaseClient } from "./base-client";
+import { BaseClient } from './base-client';
 /* 
   Handles log in, log out, account registration
 */
 export class AuthClient extends BaseClient {
-  constructor (headers) {
+  constructor(headers) {
     super(headers);
   }
 
   /**
    * Creates a user account
-   * @param {{ firstName: string, lastName: string, email: string, password: string, dateOfBirth: ISODateString, applicantGender: string, streetAddress: string, 
+   * @param {{ firstName: string, lastName: string, email: string, password: string, dateOfBirth: ISODateString, applicantGender: string, streetAddress: string,
    * city: string, unitNumber: string, additionalAddress: string, postalCode: string, province: string }}
    * @returns {Promise<void>}
    */
-  async createUserAccount ({
+  async createUserAccount({
     firstName,
     lastName,
     email,
@@ -25,9 +25,22 @@ export class AuthClient extends BaseClient {
     unitNumber,
     additionalAddress,
     postalCode,
-    province
+    province,
   }) {
-    return super.postData("/auth/signup", { firstName, lastName, email, password, dateOfBirth, applicantGender, streetAddress, city, unitNumber, additionalAddress, postalCode, province })
+    return super.postData('/auth/signup', {
+      firstName,
+      lastName,
+      email,
+      password,
+      dateOfBirth,
+      applicantGender,
+      streetAddress,
+      city,
+      unitNumber,
+      additionalAddress,
+      postalCode,
+      province,
+    });
   }
 
   /**
@@ -36,12 +49,8 @@ export class AuthClient extends BaseClient {
    * @param {{ email: string, password: string, isAdmin: null | boolean }}
    * @returns {Promise<{ tok: string }>} JWT Token as a string
    */
-  async login({
-    email,
-    password,
-    isAdmin
-  }) {
-    return super.postData("/auth/login", { email, password, isAdmin })
+  async login({ email, password, isAdmin }) {
+    return super.postData('/auth/login', { email, password, isAdmin });
   }
 
   /**
@@ -49,6 +58,6 @@ export class AuthClient extends BaseClient {
    * @returns {Promise<{ tok: string }>}
    */
   async refreshToken() {
-    return super.postData("/auth/refresh")
+    return super.postData('/auth/refresh');
   }
 }

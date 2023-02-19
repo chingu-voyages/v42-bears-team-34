@@ -1,14 +1,26 @@
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
+import React from 'react';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CreditLiabilityCard from "./credit/CreditLiabilityCard";
-import MortgageLiabilityCard from "./mortgage/MortgageLiabilityCard";
-import StudentLiabilityCard from "./student/StudentLiabilityCard";
+import CreditLiabilityCard from './credit/CreditLiabilityCard';
+import MortgageLiabilityCard from './mortgage/MortgageLiabilityCard';
+import StudentLiabilityCard from './student/StudentLiabilityCard';
 /**
- * @param {{ summaryTitle: string, summarySubText: string, summaryTitleStyles: any  }} props 
- * @returns 
+ * @param {{ summaryTitle: string, summarySubText: string, summaryTitleStyles: any  }} props
+ * @returns
  */
-function LiabilityAssetAccordion (props) {
-  const { summaryTitle, summarySubText, summaryTitleStyles, assetType, liabilityArrayData } = props;
+function LiabilityAssetAccordion(props) {
+  const {
+    summaryTitle,
+    summarySubText,
+    summaryTitleStyles,
+    assetType,
+    liabilityArrayData,
+  } = props;
   return (
     <div>
       <Accordion>
@@ -17,36 +29,30 @@ function LiabilityAssetAccordion (props) {
           aria-controls={`${summarySubText}-content`}
           id={`${summarySubText}-header`}
         >
-          <Typography sx={summaryTitleStyles}>
-            {summaryTitle}
+          <Typography sx={summaryTitleStyles}>{summaryTitle}</Typography>
+          <Typography sx={{ color: 'text.secondary' }}>
+            {summarySubText}
           </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>{summarySubText}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          { renderAssetType(assetType, liabilityArrayData) }
+          {renderAssetType(assetType, liabilityArrayData)}
         </AccordionDetails>
       </Accordion>
     </div>
-  )
+  );
 }
 
 const renderAssetType = (assetType, arrayData) => {
   switch (assetType) {
-    case "credit":
-      return arrayData?.map((d) => (
-        <CreditLiabilityCard {...{...d}}/>
-      ));
-    case "mortgage":
-      return arrayData?.map((d) => (
-        <MortgageLiabilityCard {...{...d}} />
-      ))
-    case "student":
-      return arrayData?.map((d) => (
-        <StudentLiabilityCard {...{...d}} />
-      ))
+    case 'credit':
+      return arrayData?.map((d) => <CreditLiabilityCard {...{ ...d }} />);
+    case 'mortgage':
+      return arrayData?.map((d) => <MortgageLiabilityCard {...{ ...d }} />);
+    case 'student':
+      return arrayData?.map((d) => <StudentLiabilityCard {...{ ...d }} />);
     default:
-      return null
+      return null;
   }
-}
+};
 
 export default LiabilityAssetAccordion;

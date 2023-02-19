@@ -2,11 +2,11 @@
   /* These are pallet colors as per figma
     we should extract these into an object so they can be referenced in code
   */
-  --pale-gold-yellow: #FBFFCA;
+  --pale-gold-yellow: #fbffca;
   --pine-green: #248e38;
   --ocean-blue: #abdca7;
   --charcoal: #323232;
-  --mountain-dew-lime: #AFD91A;
+  --mountain-dew-lime: #afd91a;
 }
 
 /* 

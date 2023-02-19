@@ -1,12 +1,21 @@
-import { useState } from "react";
-import { TextField } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { TextField } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-function CustomDatePicker (props) {
-  const { minDate, maxDate, disableFuture, onDateChange, readOnly, name, value, label, ...rest } = props; 
+import { useEffect } from 'react';
+
+function CustomDatePicker(props) {
+  const {
+    minDate,
+    maxDate,
+    onDateChange,
+    readOnly,
+    name,
+    value,
+    label,
+    ...rest
+  } = props;
   const [dateValue, setDateValue] = useState(value);
 
   const handleKeyboardInput = (e) => {
@@ -14,11 +23,11 @@ function CustomDatePicker (props) {
     if (readOnly) {
       e.preventDefault();
     }
-  }
+  };
 
   useEffect(() => {
-    setDateValue(value)
-  }, [value])
+    setDateValue(value);
+  }, [value]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -27,7 +36,7 @@ function CustomDatePicker (props) {
         label={label}
         maxDate={maxDate}
         minDate={minDate}
-        openTo={"year"}
+        openTo={'year'}
         disableFuture
         disableHighlightToday
         autoFocus
@@ -42,12 +51,12 @@ function CustomDatePicker (props) {
         )}
         value={dateValue}
         onChange={(newValue) => {
-          setDateValue(newValue)
-          onDateChange && onDateChange(newValue)
+          setDateValue(newValue);
+          onDateChange && onDateChange(newValue);
         }}
       />
     </LocalizationProvider>
-  )
+  );
 }
 
 export default CustomDatePicker;
