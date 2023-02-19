@@ -1,43 +1,34 @@
 .logo {
-    height: 10vh;
-    /* margin-right: auto; */
-    /* margin-left: -2.5rem; */
+  height: 10vh;
+  /* margin-right: auto; */
+  /* margin-left: -2.5rem; */
 }
 
 .links {
-    text-decoration: none;
-    color: #323232;
+  text-decoration: none;
+  color: #323232;
 }
 
-
 @media screen and (max-width: 1024px) {
+  body {
+    background-size: 100vh 150vh;
+  }
 
-    body {
-        background-size: 100vh 150vh;
-    }
-
-    .logo {
-        height: 25%;
-        width: 65%;
-        margin-left: -2rem;
-    }
-
-
-
+  .logo {
+    height: 25%;
+    width: 65%;
+    margin-left: -2rem;
+  }
 }
 
 @media screen and (max-width: 600px) {
-    body {
-        font-size: x-small;
-        background-size: 100vh 150vh;
+  body {
+    font-size: x-small;
+    background-size: 100vh 150vh;
+  }
 
-    }
-
-    .logo {
-        height: 50%;
-        width: 65%;
-    }
-
-
-
+  .logo {
+    height: 50%;
+    width: 65%;
+  }
 }

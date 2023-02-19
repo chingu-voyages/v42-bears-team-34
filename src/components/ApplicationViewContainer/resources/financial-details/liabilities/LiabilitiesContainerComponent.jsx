@@ -10,22 +10,22 @@ import { Box } from '@mui/material';
  * @returns
  */
 function LiabilitiesContainerComponent(props) {
-	const { liabilities, title } = props;
-	return (
-		<Box mt={3}>
-			{title && <Typography>{title}</Typography>}
-			{liabilities &&
-				Object.keys(liabilities).map((asset) => (
-					<LiabilityAssetAccordion
-						key={asset}
-						summaryTitleStyles={{ fontWeight: 'bold' }}
-						summaryTitle={STRING_HELPERS.capitalizeFirstLetter(asset)}
-						liabilityArrayData={liabilities[asset]}
-						assetType={asset}
-					/>
-				))}
-		</Box>
-	);
+  const { liabilities, title } = props;
+  return (
+    <Box mt={3}>
+      {title && <Typography>{title}</Typography>}
+      {liabilities &&
+        Object.keys(liabilities).map((asset) => (
+          <LiabilityAssetAccordion
+            key={asset}
+            summaryTitleStyles={{ fontWeight: 'bold' }}
+            summaryTitle={STRING_HELPERS.capitalizeFirstLetter(asset)}
+            liabilityArrayData={liabilities[asset]}
+            assetType={asset}
+          />
+        ))}
+    </Box>
+  );
 }
 
 export default LiabilitiesContainerComponent;

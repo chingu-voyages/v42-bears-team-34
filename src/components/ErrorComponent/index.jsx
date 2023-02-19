@@ -1,2 +1,2 @@
-import ErrorComponent from "./ErrorComponent";
+import ErrorComponent from './ErrorComponent';
 export { ErrorComponent };

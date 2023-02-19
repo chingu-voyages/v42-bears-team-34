@@ -32,62 +32,62 @@ import { ConversionType } from '../../../../application-field-conversion-type';
  * @returns
  */
 function StudentLiabilityCard(props) {
-	const {
-		account_id,
-		account_number,
-		disbursement_dates,
-		expected_payoff_date,
-		guarantor,
-		interest_rate_percentage,
-		is_overdue,
-		last_payment_amount,
-		last_payment_date,
-		last_statement_balance,
-		last_statement_issue_date,
-		loan_name,
-		loan_status,
-		origination_principal_amount,
-		outstanding_interest_amount,
-		pslf_status,
-		repayment_plan,
-		ytd_interest_paid,
-		ytd_principal_paid,
-	} = props;
-	const extractedData = {
-		account_id,
-		account_number,
-		disbursement_dates: JSON.stringify(disbursement_dates),
-		expected_payoff_date,
-		guarantor,
-		interest_rate_percentage,
-		is_overdue,
-		last_payment_amount: STRING_HELPERS.toCurrency(last_payment_amount),
-		last_payment_date,
-		last_statement_balance: STRING_HELPERS.toCurrency(last_statement_balance),
-		last_statement_issue_date,
-		loan_name,
-		loan_status: { type: ConversionType.fromObject, data: loan_status },
-		origination_principal_amount: STRING_HELPERS.toCurrency(
-			origination_principal_amount
-		),
-		outstanding_interest_amount: STRING_HELPERS.toCurrency(
-			outstanding_interest_amount
-		),
-		pslf_status: { type: ConversionType.fromObject, data: pslf_status },
-		repayment_plan: { type: ConversionType.fromObject, data: repayment_plan },
-		ytd_interest_paid: STRING_HELPERS.toCurrency(ytd_interest_paid),
-		ytd_principal_paid: STRING_HELPERS.toCurrency(ytd_principal_paid),
-	};
-	return (
-		<Box>
-			<StyledFinancialItemCard elevation={1}>
-				{extractedData &&
-					Object.entries(extractedData).map(([key, value]) => (
-						<AttributeComponent key={key} propName={key} propValue={value} />
-					))}
-			</StyledFinancialItemCard>
-		</Box>
-	);
+  const {
+    account_id,
+    account_number,
+    disbursement_dates,
+    expected_payoff_date,
+    guarantor,
+    interest_rate_percentage,
+    is_overdue,
+    last_payment_amount,
+    last_payment_date,
+    last_statement_balance,
+    last_statement_issue_date,
+    loan_name,
+    loan_status,
+    origination_principal_amount,
+    outstanding_interest_amount,
+    pslf_status,
+    repayment_plan,
+    ytd_interest_paid,
+    ytd_principal_paid,
+  } = props;
+  const extractedData = {
+    account_id,
+    account_number,
+    disbursement_dates: JSON.stringify(disbursement_dates),
+    expected_payoff_date,
+    guarantor,
+    interest_rate_percentage,
+    is_overdue,
+    last_payment_amount: STRING_HELPERS.toCurrency(last_payment_amount),
+    last_payment_date,
+    last_statement_balance: STRING_HELPERS.toCurrency(last_statement_balance),
+    last_statement_issue_date,
+    loan_name,
+    loan_status: { type: ConversionType.fromObject, data: loan_status },
+    origination_principal_amount: STRING_HELPERS.toCurrency(
+      origination_principal_amount
+    ),
+    outstanding_interest_amount: STRING_HELPERS.toCurrency(
+      outstanding_interest_amount
+    ),
+    pslf_status: { type: ConversionType.fromObject, data: pslf_status },
+    repayment_plan: { type: ConversionType.fromObject, data: repayment_plan },
+    ytd_interest_paid: STRING_HELPERS.toCurrency(ytd_interest_paid),
+    ytd_principal_paid: STRING_HELPERS.toCurrency(ytd_principal_paid),
+  };
+  return (
+    <Box>
+      <StyledFinancialItemCard elevation={1}>
+        {extractedData &&
+          Object.entries(extractedData).map(([key, value]) => (
+            <AttributeComponent key={key} propName={key} propValue={value} />
+          ))}
+      </StyledFinancialItemCard>
+    </Box>
+  );
 }
 
 export default StudentLiabilityCard;

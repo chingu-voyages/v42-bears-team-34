@@ -2,9 +2,9 @@ import React from 'react';
 import { Alert, styled } from '@mui/material';
 
 const StyledAlertComponent = styled(Alert)(() => ({
-	'&.MuiPaper-root': {
-		border: 'none',
-	},
+  '&.MuiPaper-root': {
+    border: 'none',
+  },
 }));
 
 /**
@@ -13,13 +13,13 @@ const StyledAlertComponent = styled(Alert)(() => ({
  * @returns
  */
 function ErrorComponent(props) {
-	return (
-		<div>
-			<StyledAlertComponent severity="error" variant="outlined">
-				{props.title || 'Unknown error'}
-			</StyledAlertComponent>
-		</div>
-	);
+  return (
+    <div>
+      <StyledAlertComponent severity="error" variant="outlined">
+        {props.title || 'Unknown error'}
+      </StyledAlertComponent>
+    </div>
+  );
 }
 
 export default ErrorComponent;

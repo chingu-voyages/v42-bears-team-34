@@ -1,2 +1,2 @@
-import FinancialDetailsContainerComponent from "./FinancialDetailsContainerComponent";
+import FinancialDetailsContainerComponent from './FinancialDetailsContainerComponent';
 export { FinancialDetailsContainerComponent };

@@ -2,38 +2,41 @@
  * getting and writing the JWT token ("auth-token") to sessionStorage
  */
 
-const KEY = "auth-token"
+const KEY = 'auth-token';
 export class TokenManager {
   /**
    * @returns {string | null }
    */
-  static getToken () {
-    return sessionStorage.getItem(KEY)
+  static getToken() {
+    return sessionStorage.getItem(KEY);
   }
 
   /**
    * Simply writes `auth-token` data to sessionStorage
-   * @param { string } data 
+   * @param { string } data
    * @returns { null }
    */
-  static writeToken (data) {
-    if (data === undefined || data === null) console.warn("TokenManager: Writing null or undefined data to auth-token")
+  static writeToken(data) {
+    if (data === undefined || data === null)
+      console.warn(
+        'TokenManager: Writing null or undefined data to auth-token'
+      );
     sessionStorage.setItem(KEY, data);
   }
 
-  static clearToken () {
-    sessionStorage.clear(KEY, "")
+  static clearToken() {
+    sessionStorage.clear(KEY, '');
   }
 
   /**
    * Parses and decodes the payload so we get an auth object
    * We can use this to extract the exp on the token
-   * @param {string} token 
+   * @param {string} token
    * @returns {{ id: string, email: string, firstName: string, lastName: string, exp: number, iat: number, role: "user" | "admin"}}
    */
-  static parseToken (token) {
+  static parseToken(token) {
     // Split token by "." get the second element (the payload)
-    const payLoad = token.split(".")[1];
+    const payLoad = token.split('.')[1];
     return JSON.parse(window.atob(payLoad));
   }
 }

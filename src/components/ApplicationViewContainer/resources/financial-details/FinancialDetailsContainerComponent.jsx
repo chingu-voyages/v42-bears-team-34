@@ -18,35 +18,35 @@ import { PALLET } from '../../../../stylings/pallet';
  * @returns
  */
 function FinancialDetailsContainerComponent(props) {
-	const { isLoading, data, errorInfo } = props;
+  const { isLoading, data, errorInfo } = props;
 
-	if (!data) {
-		return (
-			<StyledGridContainer>
-				<NoInformationFound title={errorInfo?.message || ''} />
-			</StyledGridContainer>
-		);
-	}
-	const { accounts = [], liabilities = {} } = data;
-	return (
-		<StyledGridContainer
-			title={'Financial Details'}
-			icon={
-				<FinancialDetailsSharpIcon
-					fontSize="large"
-					sx={{ color: PALLET.pineGreen }}
-				/>
-			}
-		>
-			{isLoading && <Spinner />}
-			{/* <AccountsContainerCard accounts={accounts} title="Accounts" /> */}
-			<AccountsContainerComponent accounts={accounts} title={'Accounts'} />
-			<LiabilitiesContainerComponent
-				liabilities={liabilities}
-				title="Liabilities"
-			/>
-		</StyledGridContainer>
-	);
+  if (!data) {
+    return (
+      <StyledGridContainer>
+        <NoInformationFound title={errorInfo?.message || ''} />
+      </StyledGridContainer>
+    );
+  }
+  const { accounts = [], liabilities = {} } = data;
+  return (
+    <StyledGridContainer
+      title={'Financial Details'}
+      icon={
+        <FinancialDetailsSharpIcon
+          fontSize="large"
+          sx={{ color: PALLET.pineGreen }}
+        />
+      }
+    >
+      {isLoading && <Spinner />}
+      {/* <AccountsContainerCard accounts={accounts} title="Accounts" /> */}
+      <AccountsContainerComponent accounts={accounts} title={'Accounts'} />
+      <LiabilitiesContainerComponent
+        liabilities={liabilities}
+        title="Liabilities"
+      />
+    </StyledGridContainer>
+  );
 }
 
 export default FinancialDetailsContainerComponent;

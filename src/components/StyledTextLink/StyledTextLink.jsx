@@ -3,11 +3,11 @@ import { styled, Typography } from '@mui/material';
 import { PALLET } from '../../stylings/pallet';
 
 const CustomTypography = styled(Typography)(() => ({
-	'&:hover': {
-		cursor: 'pointer',
-		color: PALLET.pineGreen,
-	},
-	color: 'blue',
+  '&:hover': {
+    cursor: 'pointer',
+    color: PALLET.pineGreen,
+  },
+  color: 'blue',
 }));
 
 /**
@@ -16,12 +16,12 @@ const CustomTypography = styled(Typography)(() => ({
  * @returns
  */
 function StyledTextLink(props) {
-	const { text, url, navigate } = props;
-	return (
-		<CustomTypography onClick={() => navigate(url, { replace: true })}>
-			{text}
-		</CustomTypography>
-	);
+  const { text, url, navigate } = props;
+  return (
+    <CustomTypography onClick={() => navigate(url, { replace: true })}>
+      {text}
+    </CustomTypography>
+  );
 }
 
 export default StyledTextLink;

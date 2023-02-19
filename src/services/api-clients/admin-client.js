@@ -1,4 +1,4 @@
-import { BaseUserActionClient } from "./base-user-action-client";
+import { BaseUserActionClient } from './base-user-action-client';
 
 /**
  * This class should handle communication to our backend
@@ -6,20 +6,18 @@ import { BaseUserActionClient } from "./base-user-action-client";
  */
 export class AdminClient extends BaseUserActionClient {
   constructor({ authToken }) {
-    super(
-      {
-        "Authorization": `Bearer ${authToken}`,
-      }
-    )
-  }
-  
-  async adminGetAllApplications() {
-    return super.getData("/admin/application/all");
+    super({
+      Authorization: `Bearer ${authToken}`,
+    });
   }
 
-   /**
-   * @param {string} id 
-   * @returns {Promise<{ 
+  async adminGetAllApplications() {
+    return super.getData('/admin/application/all');
+  }
+
+  /**
+   * @param {string} id
+   * @returns {Promise<{
    * id: string,
    * applicantGender: string,
    * email: string,
@@ -30,35 +28,35 @@ export class AdminClient extends BaseUserActionClient {
    */
   async adminGetUserById(id) {
     try {
-      return super.getData(`/auth/user/${id}`)
+      return super.getData(`/auth/user/${id}`);
     } catch (error) {
-      return null
+      return null;
     }
   }
 
   /**
-   * 
-   * @param {string} id applicationId 
-   * @returns {Promise<{ 
+   *
+   * @param {string} id applicationId
+   * @returns {Promise<{
    * requestedLoanAmount: number,
-    *  numberOfInstallments: number,
-    *  installmentAmount: number,
-    *  loanPurpose: string
-    *  status: string
-    *  requestedAt: string
-    *  requestedBy: string
-    * rejectedReason: string
+   *  numberOfInstallments: number,
+   *  installmentAmount: number,
+   *  loanPurpose: string
+   *  status: string
+   *  requestedAt: string
+   *  requestedBy: string
+   * rejectedReason: string
    * }>} an application document
    */
   async adminGetApplicationById(id) {
-    return super.getData(`/application/view/${id}`)
+    return super.getData(`/application/view/${id}`);
   }
 
   /**
    * Gets financial liabilities from Plaid via our API
    * @param {string} id userID
    */
-  async getFinancialLiabilitiesByUserID (id) {
+  async getFinancialLiabilitiesByUserID(id) {
     return super.getData(`/plaid/financial_details/${id}?category=liabilities`);
   }
 
@@ -82,13 +80,12 @@ export class AdminClient extends BaseUserActionClient {
   }
 
   /**
-   * 
+   *
    * @param {string} id The applicationId
-   * @param {{ action: string, message: string }} data 
-   * @returns 
+   * @param {{ action: string, message: string }} data
+   * @returns
    */
   async patchApplicationStatus(id, data) {
-    return super.patchData(`/admin/application/update/${id}`, data)
+    return super.patchData(`/admin/application/update/${id}`, data);
   }
 }
-  
