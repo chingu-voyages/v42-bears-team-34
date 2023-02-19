@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import { SIGNUP_FIELDS } from './sign-up-fields';
 import { ErrorComponent } from '../../components/ErrorComponent';
 import { NumericFormat } from 'react-number-format';
@@ -39,6 +39,59 @@ export default function StepThree(props) {
       [e.target.name]: e.target.value,
     }));
   };
+
+  /*
+    your next line is: "shouldn't we separate business logic from presentation layer?"
+    the answer is yes!
+    the available plans should be fetched from the backend
+    today I may be able loan 1000, tomorrow it could be 10000, interest rates change, etc.
+  */
+  function calculatePaymentSize(presentValue, numberOfPayments){
+    if(isNaN(presentValue) || presentValue <= 0 ||
+       isNaN(numberOfPayments) || numberOfPayments <= 0
+    ){
+      return 0
+    }
+    // 10% per year
+    const annualInterest = 0.1
+    // in some places you'll see annualInterest/12, annualInterest ^ (1/12) is also acceptable
+    const interest = (1 + annualInterest)**(1/12) - 1
+
+    let paymentSize =
+      presentValue * ((1+interest)**(numberOfPayments) * interest) /
+                      ((1+interest)**(numberOfPayments) -1)
+    // round it off
+    return paymentSize.toFixed(2)
+  }
+
+  // changing the amount after setting the number of  installments
+  const handleAmountChange = (e) =>{
+    let newAmount = parseInt(e.target.value)
+    let newInstallment = calculatePaymentSize(
+      newAmount,
+      values[SIGNUP_FIELDS.numberOfInstallments]
+    )
+    setValues({
+      ...values,
+      [SIGNUP_FIELDS.requestedLoanAmount] : newAmount,
+      [SIGNUP_FIELDS.installmentAmount]   : newInstallment
+    })
+  }
+
+  // changing the number of installments after setting the amount
+  const handleInstallmentChange = (e) =>{
+    let newInstallments = parseInt(e.target.value)
+    let newInstallment = calculatePaymentSize(
+      values[SIGNUP_FIELDS.requestedLoanAmount],
+      newInstallments
+    )
+    setValues({
+      ...values,
+      [SIGNUP_FIELDS.numberOfInstallments] : newInstallments,
+      [SIGNUP_FIELDS.installmentAmount]    : newInstallment
+    })
+  }
+
   useEffect(() => {
     props.onStepDataChange && props.onStepDataChange(values);
   }, [values]);
@@ -127,10 +180,10 @@ export default function StepThree(props) {
           labelId="requestedLoanAmountEle"
           name={SIGNUP_FIELDS.requestedLoanAmount}
           label="Requested loan amount"
-          onChange={handleChange}
-          value={values[SIGNUP_FIELDS.requestedLoanAmount] || ''}
+          onChange={handleAmountChange}
+          value={values[SIGNUP_FIELDS.requestedLoanAmount]}
         >
-          <MenuItem value={null}></MenuItem>
+          <MenuItem value={null}>Choose an amount</MenuItem>
           <MenuItem value={300}>$ 300</MenuItem>
           <MenuItem value={400}>$ 400</MenuItem>
           <MenuItem value={500}>$ 500</MenuItem>
@@ -146,55 +199,42 @@ export default function StepThree(props) {
           />
         )}
       </FormControl>
+
       <FormControl sx={{ width: 400, marginBottom: 2 }}>
         <InputLabel id="numberOfInstallmentsEle" shrink={true}>
-          Number of installments
+          Payment plan
         </InputLabel>
+    
         {/* number of installments */}
         <Select
+          disabled={
+            !values[SIGNUP_FIELDS.requestedLoanAmount]
+          }
           labelId="numberOfInstallmentsEle"
           name={SIGNUP_FIELDS.numberOfInstallments}
           label="Number of installments"
-          onChange={handleChange}
+          onChange={handleInstallmentChange}
           value={values[SIGNUP_FIELDS.numberOfInstallments] || ''}
+          sx={{ width: 400}}
         >
-          <MenuItem value={null}></MenuItem>
+          {/*<MenuItem value={null}></MenuItem>*/}
           {[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((installmentValue) => (
             <MenuItem
               value={installmentValue}
               key={`${SIGNUP_FIELDS.numberOfInstallments}_${installmentValue}`}
             >
-              {installmentValue.toString()}
+              {installmentValue} x {calculatePaymentSize(parseFloat(values[SIGNUP_FIELDS.requestedLoanAmount]),installmentValue)}
             </MenuItem>
           ))}
         </Select>
+
         {props.errors && props.errors[SIGNUP_FIELDS.numberOfInstallments] && (
           <ErrorComponent
             title={props.errors[SIGNUP_FIELDS.numberOfInstallments]}
           />
         )}
       </FormControl>
-      <FormControl sx={{ width: 400, marginBottom: 3 }}>
-        <TextField
-          labelId="installmentAmountEle"
-          label={'Installment amount $'}
-          sx={{ width: 200 }}
-          name={SIGNUP_FIELDS.installmentAmount}
-          margin="normal"
-          variant="outlined"
-          color="secondary"
-          onChange={handleChange}
-          value={values[SIGNUP_FIELDS.installmentAmount] || ''}
-          InputProps={{
-            inputComponent: NumberFormatCustom,
-          }}
-        />
-        {props.errors && props.errors[SIGNUP_FIELDS.installmentAmount] && (
-          <ErrorComponent
-            title={props.errors[SIGNUP_FIELDS.installmentAmount]}
-          />
-        )}
-      </FormControl>
+    
       <FormControl sx={{ width: 400, marginBottom: 3 }}>
         <InputLabel id="loanPurposeEle" shrink={true}>
           Purpose for Loan
