@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { InputLabel, TextField, Box } from '@mui/material';
+import { Box } from '@mui/material';
+import { StandardTextField } from './components/StandardTextField';
 import { SIGNUP_FIELDS } from './sign-up-fields';
 import { ErrorComponent } from '../../components/ErrorComponent';
 import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
@@ -37,23 +38,15 @@ export default function StepTwo(props) {
   }, []);
 
   return (
-    <div>
-      <Box mb={3} mt={3}>
-        <TextField
-          sx={{ width: 400 }}
-          type="email"
-          name={SIGNUP_FIELDS.email}
-          label="Email"
-          margin="normal"
-          variant="outlined"
-          color="secondary"
-          value={inputs[SIGNUP_FIELDS.email] || ''}
-          onChange={handleChange}
-        />
-        {props.errors && props.errors[SIGNUP_FIELDS.email] && (
-          <ErrorComponent title={props.errors[SIGNUP_FIELDS.email]} />
-        )}
-      </Box>
+    <Box mt={3}>
+      <StandardTextField
+        maxLength={80}
+        fieldName={SIGNUP_FIELDS.email}
+        fieldLabel={'E-mail'}
+        fieldValue={inputs[SIGNUP_FIELDS.email]}
+        onFieldValueChanged={handleChange}
+        errors={props.errors}
+      />
       <Box mb={3}>
         <CustomDatePicker
           labelId="date-of-birth-label"
@@ -68,38 +61,24 @@ export default function StepTwo(props) {
           <ErrorComponent title={props.errors[SIGNUP_FIELDS.dateOfBirth]} />
         )}
       </Box>
-      <Box mb={3}>
-        <TextField
-          sx={{ width: 400 }}
-          type="password"
-          name={SIGNUP_FIELDS.password1}
-          label="Create a password"
-          margin="normal"
-          variant="outlined"
-          color="secondary"
-          value={inputs[SIGNUP_FIELDS.password1] || ''}
-          onChange={handleChange}
-        />
-        {props.errors && props.errors[SIGNUP_FIELDS.password1] && (
-          <ErrorComponent title={props.errors[SIGNUP_FIELDS.password1]} />
-        )}
-      </Box>
-      <Box mb={3}>
-        <TextField
-          sx={{ width: 400 }}
-          type="password"
-          name={SIGNUP_FIELDS.password2}
-          label="Confirm password"
-          margin="normal"
-          variant="outlined"
-          color="secondary"
-          value={inputs[SIGNUP_FIELDS.password2] || ''}
-          onChange={handleChange}
-        />
-        {props.errors && props.errors[SIGNUP_FIELDS.password2] && (
-          <ErrorComponent title={props.errors[SIGNUP_FIELDS.password2]} />
-        )}
-      </Box>
-    </div>
+      <StandardTextField
+        maxLength={64}
+        fieldType={'password'}
+        fieldName={SIGNUP_FIELDS.password1}
+        fieldLabel={'Create a password'}
+        fieldValue={inputs[SIGNUP_FIELDS.password1]}
+        onFieldValueChanged={handleChange}
+        errors={props.errors}
+      />
+      <StandardTextField
+        maxLength={64}
+        fieldType={'password'}
+        fieldName={SIGNUP_FIELDS.password2}
+        fieldLabel={'Confirm password'}
+        fieldValue={inputs[SIGNUP_FIELDS.password2]}
+        onFieldValueChanged={handleChange}
+        errors={props.errors}
+      />
+    </Box>
   );
 }
