@@ -5,4 +5,14 @@ export const THEME = createTheme({
     fontFamily: ['Gilda Display'],
     fontSize: 12,
   },
+  components: {
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: "1rem",
+          fontWeight: "bold"
+        }
+      }
+    },
+  }
 });
