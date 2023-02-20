@@ -9,10 +9,10 @@ export const THEME = createTheme({
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          fontSize: "1rem",
-          fontWeight: "bold"
-        }
-      }
+          fontSize: '1rem',
+          fontWeight: 'bold',
+        },
+      },
     },
-  }
+  },
 });
