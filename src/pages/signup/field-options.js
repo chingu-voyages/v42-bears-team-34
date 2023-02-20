@@ -32,7 +32,7 @@ export const REQUESTED_LOAN_AMOUNTS = [
   { value: 600, label: '$ 600' },
   { value: 700, label: '$ 700' },
   { value: 800, label: '$ 800' },
-  { value: 900, label: ' $900' },
+  { value: 900, label: '$ 900' },
   { value: 1000, label: '$ 1000' },
 ];
 
