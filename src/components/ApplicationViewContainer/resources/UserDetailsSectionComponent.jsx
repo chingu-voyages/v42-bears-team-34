@@ -103,7 +103,7 @@ export const UserDetailsSectionComponent = (props) => {
       <Grid item>
         <StyledGridItem
           headerText={FIELD_DICT[SIGNUP_FIELDS.province]}
-          subText={province.toUpperCase()}
+          subText={province?.toUpperCase()}
         />
       </Grid>
       <Grid item>
