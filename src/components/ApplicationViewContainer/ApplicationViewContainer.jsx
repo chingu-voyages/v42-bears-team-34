@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Box, styled } from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
 import AppContext from '../../context/AppContext';
 import { AdminClient } from '../../services/api-clients/admin-client';
 import { UserClient } from '../../services/api-clients/user-client';
@@ -13,7 +13,8 @@ import { FinancialDetailsContainerComponent } from './resources/financial-detail
 import { PALLET } from '../../stylings/pallet';
 import { RejectReasonDialog } from './resources/admin/rejected-reason-dialog/RejectReasonDialog';
 import { AdminOptionsDialog } from './resources/admin/admin-options-dialog/AdminOptionsDialog';
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import UpdateIcon from '@mui/icons-material/Update';
 const StyledMainBlock = styled(Box)((props) => ({
   borderRadius: '2px',
   opacity: 0.9,
@@ -22,6 +23,12 @@ const StyledMainBlock = styled(Box)((props) => ({
     marginRight: '20%',
   },
 }));
+
+const StyledMenuItem = styled(Box)(() => ({
+  "&:hover": {
+    cursor: "pointer"
+  }
+}))
 /**
  * Specific application view that shows a specific user's details accompanied by the specific application by applicationId
  * @returns
@@ -195,20 +202,34 @@ export function ApplicationViewContainer() {
 
   return (
     <StyledMainBlock mt={3} bgcolor={PALLET.applicationDetails.backgroundColor}>
-      <Box>
+      <Box display="flex" justifyContent={"space-between"} p={1}>
         {/* Navigation controls. Allow user to navigate back to the appropriate landing page */}
-        <Link
-          style={{
-            textDecoration: 'none',
-            fontSize: '1.2rem',
-            fontFamily: 'inherit',
-            padding: '5px',
-          }}
-          to={backNavigationTargetUrl}
-        >
-          {' '}
-          Go Back
-        </Link>
+        <Box display="flex">
+          <Box component={"div"} alignSelf={"center"}>
+            <ArrowBackIcon />
+          </Box>
+          <Link
+            style={{
+              textDecoration: 'none',
+              fontSize: '1.2rem',
+              fontFamily: 'inherit',
+              padding: '5px',
+            }}
+            to={backNavigationTargetUrl}
+          >
+            {' '}
+            Go Back
+          </Link>
+
+        </Box>
+        { user && user.role === "user" && (
+          <Box display="flex">
+            <UpdateIcon />
+            <StyledMenuItem>
+              <Typography fontSize={"1.2rem"}>Update my information</Typography>
+            </StyledMenuItem>
+          </Box>
+        )}
       </Box>
       <Box>
         <Box mt={3}>
