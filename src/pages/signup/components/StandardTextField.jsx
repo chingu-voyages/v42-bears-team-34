@@ -33,9 +33,9 @@ export function StandardTextField(props) {
         color="secondary"
         value={fieldValue || ''}
         onChange={onFieldValueChanged}
-        InputProps={{
+        inputProps={{
           maxLength: maxLength || 255,
-          textTransform: textTransform || null,
+          style : { textTransform: textTransform || null },
           inputComponent: inputComponent,
         }}
       />
