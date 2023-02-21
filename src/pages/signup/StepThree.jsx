@@ -13,9 +13,15 @@ import { STEP_STATE } from './steps-state';
 
 import { CurrencyNumberInput } from './components/CurrencyNumberInput';
 import { DropDownSelect } from './components/DropDownSelect';
+import { useGetInstallmentValues } from '../../hooks/UseGetInstallmentValues';
+import { ErrorComponent } from '../../components/ErrorComponent';
 
 export default function StepThree(props) {
   const [values, setValues] = useState(STEP_STATE[2]);
+  const [installmentValues, errorMessage] = useGetInstallmentValues(
+    values[SIGNUP_FIELDS.requestedLoanAmount]
+  );
+
   const handleChange = (e) => {
     setValues((prevState) => ({
       ...prevState,
@@ -30,6 +36,44 @@ export default function StepThree(props) {
   useEffect(() => {
     setValues(SignupDataStore.getData(Object.keys(values)));
   }, []);
+
+  const getNumberOfInstallmentsOptions = () => {
+    if (installmentValues) {
+      return Object.entries(installmentValues).map(([key, value]) => {
+        return { value: key, label: `${key.toString()} x $ ${value}` };
+      });
+    }
+    return { label: '', value: null };
+  };
+
+  const handleInstallmentAmountChanged = (e) => {
+    if (installmentValues) {
+      setValues((prevState) => ({
+        ...prevState,
+        [SIGNUP_FIELDS.numberOfInstallments]: e.target.value,
+        [SIGNUP_FIELDS.installmentAmount]:
+          installmentValues[e.target.value && e.target.value.toString()],
+      }));
+    }
+  };
+
+  const handleLoanAmountChanged = (e) => {
+    const newAmount = parseInt(e.target.value);
+    setValues({
+      ...values,
+      [SIGNUP_FIELDS.requestedLoanAmount]: newAmount,
+    });
+  };
+
+  useEffect(() => {
+    const newInstallment =
+      installmentValues[values[SIGNUP_FIELDS.numberOfInstallments]];
+    setValues((s) => ({
+      ...s,
+      [SIGNUP_FIELDS.installmentAmount]: newInstallment,
+    }));
+  }, [values[SIGNUP_FIELDS.requestedLoanAmount], installmentValues]);
+
   return (
     <Box className="StepThreeForm" mt={3}>
       <CurrencyNumberInput
@@ -64,7 +108,7 @@ export default function StepThree(props) {
         labelId="requestedLoanAmountEle"
         fieldName={SIGNUP_FIELDS.requestedLoanAmount}
         fieldLabel="Requested loan amount"
-        onFieldValueChanged={handleChange}
+        onFieldValueChanged={handleLoanAmountChanged}
         fieldValue={values[SIGNUP_FIELDS.requestedLoanAmount]}
         options={REQUESTED_LOAN_AMOUNTS}
         errors={props.errors}
@@ -73,19 +117,9 @@ export default function StepThree(props) {
         labelId="numberOfInstallmentsEle"
         fieldName={SIGNUP_FIELDS.numberOfInstallments}
         fieldLabel="Number of installments"
-        onFieldValueChanged={handleChange}
+        onFieldValueChanged={handleInstallmentAmountChanged}
         fieldValue={values[SIGNUP_FIELDS.numberOfInstallments]}
-        options={[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((val) => {
-          return { value: val, label: val.toString() };
-        })}
-        errors={props.errors}
-      />
-      <CurrencyNumberInput
-        fieldLabel="Installment amount $"
-        fieldLabelId="installmentAmountEle"
-        fieldName={SIGNUP_FIELDS.installmentAmount}
-        onFieldValueChanged={handleChange}
-        fieldValue={values[SIGNUP_FIELDS.installmentAmount]}
+        options={getNumberOfInstallmentsOptions()}
         errors={props.errors}
       />
       <DropDownSelect
@@ -97,6 +131,9 @@ export default function StepThree(props) {
         options={LOAN_PURPOSES}
         errors={props.errors}
       />
+      { errorMessage && (
+        <ErrorComponent title={errorMessage} />
+      )}
     </Box>
   );
 }

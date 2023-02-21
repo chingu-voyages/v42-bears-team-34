@@ -147,14 +147,6 @@ const VALIDATION_RULES = [
     rule: (field) => !field,
     validationMessage: 'Please specify the number of installments',
   },
-  {
-    name: "Installment amount $ can't be null or 0",
-    fieldName: SIGNUP_FIELDS.installmentAmount,
-    rule: (field) =>
-      field === null || field === undefined || field <= 0 || isNaN(field),
-    validationMessage:
-      'Please specify an installment amount greater than zero $',
-  },
 ];
 
 export class SignupValidator {
