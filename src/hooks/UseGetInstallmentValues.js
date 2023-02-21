@@ -3,7 +3,7 @@ import { PricingClient } from '../services/api-clients/pricing-client';
 
 export function useGetInstallmentValues(requestedLoanAmount) {
   const [installmentValues, setInstallmentValues] = useState({});
-
+  const [errorMessage, setErrorMessage] = useState(null);
   useEffect(() => {
     const getInstallmentValues = async () => {
       if (requestedLoanAmount && !isNaN(requestedLoanAmount)) {
@@ -14,6 +14,7 @@ export function useGetInstallmentValues(requestedLoanAmount) {
           );
           setInstallmentValues(data);
         } catch (error) {
+          setErrorMessage("Error fetching pricing information")
           console.log(error);
         }
       }
@@ -21,5 +22,5 @@ export function useGetInstallmentValues(requestedLoanAmount) {
     getInstallmentValues();
   }, [requestedLoanAmount]);
 
-  return [installmentValues];
+  return [installmentValues, errorMessage];
 }

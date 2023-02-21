@@ -14,12 +14,14 @@ import { STEP_STATE } from './steps-state';
 import { CurrencyNumberInput } from './components/CurrencyNumberInput';
 import { DropDownSelect } from './components/DropDownSelect';
 import { useGetInstallmentValues } from '../../hooks/UseGetInstallmentValues';
+import { ErrorComponent } from '../../components/ErrorComponent';
 
 export default function StepThree(props) {
   const [values, setValues] = useState(STEP_STATE[2]);
-  const [installmentValues] = useGetInstallmentValues(
+  const [installmentValues, errorMessage] = useGetInstallmentValues(
     values[SIGNUP_FIELDS.requestedLoanAmount]
   );
+
   const handleChange = (e) => {
     setValues((prevState) => ({
       ...prevState,
@@ -129,6 +131,9 @@ export default function StepThree(props) {
         options={LOAN_PURPOSES}
         errors={props.errors}
       />
+      { errorMessage && (
+        <ErrorComponent title={errorMessage} />
+      )}
     </Box>
   );
 }
