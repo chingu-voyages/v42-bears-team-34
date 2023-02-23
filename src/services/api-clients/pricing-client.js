@@ -2,10 +2,6 @@ import { BaseClient } from "./base-client";
 
 // This client just gets random pricing stuff to help us determine loan eligibility
 export class PricingClient extends BaseClient {
-  constructor() {
-    super()
-  }
-
   /**
    * 
    * @param {number} loanAmount 
