@@ -5,10 +5,9 @@ import { SIGNUP_FIELDS } from './sign-up-fields';
 import { ErrorComponent } from '../../components/ErrorComponent';
 import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
 import { CustomDatePicker } from '../../components/CustomDatePicker';
-import dayjs from 'dayjs';
 import { STEP_STATE } from './steps-state';
+import { MAX_ADULT_AGE } from '../../utils/definitions';
 
-const MAX_ADULT_AGE = new dayjs().subtract(18, 'year'); // Minimum adult age
 export default function StepTwo(props) {
   const [inputs, setInputs] = useState(STEP_STATE[1]);
 

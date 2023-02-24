@@ -10,7 +10,7 @@ const MuiStyledButton = styled(Button)(({ ...props }) => ({
 
 /**
  *
- * @param {{ label: string, onClick: () => void }} props
+ * @param {{ label: string, onClick: () => void, buttonColor: string, buttonTextColor: string }} props
  * @returns
  */
 function StyledButton(props) {

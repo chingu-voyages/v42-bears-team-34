@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Box, styled, Typography } from '@mui/material';
+import { Box, SpeedDial, SpeedDialAction, styled } from '@mui/material';
 import AppContext from '../../context/AppContext';
 import { AdminClient } from '../../services/api-clients/admin-client';
 import { UserClient } from '../../services/api-clients/user-client';
@@ -14,7 +14,12 @@ import { PALLET } from '../../stylings/pallet';
 import { RejectReasonDialog } from './resources/admin/rejected-reason-dialog/RejectReasonDialog';
 import { AdminOptionsDialog } from './resources/admin/admin-options-dialog/AdminOptionsDialog';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import UpdateIcon from '@mui/icons-material/Update';
+import { PortalApplicationUpdaterContainer } from '../PortalApplicationUpdaterContainer';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 const StyledMainBlock = styled(Box)((props) => ({
   borderRadius: '2px',
   opacity: 0.9,
@@ -24,11 +29,28 @@ const StyledMainBlock = styled(Box)((props) => ({
   },
 }));
 
-const StyledMenuItem = styled(Box)(() => ({
-  "&:hover": {
-    cursor: "pointer"
-  }
-}))
+const ApplicationUpdateActions = [
+  {
+    icon: <ManageAccountsIcon />,
+    name: 'Update personal details',
+    action: 'update_personal',
+  },
+  {
+    icon: <CreditCardIcon />,
+    name: 'Modify credit application',
+    action: 'update_credit',
+  },
+  {
+    icon: <CurrencyExchangeIcon />,
+    name: 'Connect banking info',
+    action: 'update_plaid',
+  },
+  {
+    icon: <AdminPanelSettingsIcon />,
+    name: 'Security settings',
+    action: 'update_security',
+  },
+];
 /**
  * Specific application view that shows a specific user's details accompanied by the specific application by applicationId
  * @returns
@@ -53,6 +75,8 @@ export function ApplicationViewContainer() {
 
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [adminOptionsDialogOpen, setAdminOptionsDialogOpen] = useState(false);
+  const [applicationUpdaterModalOpen, setApplicationUpdaterModalOpen] =
+    useState({ open: false, view: null });
   // When the page loads, do the fetching of the data
   useEffect(() => {
     const fetchApplicationById = async () => {
@@ -200,12 +224,32 @@ export function ApplicationViewContainer() {
     }
   };
 
+  const switchHandleModalOpen = (modalType) => {
+    switch (modalType) {
+      case 'update_personal':
+        setApplicationUpdaterModalOpen({ open: true, view: 'update_personal' });
+        break;
+      case 'update_credit':
+        setApplicationUpdaterModalOpen({ open: true, view: 'update_credit' });
+        break;
+      case 'update_plaid':
+    }
+  };
+
+  const handleUpdaterClose = async () => {
+    try {
+      await fetchApplicationAndUserDataUser(); // Should refresh the page
+      setApplicationUpdaterModalOpen(false);
+    } catch (error) {
+      console.log('There was an error refreshing this');
+    }
+  };
   return (
     <StyledMainBlock mt={3} bgcolor={PALLET.applicationDetails.backgroundColor}>
-      <Box display="flex" justifyContent={"space-between"} p={1}>
+      <Box display="flex" justifyContent={'space-between'} p={1}>
         {/* Navigation controls. Allow user to navigate back to the appropriate landing page */}
         <Box display="flex">
-          <Box component={"div"} alignSelf={"center"}>
+          <Box component={'div'} alignSelf={'center'}>
             <ArrowBackIcon />
           </Box>
           <Link
@@ -220,14 +264,24 @@ export function ApplicationViewContainer() {
             {' '}
             Go Back
           </Link>
-
         </Box>
-        { user && user.role === "user" && (
+        {user && user.role === 'user' && (
           <Box display="flex">
-            <UpdateIcon />
-            <StyledMenuItem>
-              <Typography fontSize={"1.2rem"}>Update my information</Typography>
-            </StyledMenuItem>
+            <SpeedDial
+              icon={<SettingsIcon />}
+              ariaLabel={'Application options menu'}
+              direction={'down'}
+              sx={{ position: 'absolute', right: 16 }}
+            >
+              {ApplicationUpdateActions.map((action) => (
+                <SpeedDialAction
+                  onClick={() => switchHandleModalOpen(action.action)}
+                  icon={action.icon}
+                  key={action.name}
+                  tooltipTitle={action.name}
+                />
+              ))}
+            </SpeedDial>
           </Box>
         )}
       </Box>
@@ -284,6 +338,13 @@ export function ApplicationViewContainer() {
         open={adminOptionsDialogOpen}
         onClose={() => setAdminOptionsDialogOpen(false)}
         onSubmit={handleAdminOptionsSubmit}
+      />
+      <PortalApplicationUpdaterContainer
+        applicationData={applicationData}
+        userData={userData}
+        view={applicationUpdaterModalOpen.view}
+        open={applicationUpdaterModalOpen.open}
+        onClose={handleUpdaterClose}
       />
     </StyledMainBlock>
   );

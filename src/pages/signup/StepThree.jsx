@@ -131,9 +131,7 @@ export default function StepThree(props) {
         options={LOAN_PURPOSES}
         errors={props.errors}
       />
-      { errorMessage && (
-        <ErrorComponent title={errorMessage} />
-      )}
+      {errorMessage && <ErrorComponent title={errorMessage} />}
     </Box>
   );
 }

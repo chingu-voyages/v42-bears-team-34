@@ -14,7 +14,7 @@ export function useGetInstallmentValues(requestedLoanAmount) {
           );
           setInstallmentValues(data);
         } catch (error) {
-          setErrorMessage("Error fetching pricing information")
+          setErrorMessage('Error fetching pricing information');
           console.log(error);
         }
       }

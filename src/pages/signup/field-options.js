@@ -1,5 +1,6 @@
 export const PROVINCES = [
   { value: 'ab', label: 'Alberta' },
+  { value: 'bc', label: 'British Columbia' },
   { value: 'sk', label: 'Saskatchewan' },
   { value: 'mb', label: 'Manitoba' },
   { value: 'on', label: 'Ontario' },
