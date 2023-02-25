@@ -189,21 +189,21 @@ export function ApplicationViewContainer() {
         // Re-fetch the data after this is done
         await fetchApplicationAndUserDataAdmin();
       } catch (error) {
-        navigateToLoginOnError(error, "admin");
+        navigateToLoginOnError(error, 'admin');
         console.log(error);
       }
     }
   };
 
   const navigateToLoginOnError = (error, role) => {
-    if (error?.response?.data?.err?.includes("Expired session")) {
-      if (role === "admin") {
-        navigate("/admin/login");
+    if (error?.response?.data?.err?.includes('Expired session')) {
+      if (role === 'admin') {
+        navigate('/admin/login');
         return;
       }
-      navigate("/login");
+      navigate('/login');
     }
-  }
+  };
 
   const handleConfirmApproveApplication = async () => {
     // Send a request to approve this application
@@ -236,7 +236,7 @@ export function ApplicationViewContainer() {
   };
 
   const switchHandleModalOpen = (modalType) => {
-    setApplicationUpdaterModalOpen({ open: true, view: modalType })
+    setApplicationUpdaterModalOpen({ open: true, view: modalType });
   };
 
   const handleUpdaterClose = async () => {

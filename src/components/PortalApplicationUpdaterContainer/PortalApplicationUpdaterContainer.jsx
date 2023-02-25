@@ -21,9 +21,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const StyledUpdaterContainerBox = styled(Box)((props) => ({
   paddingTop: 3,
-  width: "100%",
+  width: '100%',
   bgcolor: props.backgroundColor || PALLET.applicationDetails.backgroundColor,
-}))
+}));
 const getView = (view, userData, applicationData, handleClose) => {
   switch (view) {
     case 'update_personal':
@@ -62,11 +62,10 @@ const getView = (view, userData, applicationData, handleClose) => {
             Connect your Financial Data
           </Typography>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <PlaidUpdater 
-
-            />
+            <PlaidUpdater />
           </Box>
-      </StyledUpdaterContainerBox>);
+        </StyledUpdaterContainerBox>
+      );
     default:
       return null;
   }

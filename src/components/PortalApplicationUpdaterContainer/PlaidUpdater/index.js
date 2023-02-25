@@ -1,2 +1,2 @@
-import PlaidUpdater from "./PlaidUpdater";
+import PlaidUpdater from './PlaidUpdater';
 export { PlaidUpdater };
