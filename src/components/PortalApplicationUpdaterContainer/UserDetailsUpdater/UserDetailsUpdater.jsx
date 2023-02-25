@@ -67,12 +67,12 @@ function UserDetailsUpdater(props) {
     if (!validateFormInput()) return;
     if (!user) {
       console.error('Missing user from the app context');
-      navigate('/login', { replace: true });
+      navigate('/login');
     }
     setSubmitDisabled(true);
     setIsBusy(true);
     const jwtToken = TokenManager.getToken();
-    if (!jwtToken) navigate('/login', { replace: true });
+    if (!jwtToken) navigate('/login');
     try {
       const userClient = new UserClient({ authToken: jwtToken });
       // Convert the date of birth to ISOString before sending as it's stored as a dayjs object in state

@@ -1,25 +1,18 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
-import PlaidLinkWidget from "./Plaid-link-widget";
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+import PlaidLinkWidget from './Plaid-link-widget';
 
 /**
- * 
- * @param {{ prompt: string, linkToken: string, onPlaidSuccessComplete: () => void, onAbort: ()=> void}} props 
- * @returns 
+ *
+ * @param {{ prompt: string, linkToken: string, onPlaidSuccessComplete: () => void, onAbort: ()=> void}} props
+ * @returns
  */
-function PlaidLinkContainer (props) {
-  const {
-      prompt,
-      linkToken,
-      onPlaidSuccessComplete,
-      onAbort,
-  } = props;
+function PlaidLinkContainer(props) {
+  const { prompt, linkToken, onPlaidSuccessComplete, onAbort } = props;
   return (
     <Box>
       <Box mt={5} mb={5}>
-        <Typography>
-          {prompt}
-        </Typography>
+        <Typography>{prompt}</Typography>
       </Box>
       <PlaidLinkWidget
         linkToken={linkToken}
@@ -27,6 +20,6 @@ function PlaidLinkContainer (props) {
         onAbort={onAbort}
       />
     </Box>
-  )
+  );
 }
 export default PlaidLinkContainer;

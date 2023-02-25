@@ -82,7 +82,7 @@ function CreditApplicationUpdater(props) {
     if (!areInputsValid()) return;
     const jwtToken = TokenManager.getToken();
     if (!jwtToken) {
-      navigate('/login', { replace: true });
+      navigate('/login');
       return;
     }
     try {

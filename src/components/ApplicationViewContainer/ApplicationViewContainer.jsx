@@ -4,7 +4,7 @@ import AppContext from '../../context/AppContext';
 import { AdminClient } from '../../services/api-clients/admin-client';
 import { UserClient } from '../../services/api-clients/user-client';
 import { TokenManager } from '../../services/token-manager/token-manager';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { UserDetailsSectionComponent } from './resources/UserDetailsSectionComponent';
 import { ApplicationDetailsSectionComponent } from './resources/ApplicationDetailsSectionComponent';
 import { NoInformationFound } from './resources/NoInformationFoundComponent';
@@ -58,7 +58,7 @@ const ApplicationUpdateActions = [
 export function ApplicationViewContainer() {
   const { id } = useParams(); // extract the applicationID from params
   const { user } = useContext(AppContext);
-
+  const navigate = useNavigate();
   const [applicationData, setApplicationData] = useState(null);
   const [userData, setUserData] = useState(null);
   const [financialData, setFinancialData] = useState(null);
@@ -189,10 +189,21 @@ export function ApplicationViewContainer() {
         // Re-fetch the data after this is done
         await fetchApplicationAndUserDataAdmin();
       } catch (error) {
+        navigateToLoginOnError(error, "admin");
         console.log(error);
       }
     }
   };
+
+  const navigateToLoginOnError = (error, role) => {
+    if (error?.response?.data?.err?.includes("Expired session")) {
+      if (role === "admin") {
+        navigate("/admin/login");
+        return;
+      }
+      navigate("/login");
+    }
+  }
 
   const handleConfirmApproveApplication = async () => {
     // Send a request to approve this application
@@ -214,9 +225,9 @@ export function ApplicationViewContainer() {
     const jwtToken = TokenManager.getToken();
     if (jwtToken) {
       try {
+        setAdminOptionsDialogOpen(false);
         const adminClient = new AdminClient({ authToken: jwtToken });
         await adminClient.patchApplicationStatus(id, { action, message });
-        setAdminOptionsDialogOpen(false);
         await fetchApplicationAndUserDataAdmin();
       } catch (error) {
         console.log(error);
@@ -225,21 +236,13 @@ export function ApplicationViewContainer() {
   };
 
   const switchHandleModalOpen = (modalType) => {
-    switch (modalType) {
-      case 'update_personal':
-        setApplicationUpdaterModalOpen({ open: true, view: 'update_personal' });
-        break;
-      case 'update_credit':
-        setApplicationUpdaterModalOpen({ open: true, view: 'update_credit' });
-        break;
-      case 'update_plaid':
-    }
+    setApplicationUpdaterModalOpen({ open: true, view: modalType })
   };
 
   const handleUpdaterClose = async () => {
     try {
-      await fetchApplicationAndUserDataUser(); // Should refresh the page
       setApplicationUpdaterModalOpen(false);
+      await fetchApplicationAndUserDataUser(); // Should refresh the page
     } catch (error) {
       console.log('There was an error refreshing this');
     }
@@ -261,7 +264,6 @@ export function ApplicationViewContainer() {
             }}
             to={backNavigationTargetUrl}
           >
-            {' '}
             Go Back
           </Link>
         </Box>

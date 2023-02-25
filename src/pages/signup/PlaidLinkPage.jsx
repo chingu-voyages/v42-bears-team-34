@@ -15,7 +15,7 @@ export default function PlaidLinkPage(props) {
   }, []);
   return (
     <PlaidLinkContainer
-      prompt={"Click on the button below to link your financial information"}
+      prompt={'Click on the button below to link your financial information'}
       linkToken={linkToken}
       onPlaidSuccessComplete={handleLinkSuccess}
       onAbort={onAbort}
