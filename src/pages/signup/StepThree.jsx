@@ -123,7 +123,7 @@ export default function StepThree(props) {
         errors={props.errors}
       />
       <DropDownSelect
-        labelId="numberOfInstallmentsEle"
+        labelId="loan-purpose"
         fieldName={SIGNUP_FIELDS.loanPurpose}
         fieldLabel="Purpose for Loan"
         onFieldValueChanged={handleChange}
