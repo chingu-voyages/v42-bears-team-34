@@ -62,12 +62,22 @@ function ApplicationsPage() {
         }
         setIsBusy(false);
       } catch (error) {
+        navigateOnError(error, 'admin');
         console.log(error);
         setIsBusy(false);
       }
     }
   };
 
+  const navigateOnError = (error, role) => {
+    if (error?.response?.data?.err?.includes('Expired session')) {
+      if (role === 'admin') {
+        navigate('/admin/login', { replace: true });
+      } else {
+        navigate('/login', { replace: true });
+      }
+    }
+  };
   const userFetchApplications = async () => {
     const jwtToken = TokenManager.getToken();
     // Grab user's own applications if any
@@ -85,6 +95,7 @@ function ApplicationsPage() {
         setUserApplications(groupedData);
         setIsBusy(false);
       } catch (error) {
+        navigateOnError(error, 'user');
         console.log(error);
         setIsBusy(false);
       }
