@@ -10,6 +10,7 @@ import {
 import Slide from '@mui/material/Slide';
 import CloseIcon from '@mui/icons-material/Close';
 import { UserDetailsUpdater } from './UserDetailsUpdater';
+import { CreditApplicationUpdater } from './CreditApplicationUpdater';
 import { PALLET } from '../../stylings/pallet';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -21,6 +22,7 @@ const getView = (view, userData, applicationData, handleClose) => {
     case 'update_personal':
       return (
         <Box
+          pt={3}
           sx={{
             width: '100%',
             bgcolor: PALLET.applicationDetails.backgroundColor,
@@ -31,6 +33,27 @@ const getView = (view, userData, applicationData, handleClose) => {
           </Typography>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <UserDetailsUpdater
+              userData={userData}
+              onUpdate={() => handleClose()}
+            />
+          </Box>
+        </Box>
+      );
+    case 'update_credit':
+      return (
+        <Box
+          pt={3}
+          sx={{
+            width: '100%',
+            bgcolor: PALLET.applicationDetails.backgroundColor,
+          }}
+        >
+          <Typography variant="h2" textAlign={'center'}>
+            Credit Application Details
+          </Typography>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <CreditApplicationUpdater
+              applicationData={applicationData}
               userData={userData}
               onUpdate={() => handleClose()}
             />

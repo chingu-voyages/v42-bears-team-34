@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { useState, useContext } from 'react';
 import { DropDownSelect } from '../../../pages/signup/components/DropDownSelect';
 import { StandardTextField } from '../../../pages/signup/components/StandardTextField';
@@ -19,20 +19,13 @@ import { UserClient } from '../../../services/api-clients/user-client';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../../context/AppContext';
 import { FullPageSpinner } from '../../Spinner/FullPageSpinner';
-const StyledResponsiveBox = styled(Box)((props) => ({
-  backgroundColor: PALLET.applicationDetails.backgroundColor,
-  padding: '3%',
-  [props.theme.breakpoints.up('sm')]: {
-    marginLeft: '20%',
-    marginRight: '20%',
-  },
-}));
+import { StyledResponsiveBox } from '../StyledResponsiveBox';
 /**
  * Actual shortcut form to allow user to update their fields
  * @param {{ onUpdate: ()=> void, userData: { firstName: string, lastName: string, applicantGender: string, email: string, dateOfBirth: string, streetAddress: string, unitNumber?: string, additionalAddress?: string, city: string, province: string, postalCode: string }}} props
  * @returns
  */
-function AppUpdater(props) {
+function UserDetailsUpdater(props) {
   const navigate = useNavigate();
   const { userData, onUpdate } = props;
   const { user } = useContext(AppContext);
@@ -115,7 +108,7 @@ function AppUpdater(props) {
     return true;
   };
   return (
-    <>
+    <Box>
       <StyledResponsiveBox component={'div'} className="application-container">
         <StandardTextField
           fieldLabel={FIELD_DICT[SIGNUP_FIELDS.email]}
@@ -223,8 +216,8 @@ function AppUpdater(props) {
         </Box>
       </StyledResponsiveBox>
       {isBusy && <FullPageSpinner />}
-    </>
+    </Box>
   );
 }
 
-export default AppUpdater;
+export default UserDetailsUpdater;
