@@ -248,7 +248,11 @@ export function ApplicationViewContainer() {
     }
   };
   return (
-    <StyledMainBlock mt={3} bgcolor={PALLET.applicationDetails.backgroundColor}>
+    <StyledMainBlock
+      mt={3}
+      bgcolor={PALLET.applicationDetails.backgroundColor}
+      boxShadow={'1px 1px 15px'}
+    >
       <Box display="flex" justifyContent={'space-between'} p={1}>
         {/* Navigation controls. Allow user to navigate back to the appropriate landing page */}
         <Box display="flex">

@@ -37,7 +37,7 @@ function CreditApplicationUpdater(props) {
       applicationData[SIGNUP_FIELDS.loanPurpose] || null,
   });
   const [errors, setErrors] = useState({});
-  const [installmentValues, errorMessage] = useGetInstallmentValues(
+  const [installmentValues] = useGetInstallmentValues(
     inputs[SIGNUP_FIELDS.requestedLoanAmount]
   );
   const handleChange = (e) => {

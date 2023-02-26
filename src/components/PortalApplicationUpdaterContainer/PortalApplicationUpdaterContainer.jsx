@@ -62,7 +62,10 @@ const getView = (view, userData, applicationData, handleClose) => {
             Connect your Financial Data
           </Typography>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <PlaidUpdater />
+            <PlaidUpdater
+              onComplete={() => handleClose()}
+              onAbort={() => console.log('Aborted')}
+            />
           </Box>
         </StyledUpdaterContainerBox>
       );
