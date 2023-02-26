@@ -105,9 +105,9 @@ function ApplicationsPage() {
     // Programmatically navigate to application view
     if (user && user.role === 'admin') {
       navigate(`/admin/applications/view/${id}`);
-    } else if (user && user.role === 'user') {
-      navigate(`/user/applications/view/${id}`);
+      return;
     }
+    navigate(`/user/applications/view/${id}`);
   });
 
   return (
