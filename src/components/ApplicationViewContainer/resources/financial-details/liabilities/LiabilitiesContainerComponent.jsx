@@ -1,8 +1,7 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import LiabilityAssetAccordion from './LiabilityAssetAccordion';
 import { STRING_HELPERS } from '../../../../../utils/string-helpers';
-import { Box } from '@mui/material';
 // Every liability asset will be an accordion, the contents of which...TBD
 /**
  *
