@@ -45,6 +45,7 @@ export class UserClient extends BaseUserActionClient {
    * applicantGender: string,
    * email: string,
    * address: { streetAddress: string, unitNumber: string, additionalAddress: string, city: string, postalCode: string, province: string }
+   * plaid: boolean
    *
    * }>}
    */
@@ -68,5 +69,16 @@ export class UserClient extends BaseUserActionClient {
    */
   async getApplicationById(id) {
     return super.getData(`/application/view/${id}`);
+  }
+
+  /**
+   *
+   * @param {string} id the userId
+   * @param {{ firstName: string, lastName: string, applicantGender: string, streetAddress: string, unitNumber: string, additionalAddress: string, dateOfBirth: string, city: string, province: string, postalCode: string}} data
+   * @returns
+   */
+  async patchUserDetails(id, data) {
+    console.log(data);
+    return super.patchData(`/auth/user/${id}`, data);
   }
 }

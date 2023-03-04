@@ -119,7 +119,7 @@ function SignupPage() {
       setErrors(errors);
       return;
     }
-
+    setErrors({});
     storeDataInSession(stepData.current);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);

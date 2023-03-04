@@ -29,7 +29,6 @@ export default function StepOne(props) {
   return (
     <div>
       <StandardTextField
-        maxLength={50}
         fieldName={SIGNUP_FIELDS.firstName}
         fieldLabel={'First Name'}
         fieldValue={inputs[SIGNUP_FIELDS.firstName]}
@@ -37,7 +36,6 @@ export default function StepOne(props) {
         errors={props.errors}
       />
       <StandardTextField
-        maxLength={50}
         fieldName={SIGNUP_FIELDS.lastName}
         fieldLabel={'Last Name'}
         fieldValue={inputs[SIGNUP_FIELDS.lastName]}
@@ -45,7 +43,6 @@ export default function StepOne(props) {
         errors={props.errors}
       />
       <StandardTextField
-        maxLength={60}
         fieldName={SIGNUP_FIELDS.streetAddress}
         fieldLabel={'Street Address'}
         fieldValue={inputs[SIGNUP_FIELDS.streetAddress]}
@@ -53,7 +50,6 @@ export default function StepOne(props) {
         errors={props.errors}
       />
       <StandardTextField
-        maxLength={12}
         fieldName={SIGNUP_FIELDS.unitNumber}
         fieldLabel={'Unit Number'}
         fieldValue={inputs[SIGNUP_FIELDS.unitNumber]}
@@ -61,7 +57,6 @@ export default function StepOne(props) {
         errors={props.errors}
       />
       <StandardTextField
-        maxLength={40}
         fieldName={SIGNUP_FIELDS.additionalAddress}
         fieldLabel={'Additional Address'}
         fieldValue={inputs[SIGNUP_FIELDS.additionalAddress]}
@@ -69,7 +64,6 @@ export default function StepOne(props) {
         errors={props.errors}
       />
       <StandardTextField
-        maxLength={25}
         fieldName={SIGNUP_FIELDS.city}
         fieldLabel={'City'}
         fieldValue={inputs[SIGNUP_FIELDS.city]}
@@ -85,10 +79,10 @@ export default function StepOne(props) {
         fieldName={SIGNUP_FIELDS.province}
         labelId={'province-label'}
         onFieldValueChanged={handleChange}
+        errors={props.errors}
       />
       <StandardTextField
         fieldWidth={200}
-        maxLength={6}
         textTransform={'uppercase'}
         fieldName={SIGNUP_FIELDS.postalCode}
         fieldLabel={'Postal code'}

@@ -1,9 +1,20 @@
 import React from 'react';
 import { Box, TextField } from '@mui/material';
 import { ErrorComponent } from '../../../components/ErrorComponent';
+import { SIGNUP_FIELDS } from '../sign-up-fields';
+
+const FIELD_LENGTHS = {
+  [SIGNUP_FIELDS.firstName]: 50,
+  [SIGNUP_FIELDS.lastName]: 50,
+  [SIGNUP_FIELDS.streetAddress]: 60,
+  [SIGNUP_FIELDS.unitNumber]: 12,
+  [SIGNUP_FIELDS.additionalAddress]: 40,
+  [SIGNUP_FIELDS.city]: 25,
+  [SIGNUP_FIELDS.postalCode]: 6,
+};
 /**
  *
- * @param {{ inputComponent?: JSX.Element, fieldType: "text" | "password", fieldWidth? number, textTransform?:string, maxLength?: number, errors: any, fieldName: string, fieldLabel: string, fieldValue: string, onFieldValueChanged: (e) => void }} props
+ * @param {{ disabled?: boolean, inputComponent?: JSX.Element, fieldType: "text" | "password", fieldWidth? number, textTransform?:string, maxLength?: number, errors: any, fieldName: string, fieldLabel: string, fieldValue: string, onFieldValueChanged: (e) => void }} props
  */
 export function StandardTextField(props) {
   const {
@@ -34,8 +45,8 @@ export function StandardTextField(props) {
         value={fieldValue || ''}
         onChange={onFieldValueChanged}
         inputProps={{
-          maxLength: maxLength || 255,
-          style : { textTransform: textTransform || null },
+          maxLength: maxLength || FIELD_LENGTHS[fieldName] || 255,
+          style: { textTransform: textTransform || null },
           inputComponent: inputComponent,
         }}
       />

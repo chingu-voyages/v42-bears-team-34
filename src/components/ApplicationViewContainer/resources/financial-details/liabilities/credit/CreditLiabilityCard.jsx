@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box } from '@mui/material';
 import { STRING_HELPERS } from '../../../../../../utils/string-helpers';
 import { AttributeComponent } from '../AttributeComponent';

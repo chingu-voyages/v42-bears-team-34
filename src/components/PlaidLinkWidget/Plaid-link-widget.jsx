@@ -42,7 +42,6 @@ function PlaidLinkWidget(props) {
 
       // Send the request to exchange the public token for a link token
       await plaidClient.postSetPublicToken(public_token);
-
       dispatch({
         type: APP_ACTIONS.SET_STATE,
         state: {
@@ -59,19 +58,21 @@ function PlaidLinkWidget(props) {
   // Error handling if user exits Link without connecting or otherwise some other error
   const onExit = useCallback((err) => {
     // Dispatch error state
-    const { error_type, error_code, error_message } = err;
-    dispatch({
-      type: APP_ACTIONS.SET_STATE,
-      state: {
-        linkSuccess: false,
-        hasLinkTokenError: true,
-        linkTokenError: {
-          error_type,
-          error_code,
-          error_message,
+    if (err) {
+      const { error_type, error_code, error_message } = err;
+      dispatch({
+        type: APP_ACTIONS.SET_STATE,
+        state: {
+          linkSuccess: false,
+          hasLinkTokenError: true,
+          linkTokenError: {
+            error_type,
+            error_code,
+            error_message,
+          },
         },
-      },
-    });
+      });
+    }
     if (exit) exit({ force: true });
     // Do something
     props.onAbort && props.onAbort();

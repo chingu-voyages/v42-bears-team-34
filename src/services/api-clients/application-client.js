@@ -22,4 +22,12 @@ export class ApplicationClient extends BaseClient {
   async postNewApplication(data) {
     return super.postData('/application/apply', data); // This needs to be updated to the proper route
   }
+
+  /**
+   *
+   * @param {{ applicantIncome: number, requestedLoanAmount: number, applicantOccupation: string, installmentAmount: number, numberOfInstallments: number, loanPurpose: string }} data
+   */
+  async patchExistingApplication(id, data) {
+    return super.patchData(`/application/update/${id}`, data);
+  }
 }
