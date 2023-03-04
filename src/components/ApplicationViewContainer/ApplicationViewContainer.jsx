@@ -14,7 +14,7 @@ import { PALLET } from '../../stylings/pallet';
 import { RejectReasonDialog } from './resources/admin/rejected-reason-dialog/RejectReasonDialog';
 import { AdminOptionsDialog } from './resources/admin/admin-options-dialog/AdminOptionsDialog';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { PortalApplicationUpdaterContainer } from '../PortalApplicationUpdaterContainer';
+import { PortalApplicationUpdaterContainer } from '../Updaters';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
