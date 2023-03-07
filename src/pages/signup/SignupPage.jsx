@@ -84,8 +84,7 @@ const ConfirmButton = (props) => {
 function SignupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [confirmationValidationError, setConfirmationValidationError] =
-    useState(false);
+  const [, setConfirmationValidationError] = useState(false);
   const { dispatch } = useContext(AppContext);
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -100,7 +99,9 @@ function SignupPage() {
   const [hasSignupError, setHasSignupError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const stepData = useRef(STEP_STATE[0]);
+
   const navigate = useNavigate();
+
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -118,7 +119,7 @@ function SignupPage() {
       setErrors(errors);
       return;
     }
-
+    setErrors({});
     storeDataInSession(stepData.current);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
@@ -159,6 +160,9 @@ function SignupPage() {
 
             If there are password issues at this point, they can do a password recovery
         */
+
+        // What if the user has an existing session
+
         const linkToken = await SignUpHelper.run({
           firstName: stepData.current[SIGNUP_FIELDS.firstName],
           lastName: stepData.current[SIGNUP_FIELDS.lastName],
@@ -288,7 +292,7 @@ function SignupPage() {
               )}
               {activeStep < 3 && (
                 <Button onClick={handleNext} variant="contained">
-                  {activeStep === steps.length - 1 ? 'Next' : 'Next'}
+                  Next
                 </Button>
               )}
               {activeStep === 3 && (
@@ -311,7 +315,7 @@ function SignupPage() {
       {hasSignupError && (
         <Box display="flex" justifyContent={'center'} mt={3}>
           <StyledTextLink
-            url={'/login'}
+            url={'/user/applications'}
             text={'Sign in to your account'}
             navigate={navigate}
           />

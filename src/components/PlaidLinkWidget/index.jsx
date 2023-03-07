@@ -1,2 +1,2 @@
-import PlaidLinkWidget from './Plaid-link-widget';
-export { PlaidLinkWidget };
+import PlaidLinkContainer from './PlaidLinkContainer';
+export { PlaidLinkContainer };

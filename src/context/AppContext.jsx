@@ -1,4 +1,4 @@
-import { createContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { APP_ACTIONS } from './app.actions';
 
 const initialState = {

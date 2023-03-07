@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Box, styled } from '@mui/material';
+import { Box, SpeedDial, SpeedDialAction, styled } from '@mui/material';
 import AppContext from '../../context/AppContext';
 import { AdminClient } from '../../services/api-clients/admin-client';
 import { UserClient } from '../../services/api-clients/user-client';
 import { TokenManager } from '../../services/token-manager/token-manager';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { UserDetailsSectionComponent } from './resources/UserDetailsSectionComponent';
 import { ApplicationDetailsSectionComponent } from './resources/ApplicationDetailsSectionComponent';
 import { NoInformationFound } from './resources/NoInformationFoundComponent';
@@ -13,7 +13,13 @@ import { FinancialDetailsContainerComponent } from './resources/financial-detail
 import { PALLET } from '../../stylings/pallet';
 import { RejectReasonDialog } from './resources/admin/rejected-reason-dialog/RejectReasonDialog';
 import { AdminOptionsDialog } from './resources/admin/admin-options-dialog/AdminOptionsDialog';
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { PortalApplicationUpdaterContainer } from '../Updaters';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 const StyledMainBlock = styled(Box)((props) => ({
   borderRadius: '2px',
   opacity: 0.9,
@@ -22,6 +28,29 @@ const StyledMainBlock = styled(Box)((props) => ({
     marginRight: '20%',
   },
 }));
+
+const ApplicationUpdateActions = [
+  {
+    icon: <ManageAccountsIcon />,
+    name: 'Update personal details',
+    action: 'update_personal',
+  },
+  {
+    icon: <CreditCardIcon />,
+    name: 'Modify credit application',
+    action: 'update_credit',
+  },
+  {
+    icon: <CurrencyExchangeIcon />,
+    name: 'Connect banking info',
+    action: 'update_plaid',
+  },
+  {
+    icon: <AdminPanelSettingsIcon />,
+    name: 'Security settings',
+    action: 'update_security',
+  },
+];
 /**
  * Specific application view that shows a specific user's details accompanied by the specific application by applicationId
  * @returns
@@ -29,7 +58,7 @@ const StyledMainBlock = styled(Box)((props) => ({
 export function ApplicationViewContainer() {
   const { id } = useParams(); // extract the applicationID from params
   const { user } = useContext(AppContext);
-
+  const navigate = useNavigate();
   const [applicationData, setApplicationData] = useState(null);
   const [userData, setUserData] = useState(null);
   const [financialData, setFinancialData] = useState(null);
@@ -46,6 +75,8 @@ export function ApplicationViewContainer() {
 
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [adminOptionsDialogOpen, setAdminOptionsDialogOpen] = useState(false);
+  const [applicationUpdaterModalOpen, setApplicationUpdaterModalOpen] =
+    useState({ open: false, view: null });
   // When the page loads, do the fetching of the data
   useEffect(() => {
     const fetchApplicationById = async () => {
@@ -158,8 +189,19 @@ export function ApplicationViewContainer() {
         // Re-fetch the data after this is done
         await fetchApplicationAndUserDataAdmin();
       } catch (error) {
+        navigateToLoginOnError(error, 'admin');
         console.log(error);
       }
+    }
+  };
+
+  const navigateToLoginOnError = (error, role) => {
+    if (error?.response?.data?.err?.includes('Expired session')) {
+      if (role === 'admin') {
+        navigate('/admin/login');
+        return;
+      }
+      navigate('/login');
     }
   };
 
@@ -183,9 +225,9 @@ export function ApplicationViewContainer() {
     const jwtToken = TokenManager.getToken();
     if (jwtToken) {
       try {
+        setAdminOptionsDialogOpen(false);
         const adminClient = new AdminClient({ authToken: jwtToken });
         await adminClient.patchApplicationStatus(id, { action, message });
-        setAdminOptionsDialogOpen(false);
         await fetchApplicationAndUserDataAdmin();
       } catch (error) {
         console.log(error);
@@ -193,22 +235,61 @@ export function ApplicationViewContainer() {
     }
   };
 
+  const switchHandleModalOpen = (modalType) => {
+    setApplicationUpdaterModalOpen({ open: true, view: modalType });
+  };
+
+  const handleUpdaterClose = async () => {
+    try {
+      setApplicationUpdaterModalOpen(false);
+      await fetchApplicationAndUserDataUser(); // Should refresh the page
+    } catch (error) {
+      console.log('There was an error refreshing this');
+    }
+  };
   return (
-    <StyledMainBlock mt={3} bgcolor={PALLET.applicationDetails.backgroundColor}>
-      <Box>
+    <StyledMainBlock
+      mt={3}
+      bgcolor={PALLET.applicationDetails.backgroundColor}
+      boxShadow={'1px 1px 15px'}
+    >
+      <Box display="flex" justifyContent={'space-between'} p={1}>
         {/* Navigation controls. Allow user to navigate back to the appropriate landing page */}
-        <Link
-          style={{
-            textDecoration: 'none',
-            fontSize: '1.2rem',
-            fontFamily: 'inherit',
-            padding: '5px',
-          }}
-          to={backNavigationTargetUrl}
-        >
-          {' '}
-          Go Back
-        </Link>
+        <Box display="flex">
+          <Box component={'div'} alignSelf={'center'}>
+            <ArrowBackIcon />
+          </Box>
+          <Link
+            style={{
+              textDecoration: 'none',
+              fontSize: '1.2rem',
+              fontFamily: 'inherit',
+              padding: '5px',
+            }}
+            to={backNavigationTargetUrl}
+          >
+            Go Back
+          </Link>
+        </Box>
+        {user && user.role === 'user' && (
+          <Box display="flex">
+            <SpeedDial
+              icon={<SettingsIcon />}
+              ariaLabel={'Application options menu'}
+              direction={'down'}
+              sx={{ position: 'absolute', right: 16 }}
+            >
+              {ApplicationUpdateActions.map((action) => (
+                <SpeedDialAction
+                  onClick={() => switchHandleModalOpen(action.action)}
+                  icon={action.icon}
+                  key={action.name}
+                  tooltipTitle={action.name}
+                />
+              ))}
+            </SpeedDial>
+          </Box>
+        )}
       </Box>
       <Box>
         <Box mt={3}>
@@ -263,6 +344,13 @@ export function ApplicationViewContainer() {
         open={adminOptionsDialogOpen}
         onClose={() => setAdminOptionsDialogOpen(false)}
         onSubmit={handleAdminOptionsSubmit}
+      />
+      <PortalApplicationUpdaterContainer
+        applicationData={applicationData}
+        userData={userData}
+        view={applicationUpdaterModalOpen.view}
+        open={applicationUpdaterModalOpen.open}
+        onClose={handleUpdaterClose}
       />
     </StyledMainBlock>
   );

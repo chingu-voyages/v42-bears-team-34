@@ -74,6 +74,12 @@ export function AdminOptionsDialog(props) {
               onChange={handleAdminActionSelectChange}
             >
               <MenuItem value={null}></MenuItem>
+              <MenuItem
+                disabled={true}
+                value={ADMIN_OPTIONS_ACTION.AdminUpdateUserInfo}
+              >
+                Manually update applicant information
+              </MenuItem>
               <MenuItem value={ADMIN_OPTIONS_ACTION.MarkIncomplete}>
                 Mark as Incomplete
               </MenuItem>
