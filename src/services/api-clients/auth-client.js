@@ -60,4 +60,23 @@ export class AuthClient extends BaseClient {
   async refreshToken() {
     return super.postData('/auth/refresh');
   }
+
+  /**
+   * Sends the request to send a password reset e-mail
+   * @param {{ email: string}} param0
+   */
+  async sendPasswordRecoveryRequestAuthorization({ email }) {
+    return super.postData('/auth/password-recovery/request', { email });
+  }
+
+  /**
+   * Complete the change password process
+   * @param {{ token: string, password: string }} param0
+   */
+  async submitPasswordRecoveryNewPassword({ token, password }) {
+    return super.postData('/auth/password-recovery/update-password', {
+      token,
+      password,
+    });
+  }
 }
