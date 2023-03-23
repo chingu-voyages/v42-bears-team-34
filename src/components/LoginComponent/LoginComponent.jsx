@@ -1,40 +1,20 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { Box, TextField, styled, Typography } from '@mui/material';
-import { PALLET } from '../../stylings/pallet';
-import { StyledButton } from '../StyledButton';
 import { STRING_HELPERS } from '../../utils/string-helpers';
 import { AuthClient } from '../../services/api-clients/auth-client';
 import { TokenManager } from '../../services/token-manager/token-manager';
-import { ErrorComponent } from '../ErrorComponent';
-const StyledFormBox = styled(Box)((props) => ({
-  [props.theme.breakpoints.up('md')]: {
-    borderColor: PALLET.charcoal,
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    boxShadow: '7px 6px 15px -3px',
-    padding: '50px',
-    backgroundColor: PALLET.white,
-  },
-}));
 
-const StyledTextFieldBox = styled(Box)((props) => ({
-  [props.theme.breakpoints.down('md')]: {
-    input: {
-      backgroundColor: PALLET.white,
-    },
-  },
-  [props.theme.breakpoints.up('md')]: {
-    marginTop: '60px',
-  },
-}));
+import { useNavigate } from 'react-router-dom';
+import { LoginFormComponent } from './LoginFormComponent';
+import { PasswordResetRequestFormComponent } from './PasswordResetRequestFormComponent/PasswordResetRequestFormComponent';
 
-const marginBottomSpacing = 1;
 /**
  * Sign in form to be used for user and admin login.
  * This can be nested in a modal or on a page itself,
  *
  */
 function LoginComponent(props) {
+  const { isAdmin, onLoginSuccess, passwordResetMode } = props;
+
   const formDataRef = useRef({}); // Keep track of textInput values
   const [hasEmailError, setHasEmailError] = useState(false);
   const [hasPasswordError, setHasPasswordError] = useState(false);
@@ -42,7 +22,9 @@ function LoginComponent(props) {
   const [emailErrorText, setEmailErrorText] = useState('');
   const [hasLoginError, setHasLoginError] = useState(false);
   const [loginErrorText, setLoginErrorText] = useState('');
-
+  const [submitSuccessMessage, setSubmitSuccessMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const handleLoginSubmit = useCallback(() => {
     clearErrorState();
     if (!validateInputs()) return;
@@ -59,12 +41,12 @@ function LoginComponent(props) {
         const response = await authClient.login({
           email,
           password,
-          isAdmin: props.isAdmin,
+          isAdmin: isAdmin,
         });
         // Save JW Token and call the success callback
         const { tok } = response;
         TokenManager.writeToken(tok);
-        props.onLoginSuccess();
+        onLoginSuccess();
       } catch (exception) {
         setHasLoginError(true);
         setLoginErrorText(exception.response?.data?.err);
@@ -83,6 +65,11 @@ function LoginComponent(props) {
     setSubmitDisabled(!checkHasInput());
   });
 
+  /**
+   *
+   * @param {string[]} fields
+   * @returns
+   */
   const validateInputs = () => {
     if (formDataRef.current['email'] === '') {
       setHasEmailError(true);
@@ -101,13 +88,22 @@ function LoginComponent(props) {
   };
 
   const checkHasInput = () => {
-    if (!formDataRef.current) return false;
-    if (!formDataRef.current['email']) return false;
-    if (formDataRef.current['email'].trim() === '') return false;
-    if (!formDataRef.current['password']) return false;
-    if (formDataRef.current['password'].trim() === '') return false;
-    return true;
+    if (!passwordResetMode) {
+      if (!formDataRef.current) return false;
+      if (!formDataRef.current['email']) return false;
+      if (formDataRef.current['email'].trim() === '') return false;
+      if (!formDataRef.current['password']) return false;
+      if (formDataRef.current['password'].trim() === '') return false;
+      return true;
+    } else {
+      if (!formDataRef.current['email']) return false;
+      if (formDataRef.current['email'].trim() === '') return false;
+      if (!STRING_HELPERS.isEmailValid(formDataRef.current['email']))
+        return false;
+      return true;
+    }
   };
+
   const clearErrorState = () => {
     setEmailErrorText('');
     setHasEmailError(false);
@@ -115,68 +111,61 @@ function LoginComponent(props) {
     setHasLoginError(false);
     setLoginErrorText('');
   };
-  return (
-    <StyledFormBox component="form" autoComplete="on">
-      <Box>
-        <Box display={'flex'} justifyContent="center" mb={marginBottomSpacing}>
-          <Box component={'div'}>
-            {/* Holds the title */}
-            <Typography variant="h2">
-              {props.title || 'Login Portal'}
-            </Typography>
-            {props.isAdmin && (
-              <Box>
-                <Typography variant="h6" textAlign={'center'}>
-                  Admin
-                </Typography>
-              </Box>
-            )}
-          </Box>
-        </Box>
-        <StyledTextFieldBox>
-          <TextField
-            sx={{ mb: marginBottomSpacing }}
-            id="email"
-            name="email"
-            type={'email'}
-            label="E-mail Address"
-            placeholder="example@example.com"
-            autoComplete="email"
-            onChange={handleInputsChanged}
-            helperText={emailErrorText}
-            required
-            error={hasEmailError}
-            fullWidth
-          />
-          <TextField
-            sx={{ mb: marginBottomSpacing }}
-            id="password"
-            name="password"
-            type={'password'}
-            label="Password"
-            autoComplete="current-password"
-            error={hasPasswordError}
-            required
-            onChange={handleInputsChanged}
-            fullWidth
-          />
-        </StyledTextFieldBox>
-        <Box display="flex" justifyContent="center" mt={2}>
-          <StyledButton
-            label="Login"
-            onClick={handleLoginSubmit}
-            disabled={submitDisabled}
-            buttonColor={PALLET.mountainDewLime}
-          />
-        </Box>
-      </Box>
-      {hasLoginError && (
-        <Box mt={2}>
-          <ErrorComponent title={loginErrorText} />
-        </Box>
-      )}
-    </StyledFormBox>
-  );
+
+  const handlePasswordResetRequest = useCallback(() => {
+    // Validate any data?
+    clearErrorState();
+    setIsLoading(true);
+    const sendPasswordRecoveryRequest = async () => {
+      const authClient = new AuthClient();
+      try {
+        await authClient.sendPasswordRecoveryRequestAuthorization({
+          email: formDataRef.current['email'],
+        });
+        setSubmitSuccessMessage(
+          'The request has been submitted. If this is valid, you should shortly receive an e-mail with a recovery link.'
+        );
+        setSubmitDisabled(true);
+        setIsLoading(false);
+      } catch (err) {
+        setSubmitDisabled(true);
+        setIsLoading(false);
+        console.log(err);
+      }
+    };
+    sendPasswordRecoveryRequest();
+  }, []);
+
+  const getLoginInteraction = () => {
+    if (!passwordResetMode) {
+      return (
+        <LoginFormComponent
+          hasEmailError={hasEmailError}
+          hasPasswordError={hasPasswordError}
+          submitDisabled={submitDisabled}
+          emailErrorText={emailErrorText}
+          hasLoginError={hasLoginError}
+          loginErrorText={loginErrorText}
+          handleInputsChanged={handleInputsChanged}
+          handleLoginSubmit={handleLoginSubmit}
+          navigate={navigate}
+        />
+      );
+    }
+    return (
+      <PasswordResetRequestFormComponent
+        hasEmailError={hasEmailError}
+        handleInputsChanged={handleInputsChanged}
+        emailErrorText={emailErrorText}
+        handleSubmitRequest={handlePasswordResetRequest}
+        submitDisabled={submitDisabled}
+        submitSuccessMessage={submitSuccessMessage}
+        navigate={navigate}
+        isLoading={isLoading}
+      />
+    );
+  };
+  return <>{getLoginInteraction()}</>;
 }
 
 export default LoginComponent;

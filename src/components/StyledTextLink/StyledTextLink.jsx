@@ -12,13 +12,16 @@ const CustomTypography = styled(Typography)(() => ({
 
 /**
  *
- * @param {{ text: string, url: string, navigate: ()=> void }}} props
+ * @param {{ text: string, url: string, navigate: ()=> void, textProps: Object }}} props
  * @returns
  */
 function StyledTextLink(props) {
-  const { text, url, navigate } = props;
+  const { text, url, navigate, textProps } = props;
   return (
-    <CustomTypography onClick={() => navigate(url, { replace: true })}>
+    <CustomTypography
+      {...{ ...textProps }}
+      onClick={() => navigate(url, { replace: true })}
+    >
       {text}
     </CustomTypography>
   );

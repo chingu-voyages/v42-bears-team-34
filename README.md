@@ -50,3 +50,8 @@ This app allows a person seeking a loan to apply for one by filling out their in
 
 VITE_DEV_API_URL=(URL for the backend)
 VITE_PRODUCTION_API_URL=
+
+### Changelog
+
+2.1.0 - Allow user to update application. Admin tools
+2.1.1 - Show version number
