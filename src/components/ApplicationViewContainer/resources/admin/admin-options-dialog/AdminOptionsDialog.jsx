@@ -20,6 +20,7 @@ import { ADMIN_OPTIONS_ACTION } from './admin-options-actions';
 const StyledDialog = styled(Dialog)(() => ({
   '& .MuiPaper-root': {
     width: '100vw',
+    marginBottom: '575px'
   },
 }));
 /**

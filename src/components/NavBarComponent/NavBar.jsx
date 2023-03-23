@@ -28,6 +28,7 @@ import { NavBarOption } from './NavBarOption';
 import AppContext from '../../context/AppContext';
 import { TokenManager } from '../../services/token-manager/token-manager';
 import { APP_ACTIONS } from '../../context/app.actions';
+import { ENV } from '../../environment';
 
 export default function NavBar() {
   /*
@@ -206,10 +207,26 @@ export default function NavBar() {
                 {user && user.id && (
                   <NavBarOption
                     onOptionClicked={handleLogOut}
+                    classNameInfo="links"
                     title="LOG OUT"
                     icon={<LogOutIcon sx={{ color: PALLET.pineGreen }} />}
                   />
                 )}
+              </Box>
+              <Box component={'footer'}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: PALLET.pineGreen,
+                    position: 'absolute',
+                    bottom: '0px',
+                    width: '150px',
+                    textAlign: 'right',
+                    paddingBottom: '1rem',
+                  }}
+                >
+                  v.{ENV.APP_VERSION}
+                </Typography>
               </Box>
             </Box>
           </Drawer>

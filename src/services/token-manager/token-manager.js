@@ -40,6 +40,11 @@ export class TokenManager {
     return JSON.parse(TokenManager.#decode(window.atob(payLoad)));
   }
 
+  /**
+   *
+   * @param {string} str
+   * @returns {string}
+   */
   static #decode(str) {
     const decoder = new TextDecoder('utf-8');
     const arr = new Uint8Array(new ArrayBuffer(str.length));

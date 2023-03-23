@@ -15,6 +15,7 @@ import SignupPage from './pages/signup/SignupPage';
 import NavBar from './components/NavBarComponent/NavBar';
 import './App.css';
 import { ApplicationViewContainer } from './components/ApplicationViewContainer/ApplicationViewContainer';
+import { ChangePasswordForm } from './components/LoginComponent/ChangePasswordForm/ChangePasswordForm';
 
 function App() {
   return (
@@ -70,6 +71,14 @@ function App() {
               <ApplicationsPage />
             </RouteProtector>
           }
+        />
+        <Route
+          path="/password-reset/request"
+          element={<LoginPage passwordResetMode={true} />}
+        />
+        <Route
+          path="/password-reset/recover"
+          element={<ChangePasswordForm />}
         />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
