@@ -25,7 +25,11 @@ export function PasswordResetRequestFormComponent(props) {
   } = props;
   return (
     <StyledFormBox component="form" autoComplete="on">
-      {isLoading && <Spinner />}
+      {isLoading && (
+        <Box display="flex" justifyContent={'center'}>
+          <Spinner />
+        </Box>
+      )}
       <Box>
         <Box display={'flex'} justifyContent="center" mb={marginBottomSpacing}>
           <Box component={'div'}>
@@ -60,7 +64,7 @@ export function PasswordResetRequestFormComponent(props) {
         {submitSuccessMessage && (
           <Box mt={3}>
             <Typography>{submitSuccessMessage}</Typography>
-            {/* Include some link to headback to home here */}
+            {/* Include link to head back to home here */}
             <StyledTextLink text={'Home'} url={'/'} navigate={navigate} />
           </Box>
         )}

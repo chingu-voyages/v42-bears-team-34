@@ -20,6 +20,7 @@ import { SignupValidator } from '../../../pages/signup/validate-signup';
 import { AuthClient } from '../../../services/api-clients/auth-client';
 import AppContext from '../../../context/AppContext';
 import { getUserProfile } from '../../../services/get-user-profile/get-user-profile';
+import { ErrorComponent } from '../../ErrorComponent';
 const marginBottomSpacing = 1;
 
 /**
@@ -28,23 +29,27 @@ const marginBottomSpacing = 1;
  * @param {*} props
  * @returns
  */
-export function ChangePasswordForm(props) {
-  const { submitDisabled } = props;
+export function ChangePasswordForm() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [hasTokenParseError, setHasTokenParseError] = useState(false);
   const token = searchParams.get('token');
+  const [hasSubmitErrors, setHasSubmitErrors] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(false);
+  const [submitErrorMessage, setSubmitErrorMessage] = useState('');
   const [passwordErrorText, setPasswordErrorText] = useState({
     [SIGNUP_FIELDS.password1]: null,
     [SIGNUP_FIELDS.password2]: null,
   });
   const [hasPasswordError, setHasPasswordError] = useState(false);
   const inputs = useRef({});
-  const dispatch = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
   // When this page loads, we need to decode the
   useEffect(() => {
     if (token) {
-      checkTokenIsValid();
+      if (!checkTokenIsValid()) {
+        setHasTokenParseError(true);
+      }
     }
   }, [token]);
 
@@ -58,27 +63,28 @@ export function ChangePasswordForm(props) {
   const checkTokenIsValid = () => {
     try {
       const parsedToken = TokenManager.parseToken(token);
-      console.log(parsedToken.email);
-      console.log(parsedToken);
       // Extract the time stamp. If it's expired, throw an error
       const now = dayjs();
       const expires = dayjs(parsedToken.expires);
 
       if (now.isAfter(expires)) {
         // The request has expired
-        console.log('Request has expired');
-        setHasTokenParseError(true);
+        console.error('Tokenized request has expired');
+
         return false;
       }
+
       return true;
     } catch (err) {
       console.log(err);
-      setHasTokenParseError(true);
+
       return false;
     }
   };
+
   const handleSubmitRequest = async () => {
     resetPasswordErrors();
+    setSubmitDisabled(true);
     // Validate
     const errors = SignupValidator.validate(
       [SIGNUP_FIELDS.password1, SIGNUP_FIELDS.password2],
@@ -89,29 +95,39 @@ export function ChangePasswordForm(props) {
       setPasswordErrorText({
         ...errors,
       });
+      setSubmitDisabled(false);
       return;
     }
 
-    // Check that the token hasn't expired before
+    // Check that the token hasn't expired before sending
     if (checkTokenIsValid()) {
       // Send the request - if it's successful, log the user in
       try {
+        setSubmitDisabled(true);
         const authClient = new AuthClient();
         await authClient.submitPasswordRecoveryNewPassword({
           token: token,
           password: inputs.current[SIGNUP_FIELDS.password1],
         });
+
         const parsedToken = TokenManager.parseToken(token);
         const { email, isAdmin } = parsedToken;
-        await authClient.login({
+
+        const res = await authClient.login({
           email,
           password: inputs.current[SIGNUP_FIELDS.password1],
           isAdmin: isAdmin,
         });
+
+        // Write the login token
+        TokenManager.writeToken(res.tok);
+
         // If successful, redirect
-        await getUserProfile(dispatch, navigate, false);
+        await getUserProfile(dispatch, navigate, isAdmin);
       } catch (exception) {
-        console.log(exception);
+        setSubmitDisabled(false);
+        setHasSubmitErrors(true);
+        setSubmitErrorMessage(exception.response?.data?.err);
       }
     }
   };
@@ -119,7 +135,11 @@ export function ChangePasswordForm(props) {
   const resetPasswordErrors = () => {
     setHasPasswordError(false);
     setPasswordErrorText({});
+    setHasSubmitErrors(false);
+    setSubmitErrorMessage('');
+    setSubmitDisabled(false);
   };
+
   const renderForm = useCallback(() => {
     if (hasTokenParseError) {
       return (
@@ -195,6 +215,11 @@ export function ChangePasswordForm(props) {
               buttonColor={PALLET.mountainDewLime}
             />
           </Box>
+          {hasSubmitErrors && (
+            <Box display={'flex'} justifyContent={'center'}>
+              <ErrorComponent title={submitErrorMessage} />
+            </Box>
+          )}
         </StyledFormBox>
       </ResponsiveParentContainer>
     );
