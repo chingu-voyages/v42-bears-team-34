@@ -1,4 +1,10 @@
 export const SIGNUP_FIELDS = {
+  // Confirmation
+  residency: 'residency',
+  ageOfMajority: 'ageOfMajority',
+  confirmIncome: 'confirmIncome',
+  bankruptcy: 'bankruptcy',
+
   // Step 0
   firstName: 'firstName',
   lastName: 'lastName',
