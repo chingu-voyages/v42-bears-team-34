@@ -4,7 +4,7 @@ import PlaidLinkWidget from './Plaid-link-widget';
 
 /**
  *
- * @param {{ prompt: string, linkToken: string, onPlaidSuccessComplete: () => void, onAbort: ()=> void}} props
+ * @param {{ prompt: string, linkToken: string, onPlaidSuccessComplete: (itemId: string) => void, onAbort: ()=> void}} props
  * @returns
  */
 function PlaidLinkContainer(props) {

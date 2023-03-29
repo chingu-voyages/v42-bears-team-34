@@ -2,9 +2,9 @@ import React, { useRef, useState, useCallback, useContext } from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import StepOne from './StepOne';
-import StepTwo from './StepTwo';
-import StepThree from './StepThree';
+import UserDetailsStep from './UserDetailsStep';
+import PasswordDateOfBirthStep from './PasswordDateOfBirthStep';
+import LoanApplicationDetailsStep from './LoanApplicationDetailsStep';
 import StepFour from './StepFour';
 import PlaidLinkPage from './PlaidLinkPage';
 import AppContext from '../../context/AppContext';
@@ -22,10 +22,11 @@ import { generateSignupError } from '../../utils/signup-error-generator';
 import { useNavigate } from 'react-router-dom';
 import { StyledTextLink } from '../../components/StyledTextLink';
 import { SummaryFinishPage } from './SummaryFinishPage';
+import { AuthClient } from '../../services/api-clients/auth-client';
 
 const steps = [
+  'Create your account',
   'Your personal information',
-  'Create your password',
   'Your Loan information',
   'Your bank verification',
 ];
@@ -41,15 +42,24 @@ function showSteps(
   switch (step) {
     case 0:
       return (
-        <StepOne onStepDataChange={handleStepDataChange} errors={errors} />
+        <PasswordDateOfBirthStep
+          onStepDataChange={handleStepDataChange}
+          errors={errors}
+        />
       );
     case 1:
       return (
-        <StepTwo onStepDataChange={handleStepDataChange} errors={errors} />
+        <UserDetailsStep
+          onStepDataChange={handleStepDataChange}
+          errors={errors}
+        />
       );
     case 2:
       return (
-        <StepThree onStepDataChange={handleStepDataChange} errors={errors} />
+        <LoanApplicationDetailsStep
+          onStepDataChange={handleStepDataChange}
+          errors={errors}
+        />
       );
     case 3:
       return (
@@ -85,7 +95,7 @@ function SignupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [, setConfirmationValidationError] = useState(false);
-  const { dispatch } = useContext(AppContext);
+  const { dispatch, pendingApplicationId } = useContext(AppContext);
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -231,10 +241,23 @@ function SignupPage() {
     doSignupFlow();
   }, []);
 
-  const handleLinkSuccess = useCallback(() => {
+  const handleLinkSuccess = async (itemId) => {
     // Increment step and show a summary and final page
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  });
+    // We have item ID and access to the user's e-mail. Send request to server to send welcome e-mail
+    try {
+      const authClient = new AuthClient();
+      await authClient.triggerWelcomeEmail({
+        pendingApplicationId: pendingApplicationId,
+        itemId: itemId,
+        email: stepData.current[SIGNUP_FIELDS.email],
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // Even if the triggering of welcome e-mail fails, let the user progress
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+  };
 
   return (
     <Box>

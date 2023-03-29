@@ -79,4 +79,16 @@ export class AuthClient extends BaseClient {
       password,
     });
   }
+
+  /**
+   *
+   * @param {{ email: string, itemId: string }} param0
+   */
+  async triggerWelcomeEmail({ itemId, email, pendingApplicationId }) {
+    return super.postData('/auth/send_welcome_email', {
+      pendingApplicationId,
+      email,
+      itemId,
+    });
+  }
 }

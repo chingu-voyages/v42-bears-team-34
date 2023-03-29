@@ -10,5 +10,5 @@ export const ENV = {
   API_URL: IS_PRODUCTION
     ? `${import.meta.env.VITE_PRODUCTION_API_URL}`
     : `${import.meta.env.VITE_DEV_API_URL}`,
-  APP_VERSION: '2.1.1',
+  APP_VERSION: '2.1.2',
 };

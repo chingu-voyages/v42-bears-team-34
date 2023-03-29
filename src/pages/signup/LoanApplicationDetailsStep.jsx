@@ -16,7 +16,7 @@ import { DropDownSelect } from './components/DropDownSelect';
 import { useGetInstallmentValues } from '../../hooks/UseGetInstallmentValues';
 import { ErrorComponent } from '../../components/ErrorComponent';
 
-export default function StepThree(props) {
+export default function LoanApplicationDetailsStep(props) {
   const [values, setValues] = useState(STEP_STATE[2]);
   const [installmentValues, errorMessage] = useGetInstallmentValues(
     values[SIGNUP_FIELDS.requestedLoanAmount]

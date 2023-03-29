@@ -8,8 +8,8 @@ import { CustomDatePicker } from '../../components/CustomDatePicker';
 import { STEP_STATE } from './steps-state';
 import { MAX_ADULT_AGE } from '../../utils/definitions';
 
-export default function StepTwo(props) {
-  const [inputs, setInputs] = useState(STEP_STATE[1]);
+export default function PasswordDateOfBirthStep(props) {
+  const [inputs, setInputs] = useState(STEP_STATE[0]);
 
   const handleChange = (e) => {
     e.preventDefault();

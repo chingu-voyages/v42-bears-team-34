@@ -30,8 +30,8 @@ function PlaidLinkWidget(props) {
   const { dispatch } = useContext(AppContext);
 
   // This is called when the plaid token exchange is complete to signal to parent component.
-  const handlePlaidSuccessComplete = () => {
-    props.onPlaidSuccessComplete && props.onPlaidSuccessComplete();
+  const handlePlaidSuccessComplete = (itemId) => {
+    props.onPlaidSuccessComplete && props.onPlaidSuccessComplete(itemId);
   };
 
   const onSuccess = useCallback((public_token) => {
@@ -41,7 +41,7 @@ function PlaidLinkWidget(props) {
       const plaidClient = new PlaidClient({ authToken: jwtToken });
 
       // Send the request to exchange the public token for a link token
-      await plaidClient.postSetPublicToken(public_token);
+      const itemId = await plaidClient.postSetPublicToken(public_token);
       dispatch({
         type: APP_ACTIONS.SET_STATE,
         state: {
@@ -50,7 +50,7 @@ function PlaidLinkWidget(props) {
           linkTokenError: clearLinkTokenError(),
         },
       });
-      handlePlaidSuccessComplete();
+      handlePlaidSuccessComplete(itemId.itemId);
     };
     exchangePublicTokenForAccessToken();
   }, []);

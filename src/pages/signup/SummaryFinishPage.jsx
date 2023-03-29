@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, styled, Typography } from '@mui/material';
 import { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,10 +17,9 @@ const StyledSummaryBoxContainer = styled(Box)((props) => ({
 }));
 /**
  * Summary and thank you page after completing the application process
- * @param {*} props
  * @returns
  */
-export function SummaryFinishPage(props) {
+export function SummaryFinishPage() {
   const [userData, setUserData] = useState(null);
   const [applicationData, setApplicationData] = useState(null);
 

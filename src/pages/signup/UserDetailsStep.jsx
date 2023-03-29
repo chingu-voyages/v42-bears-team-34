@@ -9,8 +9,8 @@ import { DropDownSelect } from './components/DropDownSelect';
 import { PROVINCES } from './field-options';
 import { PhoneNumberInput } from './components/PhoneNumberInput';
 
-export default function StepOne(props) {
-  const [inputs, setInputs] = useState(STEP_STATE[0]);
+export default function UserDetailsStep(props) {
+  const [inputs, setInputs] = useState(STEP_STATE[1]);
 
   const handleChange = (e) => {
     setInputs((prevState) => ({
