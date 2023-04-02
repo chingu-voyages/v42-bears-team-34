@@ -12,7 +12,7 @@ import { MAX_ADULT_AGE } from '../../../utils/definitions';
 import { PALLET } from '../../../stylings/pallet';
 import StyledButton from '../../StyledButton/StyledButton';
 import { ErrorComponent } from '../../ErrorComponent';
-import { SignupValidator } from '../../../pages/signup/validate-signup';
+import { SignupValidator } from '../../../utils/validation/validate-signup';
 import dayjs from 'dayjs';
 import { TokenManager } from '../../../services/token-manager/token-manager';
 import { UserClient } from '../../../services/api-clients/user-client';
