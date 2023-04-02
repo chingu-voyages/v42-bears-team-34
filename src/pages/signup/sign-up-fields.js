@@ -6,6 +6,13 @@ export const SIGNUP_FIELDS = {
   bankruptcy: 'bankruptcy',
 
   // Step 0
+  email: 'email',
+  dateOfBirth: 'dateOfBirth',
+  password1: 'password1',
+  password2: 'password2',
+
+  // Step 1
+  verificationCode: 'emailConfirmationToken',
   firstName: 'firstName',
   lastName: 'lastName',
   streetAddress: 'streetAddress',
@@ -15,12 +22,6 @@ export const SIGNUP_FIELDS = {
   province: 'province',
   postalCode: 'postalCode',
   phone: 'phone',
-
-  // Step 1
-  email: 'email',
-  dateOfBirth: 'dateOfBirth',
-  password1: 'password1',
-  password2: 'password2',
 
   // Step 2
   applicantIncome: 'applicantIncome',
@@ -35,6 +36,7 @@ export const SIGNUP_FIELDS = {
 };
 
 export const FIELD_DICT = {
+  verificationCode: 'E-mail Confirmation Token',
   firstName: 'First Name',
   lastName: 'Last Name',
   streetAddress: 'Street Address',

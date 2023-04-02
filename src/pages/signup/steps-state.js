@@ -11,6 +11,10 @@ export const STEP_STATE = [
     [SIGNUP_FIELDS.password2]: '',
   },
   {
+    [SIGNUP_FIELDS.verificationCode]: '',
+  },
+  {
+    [SIGNUP_FIELDS.emailConfirmationToken]: '',
     [SIGNUP_FIELDS.firstName]: '',
     [SIGNUP_FIELDS.lastName]: '',
     [SIGNUP_FIELDS.streetAddress]: '',

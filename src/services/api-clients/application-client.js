@@ -30,4 +30,12 @@ export class ApplicationClient extends BaseClient {
   async patchExistingApplication(id, data) {
     return super.patchData(`/application/update/${id}`, data);
   }
+
+  /**
+   *
+   * @param {{ itemId: string, email: string, applicationId: string }} data
+   */
+  async triggerWelcomeEmail(data) {
+    return super.postData('/application/trigger-welcome-email', data);
+  }
 }
