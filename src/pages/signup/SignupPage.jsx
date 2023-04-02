@@ -2,14 +2,14 @@ import React, { useRef, useState, useCallback, useContext } from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import UserDetailsStep from './UserDetailsStep';
-import PasswordDateOfBirthStep from './PasswordDateOfBirthStep';
-import LoanApplicationDetailsStep from './LoanApplicationDetailsStep';
-import StepFour from './StepFour';
-import PlaidLinkPage from './PlaidLinkPage';
+import UserDetailsStep from './step-pages/UserDetailsStep';
+import PasswordDateOfBirthStep from './step-pages/PasswordDateOfBirthStep';
+import LoanApplicationDetailsStep from './step-pages/LoanApplicationDetailsStep';
+import IbvPromptPage from './step-pages/IbvPromptPage';
+import PlaidLinkPage from './step-pages/PlaidLinkPage';
 import AppContext from '../../context/AppContext';
-import { Button, Box } from '@mui/material';
-import { SignupValidator } from './validate-signup';
+import { Button, Box, Typography } from '@mui/material';
+import { SignupValidator } from '../../utils/validation/validate-signup';
 import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
 import { STEP_STATE } from './steps-state';
 import { SignUpHelper } from '../../services/sign-up-helper/sign-up-helper';
@@ -21,14 +21,16 @@ import AlertModal from '../../components/AlertModal/AlertModal';
 import { generateSignupError } from '../../utils/signup-error-generator';
 import { useNavigate } from 'react-router-dom';
 import { StyledTextLink } from '../../components/StyledTextLink';
-import { SummaryFinishPage } from './SummaryFinishPage';
-import { AuthClient } from '../../services/api-clients/auth-client';
+import { SummaryFinishPage } from './step-pages/SummaryFinishPage';
+import VerificationCodeStep from './step-pages/VerificationCodeStep';
+import { PALLET } from '../../stylings/pallet';
 
 const steps = [
-  'Create your account',
-  'Your personal information',
-  'Your Loan information',
-  'Your bank verification',
+  'Create your Account',
+  'Verify your E-mail Address',
+  'Name & Address Information',
+  'Your Loan Information',
+  'Your Bank Verification',
 ];
 
 function showSteps(
@@ -49,29 +51,36 @@ function showSteps(
       );
     case 1:
       return (
-        <UserDetailsStep
+        <VerificationCodeStep
           onStepDataChange={handleStepDataChange}
           errors={errors}
         />
       );
     case 2:
       return (
-        <LoanApplicationDetailsStep
+        <UserDetailsStep
           onStepDataChange={handleStepDataChange}
           errors={errors}
         />
       );
     case 3:
       return (
-        <StepFour
+        <LoanApplicationDetailsStep
+          onStepDataChange={handleStepDataChange}
+          errors={errors}
+        />
+      );
+    case 4:
+      return (
+        <IbvPromptPage
           onStepDataChange={handleStepDataChange}
           submitState={state}
           onInvalidState={setConfirmationValidationState}
         />
       );
-    case 4:
-      return <PlaidLinkPage onLinkSuccess={handleLinkSuccess} />;
     case 5:
+      return <PlaidLinkPage onLinkSuccess={handleLinkSuccess} />;
+    case 6:
       return <SummaryFinishPage />;
   }
 }
@@ -91,6 +100,7 @@ const ConfirmButton = (props) => {
     </Button>
   );
 };
+
 function SignupPage() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -242,19 +252,17 @@ function SignupPage() {
   }, []);
 
   const handleLinkSuccess = async (itemId) => {
-    // Increment step and show a summary and final page
-    // We have item ID and access to the user's e-mail. Send request to server to send welcome e-mail
     try {
-      const authClient = new AuthClient();
-      await authClient.triggerWelcomeEmail({
-        pendingApplicationId: pendingApplicationId,
+      // Trigger the server to send a welcome e-mail, send the e-mail and the itemId to the server
+      const applicationClient = new ApplicationClient();
+      await applicationClient.triggerWelcomeEmail({
         itemId: itemId,
         email: stepData.current[SIGNUP_FIELDS.email],
+        applicationId: pendingApplicationId,
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.error(err);
     } finally {
-      // Even if the triggering of welcome e-mail fails, let the user progress
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
@@ -277,7 +285,7 @@ function SignupPage() {
           })}
         </Stepper>
       </Box>
-      <Box component={'div'} display={'flex'} justifyContent={'center'}>
+      <Box component={'div'} display={'flex'} justifyContent={'center'} mt={3}>
         <Box ml={2} mr={2} component={'form'} id="questionnaire">
           {showSteps(
             activeStep,
@@ -300,9 +308,9 @@ function SignupPage() {
           pt={2}
           justifyContent={'center'}
         >
-          {activeStep < 4 && (
+          {activeStep < 6 && (
             <>
-              {activeStep < 4 && (
+              {activeStep < STEP_STATE.length && (
                 <Button
                   color="inherit"
                   variant="contained"
@@ -313,12 +321,12 @@ function SignupPage() {
                   Back
                 </Button>
               )}
-              {activeStep < 3 && (
+              {activeStep < STEP_STATE.length && (
                 <Button onClick={handleNext} variant="contained">
                   Next
                 </Button>
               )}
-              {activeStep === 3 && (
+              {activeStep === STEP_STATE.length && (
                 <ConfirmButton
                   title={'Confirm'}
                   onClick={handleSignupFlow}
@@ -336,13 +344,23 @@ function SignupPage() {
         bodyText={signupErrorMessage.bodyText}
       />
       {hasSignupError && (
-        <Box display="flex" justifyContent={'center'} mt={3}>
-          <StyledTextLink
-            url={'/user/applications'}
-            text={'Sign in to your account'}
-            navigate={navigate}
-          />
-        </Box>
+        <>
+          <Box mt={3}>
+            <Typography
+              textAlign={'center'}
+              sx={{ color: PALLET.hemoglobinErrorRed }}
+            >
+              There was an error and we are unable to continue.
+            </Typography>
+          </Box>
+          <Box display="flex" justifyContent={'center'} mt={3}>
+            <StyledTextLink
+              url={'/user/applications'}
+              text={'Sign in to your account'}
+              navigate={navigate}
+            />
+          </Box>
+        </>
       )}
     </Box>
   );
