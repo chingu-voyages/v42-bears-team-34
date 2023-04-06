@@ -79,4 +79,21 @@ export class AuthClient extends BaseClient {
       password,
     });
   }
+
+  /**
+   *
+   * @param { email: string} email
+   */
+  async triggerVerificationCodeEmail(email) {
+    return super.postData('/auth/verification-code-email', { email: email });
+  }
+
+  /**
+   *
+   * @param {string} email
+   * @returns {Promise<{ value: boolean}>}
+   */
+  async getIsEmailVerified(email) {
+    return super.getData(`/auth/isEmailVerified/${email}`);
+  }
 }
