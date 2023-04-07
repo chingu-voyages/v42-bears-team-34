@@ -11,7 +11,7 @@ import { PhoneNumberInput } from '../components/PhoneNumberInput';
 import { Box } from '@mui/material';
 
 export default function UserDetailsStep(props) {
-  const [inputs, setInputs] = useState(STEP_STATE[2]);
+  const [inputs, setInputs] = useState(STEP_STATE[2].data);
 
   const handleChange = (e) => {
     setInputs((prevState) => ({

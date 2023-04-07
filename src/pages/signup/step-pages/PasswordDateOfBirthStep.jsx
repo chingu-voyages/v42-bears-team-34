@@ -9,7 +9,7 @@ import { STEP_STATE } from '../steps-state';
 import { MAX_ADULT_AGE } from '../../../utils/definitions';
 
 export default function PasswordDateOfBirthStep(props) {
-  const [inputs, setInputs] = useState(STEP_STATE[0]);
+  const [inputs, setInputs] = useState(STEP_STATE[0].data);
 
   const handleChange = (e) => {
     e.preventDefault();

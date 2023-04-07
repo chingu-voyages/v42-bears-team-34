@@ -17,7 +17,7 @@ import { useGetInstallmentValues } from '../../../hooks/UseGetInstallmentValues'
 import { ErrorComponent } from '../../../components/ErrorComponent';
 
 export default function LoanApplicationDetailsStep(props) {
-  const [values, setValues] = useState(STEP_STATE[3]);
+  const [values, setValues] = useState(STEP_STATE[3].data);
   const [installmentValues, errorMessage] = useGetInstallmentValues(
     values[SIGNUP_FIELDS.requestedLoanAmount]
   );
