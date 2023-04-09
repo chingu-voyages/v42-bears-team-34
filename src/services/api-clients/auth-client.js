@@ -82,7 +82,8 @@ export class AuthClient extends BaseClient {
 
   /**
    *
-   * @param { email: string} email
+   * @param {string} email
+   * @param {boolean} resend
    */
   async triggerVerificationCodeEmail(email) {
     return super.postData('/auth/verification-code-email', { email: email });
@@ -95,5 +96,15 @@ export class AuthClient extends BaseClient {
    */
   async getIsEmailVerified(email) {
     return super.getData(`/auth/isEmailVerified/${email}`);
+  }
+
+  /**
+   *
+   * @param {string} email
+   * @param {string} code
+   * @returns {Promise<{ result: boolean, msg: string}>} the result of the operation
+   */
+  async verifyEmail(email, code) {
+    return super.postData('/auth/email/verify', { email: email, code: code });
   }
 }
