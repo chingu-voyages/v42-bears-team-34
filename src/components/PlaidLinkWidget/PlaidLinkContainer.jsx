@@ -14,11 +14,13 @@ function PlaidLinkContainer(props) {
       <Box mt={5} mb={5}>
         <Typography>{prompt}</Typography>
       </Box>
-      <PlaidLinkWidget
-        linkToken={linkToken}
-        onPlaidSuccessComplete={onPlaidSuccessComplete}
-        onAbort={onAbort}
-      />
+      <Box display="flex" justifyContent={'center'}>
+        <PlaidLinkWidget
+          linkToken={linkToken}
+          onPlaidSuccessComplete={onPlaidSuccessComplete}
+          onAbort={onAbort}
+        />
+      </Box>
     </Box>
   );
 }
