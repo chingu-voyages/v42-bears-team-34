@@ -24,6 +24,9 @@ import { StyledTextLink } from '../../components/StyledTextLink';
 import { SummaryFinishPage } from './step-pages/SummaryFinishPage';
 import VerificationCodeStep from './step-pages/VerificationCodeStep';
 import { PALLET } from '../../stylings/pallet';
+import { signUpSideEffects } from './side-effects';
+import { useIsEmailVerified } from '../../hooks/UserGetIsEmailVerified';
+import { AuthClient } from '../../services/api-clients/auth-client';
 
 const steps = [
   'Create your Account',
@@ -37,9 +40,10 @@ function showSteps(
   step,
   handleStepDataChange,
   errors,
-  state,
   setConfirmationValidationState,
-  handleLinkSuccess
+  handleLinkSuccess,
+  handleResendCodeButtonClicked,
+  emailVerified
 ) {
   switch (step) {
     case 0:
@@ -53,6 +57,8 @@ function showSteps(
       return (
         <VerificationCodeStep
           onStepDataChange={handleStepDataChange}
+          onResendCodeButtonClicked={handleResendCodeButtonClicked}
+          emailVerified={emailVerified}
           errors={errors}
         />
       );
@@ -74,7 +80,6 @@ function showSteps(
       return (
         <IbvPromptPage
           onStepDataChange={handleStepDataChange}
-          submitState={state}
           onInvalidState={setConfirmationValidationState}
         />
       );
@@ -118,11 +123,14 @@ function SignupPage() {
   });
   const [hasSignupError, setHasSignupError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const stepData = useRef(STEP_STATE[0]);
+  const stepData = useRef(STEP_STATE[0].data);
+  const [emailVerified] = useIsEmailVerified(
+    stepData.current[SIGNUP_FIELDS.email]
+  );
 
   const navigate = useNavigate();
 
-  const handleNext = () => {
+  const handleNext = async () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -131,7 +139,7 @@ function SignupPage() {
 
     // Extract form field errors
     const errors = SignupValidator.validate(
-      Object.keys(STEP_STATE[activeStep]),
+      Object.keys(STEP_STATE[activeStep].data),
       stepData.current
     );
 
@@ -139,7 +147,15 @@ function SignupPage() {
       setErrors(errors);
       return;
     }
+
     setErrors({});
+
+    // Complete any side effects for this step
+    (await signUpSideEffects[STEP_STATE[activeStep]?.id]) &&
+      signUpSideEffects[STEP_STATE[activeStep].id](stepData.current, {
+        emailVerified,
+        dispatchFunction: dispatch,
+      });
     storeDataInSession(stepData.current);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
@@ -162,6 +178,15 @@ function SignupPage() {
   };
 
   const handleSignupFlow = useCallback(() => {
+    setHasSignupError(false);
+    setSignupErrorMessage('');
+    if (!emailVerified) {
+      setHasSignupError(true);
+      setSignupErrorMessage(
+        'Please confirm your e-mail address by entering the verification code sent to your e-mail.'
+      );
+      return;
+    }
     /* Increment the active step, which should hide the back button
       This will attempt to create an account
       Increment the activeStep to show the final step which is the plaid screen.
@@ -267,6 +292,18 @@ function SignupPage() {
     }
   };
 
+  const handleResendCodeButtonClicked = async () => {
+    // Send request to re-send verification code e-mail
+    try {
+      const authClient = new AuthClient();
+      await authClient.triggerVerificationCodeEmail(
+        stepData.current[SIGNUP_FIELDS.email]
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return (
     <Box>
       <Box mt={2}>
@@ -291,9 +328,10 @@ function SignupPage() {
             activeStep,
             handleStepDataChange,
             errors,
-            stepData.current,
             setConfirmationValidationError,
-            handleLinkSuccess
+            handleLinkSuccess,
+            handleResendCodeButtonClicked,
+            emailVerified
           )}
         </Box>
       </Box>
