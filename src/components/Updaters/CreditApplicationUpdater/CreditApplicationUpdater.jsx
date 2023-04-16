@@ -14,7 +14,7 @@ import StyledButton from '../../StyledButton/StyledButton';
 import { PALLET } from '../../../stylings/pallet';
 import { TokenManager } from '../../../services/token-manager/token-manager';
 import { useNavigate, useParams } from 'react-router-dom';
-import { SignupValidator } from '../../../pages/signup/validate-signup';
+import { SignupValidator } from '../../../utils/validation/validate-signup';
 import { ApplicationClient } from '../../../services/api-clients/application-client';
 function CreditApplicationUpdater(props) {
   const { applicationData, onUpdate } = props;

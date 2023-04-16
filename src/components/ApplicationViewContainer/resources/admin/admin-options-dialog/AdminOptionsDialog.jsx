@@ -20,7 +20,7 @@ import { ADMIN_OPTIONS_ACTION } from './admin-options-actions';
 const StyledDialog = styled(Dialog)(() => ({
   '& .MuiPaper-root': {
     width: '100vw',
-    marginBottom: '575px'
+    marginBottom: '575px',
   },
 }));
 /**
@@ -127,6 +127,7 @@ export function AdminOptionsDialog(props) {
           sx={{ backgroundColor: PALLET.pineGreen }}
           disableElevation
           onClick={handleSubmit}
+          disabled={applicationStatusValue === null}
         >
           Submit
         </Button>

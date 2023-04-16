@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { SIGNUP_FIELDS } from './sign-up-fields';
+import { SIGNUP_FIELDS } from '../sign-up-fields';
 
-import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
-import { STEP_STATE } from './steps-state';
+import { SignupDataStore } from '../../../services/SignupDataStore/signup-data-store';
+import { STEP_STATE } from '../steps-state';
 
-import { StandardTextField } from './components/StandardTextField';
-import { DropDownSelect } from './components/DropDownSelect';
-import { PROVINCES } from './field-options';
-import { PhoneNumberInput } from './components/PhoneNumberInput';
+import { StandardTextField } from '../components/StandardTextField';
+import { DropDownSelect } from '../components/DropDownSelect';
+import { PROVINCES } from '../field-options';
+import { PhoneNumberInput } from '../components/PhoneNumberInput';
+import { Box } from '@mui/material';
 
-export default function StepOne(props) {
-  const [inputs, setInputs] = useState(STEP_STATE[0]);
+export default function UserDetailsStep(props) {
+  const [inputs, setInputs] = useState(STEP_STATE[2].data);
 
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -27,7 +28,7 @@ export default function StepOne(props) {
     setInputs(SignupDataStore.getData(Object.keys(inputs)));
   }, []);
   return (
-    <div>
+    <Box>
       <StandardTextField
         fieldName={SIGNUP_FIELDS.firstName}
         fieldLabel={'First Name'}
@@ -97,6 +98,6 @@ export default function StepOne(props) {
         onFieldValueChanged={handleChange}
         fieldName={SIGNUP_FIELDS.phone}
       />
-    </div>
+    </Box>
   );
 }

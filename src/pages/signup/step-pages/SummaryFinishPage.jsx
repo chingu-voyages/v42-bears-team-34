@@ -1,12 +1,13 @@
+import React from 'react';
 import { Box, styled, Typography } from '@mui/material';
 import { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ApplicationDetailsSectionComponent } from '../../components/ApplicationViewContainer/resources/ApplicationDetailsSectionComponent';
-import { UserDetailsSectionComponent } from '../../components/ApplicationViewContainer/resources/UserDetailsSectionComponent';
-import StyledButton from '../../components/StyledButton/StyledButton';
-import AppContext from '../../context/AppContext';
-import { UserClient } from '../../services/api-clients/user-client';
-import { TokenManager } from '../../services/token-manager/token-manager';
+import { ApplicationDetailsSectionComponent } from '../../../components/ApplicationViewContainer/resources/ApplicationDetailsSectionComponent';
+import { UserDetailsSectionComponent } from '../../../components/ApplicationViewContainer/resources/UserDetailsSectionComponent';
+import StyledButton from '../../../components/StyledButton/StyledButton';
+import AppContext from '../../../context/AppContext';
+import { UserClient } from '../../../services/api-clients/user-client';
+import { TokenManager } from '../../../services/token-manager/token-manager';
 
 const StyledSummaryBoxContainer = styled(Box)((props) => ({
   [props.theme.breakpoints.up('lg')]: {
@@ -16,10 +17,9 @@ const StyledSummaryBoxContainer = styled(Box)((props) => ({
 }));
 /**
  * Summary and thank you page after completing the application process
- * @param {*} props
  * @returns
  */
-export function SummaryFinishPage(props) {
+export function SummaryFinishPage() {
   const [userData, setUserData] = useState(null);
   const [applicationData, setApplicationData] = useState(null);
 

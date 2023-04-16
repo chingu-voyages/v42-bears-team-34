@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { StandardTextField } from './components/StandardTextField';
-import { SIGNUP_FIELDS } from './sign-up-fields';
-import { ErrorComponent } from '../../components/ErrorComponent';
-import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
-import { CustomDatePicker } from '../../components/CustomDatePicker';
-import { STEP_STATE } from './steps-state';
-import { MAX_ADULT_AGE } from '../../utils/definitions';
+import { StandardTextField } from '../components/StandardTextField';
+import { SIGNUP_FIELDS } from '../sign-up-fields';
+import { ErrorComponent } from '../../../components/ErrorComponent';
+import { SignupDataStore } from '../../../services/SignupDataStore/signup-data-store';
+import { CustomDatePicker } from '../../../components/CustomDatePicker';
+import { STEP_STATE } from '../steps-state';
+import { MAX_ADULT_AGE } from '../../../utils/definitions';
 
-export default function StepTwo(props) {
-  const [inputs, setInputs] = useState(STEP_STATE[1]);
+export default function PasswordDateOfBirthStep(props) {
+  const [inputs, setInputs] = useState(STEP_STATE[0].data);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -37,7 +37,7 @@ export default function StepTwo(props) {
   }, []);
 
   return (
-    <Box mt={3}>
+    <Box>
       <StandardTextField
         maxLength={80}
         fieldName={SIGNUP_FIELDS.email}

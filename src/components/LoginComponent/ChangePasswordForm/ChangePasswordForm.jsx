@@ -16,7 +16,7 @@ import { ResponsiveParentContainer } from '../../ResponsiveParentContainer/Respo
 import dayjs from 'dayjs';
 import { StyledTextLink } from '../../StyledTextLink';
 import { SIGNUP_FIELDS } from '../../../pages/signup/sign-up-fields';
-import { SignupValidator } from '../../../pages/signup/validate-signup';
+import { SignupValidator } from '../../../utils/validation/validate-signup';
 import { AuthClient } from '../../../services/api-clients/auth-client';
 import AppContext from '../../../context/AppContext';
 import { getUserProfile } from '../../../services/get-user-profile/get-user-profile';

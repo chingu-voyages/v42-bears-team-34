@@ -4,9 +4,9 @@ import { Typography, Box } from '@mui/material';
   Here we should check that all validations are good and not let the user progress
   When the user clicks next from this page, we should do the sign-up process
 */
-export default function StepFour() {
+export default function IbvPromptPage() {
   return (
-    <Box mt={3}>
+    <Box>
       <Box display="flex" flexDirection={'column'} justifyContent={'center'}>
         <Typography variant="h4" component="h2" align="center">
           Instant Bank Verification (IBV)
@@ -17,8 +17,8 @@ export default function StepFour() {
           your paychecks are deposited)
         </Typography>
         <Typography align="center">
-          Click 'confirm' to register your file with us and connect your
-          financial details.
+          Click confirm to register your file with us and connect your financial
+          details.
         </Typography>
       </Box>
     </Box>

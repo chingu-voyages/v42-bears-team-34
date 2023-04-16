@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { SIGNUP_FIELDS } from './sign-up-fields';
+import { SIGNUP_FIELDS } from '../sign-up-fields';
 import {
   GENDERS,
   LOAN_PURPOSES,
   OCCUPATIONS,
   REQUESTED_LOAN_AMOUNTS,
-} from './field-options';
+} from '../field-options';
 
-import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
-import { STEP_STATE } from './steps-state';
+import { SignupDataStore } from '../../../services/SignupDataStore/signup-data-store';
+import { STEP_STATE } from '../steps-state';
 
-import { CurrencyNumberInput } from './components/CurrencyNumberInput';
-import { DropDownSelect } from './components/DropDownSelect';
-import { useGetInstallmentValues } from '../../hooks/UseGetInstallmentValues';
-import { ErrorComponent } from '../../components/ErrorComponent';
+import { CurrencyNumberInput } from '../components/CurrencyNumberInput';
+import { DropDownSelect } from '../components/DropDownSelect';
+import { useGetInstallmentValues } from '../../../hooks/UseGetInstallmentValues';
+import { ErrorComponent } from '../../../components/ErrorComponent';
 
-export default function StepThree(props) {
-  const [values, setValues] = useState(STEP_STATE[2]);
+export default function LoanApplicationDetailsStep(props) {
+  const [values, setValues] = useState(STEP_STATE[3].data);
   const [installmentValues, errorMessage] = useGetInstallmentValues(
     values[SIGNUP_FIELDS.requestedLoanAmount]
   );
@@ -75,7 +75,7 @@ export default function StepThree(props) {
   }, [values[SIGNUP_FIELDS.requestedLoanAmount], installmentValues]);
 
   return (
-    <Box className="StepThreeForm" mt={3}>
+    <Box className="StepThreeForm">
       <CurrencyNumberInput
         fieldName={SIGNUP_FIELDS.applicantIncome}
         fieldValue={values[SIGNUP_FIELDS.applicantIncome]}

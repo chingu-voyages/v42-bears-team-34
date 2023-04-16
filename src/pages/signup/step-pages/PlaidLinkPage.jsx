@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react';
-import { PlaidLinkContainer } from '../../components/PlaidLinkWidget';
-import AppContext from '../../context/AppContext';
+import { PlaidLinkContainer } from '../../../components/PlaidLinkWidget';
+import AppContext from '../../../context/AppContext';
 /**
  * The
  * @param {{ onLinkSuccess: () => void}} props
@@ -9,9 +9,9 @@ import AppContext from '../../context/AppContext';
 export default function PlaidLinkPage(props) {
   const { linkToken } = useContext(AppContext);
   const { onLinkSuccess, onAbort } = props;
-  const handleLinkSuccess = useCallback(() => {
+  const handleLinkSuccess = useCallback((itemId) => {
     // Do something with the success state. Maybe do a summary page or render an APPLY or DONE button?
-    onLinkSuccess && onLinkSuccess();
+    onLinkSuccess && onLinkSuccess(itemId);
   }, []);
   return (
     <PlaidLinkContainer

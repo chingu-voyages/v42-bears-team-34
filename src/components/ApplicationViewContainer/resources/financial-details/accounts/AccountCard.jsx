@@ -1,22 +1,12 @@
-import { Box, Paper, styled } from '@mui/material';
+import { Box } from '@mui/material';
+import React from 'react';
 import { AttributeComponent } from '../liabilities/AttributeComponent';
-import { STRING_HELPERS } from '../../../../../utils/string-helpers';
 import { StyledFinancialItemCard } from '../StyledLiabilityCard';
 import { ConversionType } from '../../../application-field-conversion-type';
-const StyledAccountAttribute = styled(Paper)((props) => ({
-  '&.MuiPaper-root': {
-    boxShadow: 'none',
-  },
-}));
-const StyledAccountSubAttribute = styled(Paper)((props) => ({
-  '&.MuiPaper-rounded': {
-    padding: '10px',
-  },
-}));
+
 // This will contain an account name, balance and available
 // account name will be a bold title
 
-const boldAttributeWeight = 600;
 /**
  *
  * @param {{ account_id: string, name: string, balances: Object, subtype: string, type: string }} props
