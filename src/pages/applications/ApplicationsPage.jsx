@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { TokenManager } from '../../services/token-manager/token-manager';
 import { AdminClient } from '../../services/api-clients/admin-client';
-import { Box } from '@mui/system';
 import { ApplicationsList } from '../admin/applications-list/ApplicationsList';
-import { styled, Typography } from '@mui/material';
+import { styled, Typography, Box, Pagination, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
 import { UserClient } from '../../services/api-clients/user-client';
 import { FullPageSpinner } from '../../components/Spinner/FullPageSpinner';
+
+const limit = 10;
 
 const StyledApplicationsPageContainer = styled(Box)((props) => ({
   marginTop: '20px',
@@ -20,6 +21,8 @@ const StyledApplicationsPageContainer = styled(Box)((props) => ({
 // Clicking on one of these summaries should bring you to a detailed page
 function ApplicationsPage() {
   const [userApplications, setUserApplications] = useState([]);
+  const [applicationCount, setapplicationCount] = useState(0);
+  const [page, setPage] = useState(1);
   const { user } = useContext(AppContext);
   const [isBusy, setIsBusy] = useState(false);
   const navigate = useNavigate();
@@ -37,7 +40,7 @@ function ApplicationsPage() {
       };
       doUserFetchApplications();
     }
-  }, [user]);
+  }, [user, page]);
 
   const adminFetchAllApplications = async () => {
     // Get all applications and then the associated user
@@ -46,7 +49,8 @@ function ApplicationsPage() {
       try {
         setIsBusy(true);
         const adminClient = new AdminClient({ authToken: jwtToken });
-        const data = await adminClient.adminGetAllApplications();
+        const appCount = await adminClient.getApplicationCount();
+        const data = await adminClient.getAllApplications((page - 1), limit);
 
         if (data.applications) {
           const userData = await Promise.allSettled(
@@ -59,6 +63,7 @@ function ApplicationsPage() {
             data.applications
           );
           setUserApplications(groupedData);
+          setapplicationCount(appCount);
         }
         setIsBusy(false);
       } catch (error) {
@@ -69,7 +74,12 @@ function ApplicationsPage() {
     }
   };
 
+  const handlePageChanged = (event, value) => {
+    setPage(value);
+  }
+
   const navigateOnError = (error, role) => {
+    console.log(error.response)
     if (error?.response?.data?.err?.includes('Expired session')) {
       if (role === 'admin') {
         navigate('/admin/login', { replace: true });
@@ -121,6 +131,9 @@ function ApplicationsPage() {
           userApplications={userApplications}
           onApplicationClicked={handleApplicationClicked}
         />
+      <Stack spacing={2} sx={{ paddingTop: 1, paddingBottom: 2 }}>
+        <Pagination count={Math.floor(applicationCount / limit )} page={page} onChange={handlePageChanged} />
+      </Stack>
       </StyledApplicationsPageContainer>
     </>
   );

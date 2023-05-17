@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { StyledButton } from '../../components/StyledButton';
 import { PALLET } from '../../stylings/pallet';
 import { SignupModal } from '../../components/SignupModal';

@@ -11,8 +11,18 @@ export class AdminClient extends BaseUserActionClient {
     });
   }
 
-  async adminGetAllApplications() {
-    return super.getData('/admin/application/all');
+  /**
+   * 
+   * @param {number} page 
+   * @param {number} limit 
+   * @returns 
+   */
+  async getAllApplications(page=0, limit=10) {
+    return super.getData(`/admin/application/all?page=${page}&count=${limit}`);
+  }
+
+  async getApplicationCount() {
+    return super.getData("/admin/application/count")
   }
 
   /**
