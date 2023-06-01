@@ -4,6 +4,7 @@ import { Alert, styled } from '@mui/material';
 const StyledAlertComponent = styled(Alert)(() => ({
   '&.MuiPaper-root': {
     border: 'none',
+    padding: '0px'
   },
 }));
 

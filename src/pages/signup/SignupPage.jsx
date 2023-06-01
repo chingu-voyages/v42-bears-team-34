@@ -323,7 +323,7 @@ function SignupPage() {
         </Stepper>
       </Box>
       <Box component={'div'} display={'flex'} justifyContent={'center'} mt={3}>
-        <Box ml={2} mr={2} component={'form'} id="questionnaire">
+        <Box component={'form'} id="questionnaire">
           {showSteps(
             activeStep,
             handleStepDataChange,
