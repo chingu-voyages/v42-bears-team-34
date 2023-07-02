@@ -6,7 +6,7 @@ import { styled, Typography, Box, Pagination, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
 import { UserClient } from '../../services/api-clients/user-client';
-import { FullPageSpinner } from '../../components/Spinner/FullPageSpinner';
+import Spinner from '../../components/Spinner/Spinner';
 
 const limit = 10;
 
@@ -21,7 +21,7 @@ const StyledApplicationsPageContainer = styled(Box)((props) => ({
 // Clicking on one of these summaries should bring you to a detailed page
 function ApplicationsPage() {
   const [userApplications, setUserApplications] = useState([]);
-  const [applicationCount, setapplicationCount] = useState(0);
+  const [applicationCount, setApplicationCount] = useState(0);
   const [page, setPage] = useState(1);
   const { user } = useContext(AppContext);
   const [isBusy, setIsBusy] = useState(false);
@@ -63,7 +63,7 @@ function ApplicationsPage() {
             data.applications
           );
           setUserApplications(groupedData);
-          setapplicationCount(appCount);
+          setApplicationCount(appCount);
         }
         setIsBusy(false);
       } catch (error) {
@@ -122,7 +122,7 @@ function ApplicationsPage() {
 
   return (
     <>
-      {isBusy && <FullPageSpinner />}
+      {isBusy && <Spinner sx={{ position: 'absolute', top: '40vh', right: '50vw'}} />}
       <Typography mt={3} variant="h3" textAlign={'center'}>
         Applications
       </Typography>
