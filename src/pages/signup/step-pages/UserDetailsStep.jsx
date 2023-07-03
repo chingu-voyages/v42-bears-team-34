@@ -4,10 +4,10 @@ import { SIGNUP_FIELDS } from '../sign-up-fields';
 import { SignupDataStore } from '../../../services/SignupDataStore/signup-data-store';
 import { STEP_STATE } from '../steps-state';
 
-import { StandardTextField } from '../components/StandardTextField';
-import { DropDownSelect } from '../components/DropDownSelect';
+import { StandardTextField } from '../../../components/StandardTextField';
+import { DropDownSelect } from '../../../components/DropDownSelect';
 import { PROVINCES } from '../field-options';
-import { PhoneNumberInput } from '../components/PhoneNumberInput';
+import { PhoneNumberInput } from '../../../components/PhoneNumberInput';
 import { Box } from '@mui/material';
 
 export default function UserDetailsStep(props) {

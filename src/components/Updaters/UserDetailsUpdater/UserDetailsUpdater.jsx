@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React, { useState, useContext } from 'react';
-import { DropDownSelect } from '../../../pages/signup/components/DropDownSelect';
-import { StandardTextField } from '../../../pages/signup/components/StandardTextField';
+import { DropDownSelect } from '../../DropDownSelect';
+import { StandardTextField } from '../../StandardTextField';
 import { GENDERS, PROVINCES } from '../../../pages/signup/field-options';
 import {
   FIELD_DICT,

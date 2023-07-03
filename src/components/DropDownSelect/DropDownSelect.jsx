@@ -1,12 +1,12 @@
 import React from 'react';
 import { InputLabel, Select, MenuItem, FormControl, Box } from '@mui/material';
-import { ErrorComponent } from '../../../components/ErrorComponent';
+import { ErrorComponent } from '../ErrorComponent';
 /**
  *
  * @param {{ errors: any, options: { label: string, value: string}[],  onFieldValueChanged: (e) => void, fieldValue: string, fieldLabel: string, fieldName: string, marginBottom: number, formControlClassName: string, labelId: string }} props
  * @returns
  */
-export function DropDownSelect(props) {
+function DropDownSelect(props) {
   const {
     errors,
     options,
@@ -49,3 +49,5 @@ export function DropDownSelect(props) {
     </Box>
   );
 }
+
+export default DropDownSelect;

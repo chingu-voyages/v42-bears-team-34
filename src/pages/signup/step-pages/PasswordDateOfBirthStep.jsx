@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { StandardTextField } from '../components/StandardTextField';
+import { StandardTextField } from '../../../components/StandardTextField';
 import { SIGNUP_FIELDS } from '../sign-up-fields';
 import { ErrorComponent } from '../../../components/ErrorComponent';
 import { SignupDataStore } from '../../../services/SignupDataStore/signup-data-store';

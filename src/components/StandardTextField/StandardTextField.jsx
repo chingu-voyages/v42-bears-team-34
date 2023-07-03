@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, TextField } from '@mui/material';
-import { ErrorComponent } from '../../../components/ErrorComponent';
-import { SIGNUP_FIELDS } from '../sign-up-fields';
+import { ErrorComponent } from '../ErrorComponent';
+import { SIGNUP_FIELDS } from '../../pages/signup/sign-up-fields';
 
 const FIELD_LENGTHS = {
   [SIGNUP_FIELDS.firstName]: 50,
@@ -16,7 +16,7 @@ const FIELD_LENGTHS = {
  *
  * @param {{ disabled?: boolean, inputComponent?: JSX.Element, fieldType: "text" | "password", fieldWidth? number, textTransform?:string, maxLength?: number, errors: any, fieldName: string, fieldLabel: string, fieldValue: string, onFieldValueChanged: (e) => void }} props
  */
-export function StandardTextField(props) {
+function StandardTextField(props) {
   const {
     inputComponent,
     fieldType,
@@ -56,3 +56,5 @@ export function StandardTextField(props) {
     </Box>
   );
 }
+
+export default StandardTextField;

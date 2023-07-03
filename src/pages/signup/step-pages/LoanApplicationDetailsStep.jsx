@@ -11,8 +11,8 @@ import {
 import { SignupDataStore } from '../../../services/SignupDataStore/signup-data-store';
 import { STEP_STATE } from '../steps-state';
 
-import { CurrencyNumberInput } from '../components/CurrencyNumberInput';
-import { DropDownSelect } from '../components/DropDownSelect';
+import { CurrencyNumberInput } from '../../../components/CurrencyNumberInput';
+import { DropDownSelect } from '../../../components/DropDownSelect';
 import { useGetInstallmentValues } from '../../../hooks/UseGetInstallmentValues';
 import { ErrorComponent } from '../../../components/ErrorComponent';
 
