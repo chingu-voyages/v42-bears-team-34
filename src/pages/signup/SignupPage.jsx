@@ -143,6 +143,11 @@ function SignupPage() {
       stepData.current
     );
 
+    // Hacky work-around to by-pass validation error for emailToken
+    if (emailVerified && errors['emailConfirmationToken']) {
+      delete errors['emailConfirmationToken'];
+    }
+
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
       return;
@@ -179,12 +184,15 @@ function SignupPage() {
 
   const handleSignupFlow = useCallback(() => {
     setHasSignupError(false);
-    setSignupErrorMessage('');
+    setSignupErrorMessage({ title: '', bodyText: '' });
+
     if (!emailVerified) {
       setHasSignupError(true);
-      setSignupErrorMessage(
-        'Please confirm your e-mail address by entering the verification code sent to your e-mail.'
-      );
+      setSignupErrorMessage({
+        title: 'Sign up error',
+        bodyText:
+          'Please confirm your e-mail address by entering the verification code sent to your e-mail.',
+      });
       return;
     }
     /* Increment the active step, which should hide the back button
@@ -267,14 +275,11 @@ function SignupPage() {
         // If we get to this block, the sign-up flow catastrophically failed
         // And we should prompt user to login and continue their application
         // under their established credentials or do a password recovery
-        console.log(error);
-        // Determine the type of error and if we should show a special modal
-        setHasSignupError(true);
         generateSignupError(error, setModalOpen, setSignupErrorMessage);
       }
     };
     doSignupFlow();
-  }, []);
+  }, [emailVerified]);
 
   const handleLinkSuccess = async (itemId) => {
     try {
@@ -380,6 +385,11 @@ function SignupPage() {
         onDismiss={() => setModalOpen(false)}
         title={signupErrorMessage.title}
         bodyText={signupErrorMessage.bodyText}
+        linkData={{
+          title: 'Sign in to your account',
+          url: '/user/applications',
+          navigate: navigate,
+        }}
       />
       {hasSignupError && (
         <>
@@ -388,7 +398,7 @@ function SignupPage() {
               textAlign={'center'}
               sx={{ color: PALLET.hemoglobinErrorRed }}
             >
-              There was an error and we are unable to continue.
+              {signupErrorMessage.title}: {signupErrorMessage.bodyText}
             </Typography>
           </Box>
           <Box display="flex" justifyContent={'center'} mt={3}>
