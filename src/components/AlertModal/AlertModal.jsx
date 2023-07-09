@@ -3,6 +3,7 @@ import { Box, Modal, Typography, styled } from '@mui/material';
 import StyledButton from '../StyledButton/StyledButton';
 import ErrorIcon from '@mui/icons-material/ErrorOutlineSharp';
 import { PALLET } from '../../stylings/pallet';
+import { StyledTextLink } from '../StyledTextLink';
 const StyledModalBox = styled(Box)((props) => ({
   backgroundColor: 'white',
   padding: '2rem',
@@ -18,14 +19,23 @@ const StyledModalBox = styled(Box)((props) => ({
 
 /**
  *
- * @param {{ open: boolean, title: string, bodyText: string, onDismiss: ()=> void, specialAction: ()=> void }} props
+ * @param {{ open: boolean, title: string, bodyText: string, onDismiss: ()=> void, specialAction: ()=> void, linkData?: { title: string, url: string, navigate: any } }} props
  * @returns
  */
 function AlertModal(props) {
-  const { open, title, bodyText, onDismiss } = props;
+  const { open, title, bodyText, onDismiss, linkData } = props;
   const handleConfirmModal = useCallback(() => {
     onDismiss && onDismiss();
   });
+
+  const renderOptionalLink = (title, url, navigate) => {
+    return (
+      <Box sx={{ mt: 2, mb: 2, textAlign: 'center' }}>
+        <StyledTextLink url={url} text={title} navigate={navigate} />
+      </Box>
+    );
+  };
+
   return (
     <Modal
       open={open}
@@ -53,6 +63,8 @@ function AlertModal(props) {
             </Typography>
           </Box>
         </Box>
+        {linkData &&
+          renderOptionalLink(linkData.title, linkData.url, linkData.navigate)}
         <Box display="flex" justifyContent={'center'}>
           <StyledButton
             onClick={handleConfirmModal}
