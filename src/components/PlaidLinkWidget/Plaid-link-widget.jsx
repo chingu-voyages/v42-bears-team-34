@@ -8,7 +8,7 @@ import AppContext from '../../context/AppContext';
 import { APP_ACTIONS } from '../../context/app.actions';
 const StyledCustomPlaidButton = styled(Button)((props) => ({
   '&.MuiButtonBase-root': {
-    'border-radius': props.borderRadius || '30px',
+    borderRadius: props.borderRadius || '30px',
   },
 }));
 
