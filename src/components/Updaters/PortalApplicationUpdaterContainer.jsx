@@ -84,7 +84,6 @@ function PortalApplicationUpdaterContainer(props) {
   const { open, onClose, applicationData, userData, view } = props;
 
   const handleClose = () => {
-    // Do something
     onClose && onClose();
   };
   return (
