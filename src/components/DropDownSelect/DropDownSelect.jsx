@@ -1,6 +1,7 @@
 import React from 'react';
 import { InputLabel, Select, MenuItem, FormControl, Box } from '@mui/material';
 import { ErrorComponent } from '../ErrorComponent';
+import { isNil } from '../../utils/nilHelper';
 /**
  *
  * @param {{ errors: any, options: { label: string, value: string}[],  onFieldValueChanged: (e) => void, fieldValue: string, fieldLabel: string, fieldName: string, marginBottom: number, formControlClassName: string, labelId: string }} props
@@ -18,6 +19,26 @@ function DropDownSelect(props) {
     labelId,
     onFieldValueChanged,
   } = props;
+
+  const handleKeyDownCapture = (event) => {
+    const option = getDropDownElementFromKeyCode(
+      String.fromCharCode(event.keyCode)
+    );
+    if (!isNil(option)) {
+      onFieldValueChanged &&
+        onFieldValueChanged({
+          target: { name: fieldName, value: option.value },
+        });
+    }
+  };
+
+  const getDropDownElementFromKeyCode = (keyString) => {
+    const filteredOoptions = options.filter(
+      (option) => option.label[0].toLowerCase() === keyString.toLowerCase()
+    );
+    return filteredOoptions[0];
+  };
+
   return (
     <Box mb={3}>
       <FormControl
@@ -33,6 +54,7 @@ function DropDownSelect(props) {
           label={fieldLabel}
           value={fieldValue || ''}
           onChange={onFieldValueChanged}
+          onKeyDownCapture={handleKeyDownCapture}
         >
           <MenuItem value={null}></MenuItem>
           {options &&
