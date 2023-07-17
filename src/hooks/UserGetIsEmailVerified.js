@@ -22,3 +22,17 @@ export function useIsEmailVerified(email) {
 
   return [isEmailVerified];
 }
+
+export async function queryIsEmailVerified(email) {
+  try {
+    if (email) {
+      const authClient = new AuthClient();
+      const result = await authClient.getIsEmailVerified(email);
+      return result.value
+    }
+    return false
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}

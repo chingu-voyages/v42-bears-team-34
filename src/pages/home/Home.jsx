@@ -37,12 +37,7 @@ function Home() {
           buttonColor={PALLET.mountainDewLime}
           borderRadius="20px"
           style={{ fontWeight: 'bold' }}
-          onClick={() => setSignupModalOpen(true)}
-        />
-        <SignupModal
-          open={signupModalOpen}
-          onClose={() => setSignupModalOpen(false)}
-          onConfirmModal={() => navigate('/signup', { replace: true })}
+          onClick={() => navigate('/signup', { replace: true })}
         />
       </div>
     </>

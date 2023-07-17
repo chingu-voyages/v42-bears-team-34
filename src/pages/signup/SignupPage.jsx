@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useContext } from 'react';
+import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -8,6 +8,7 @@ import LoanApplicationDetailsStep from './step-pages/LoanApplicationDetailsStep'
 import IbvPromptPage from './step-pages/IbvPromptPage';
 import PlaidLinkPage from './step-pages/PlaidLinkPage';
 import AppContext from '../../context/AppContext';
+import { SignupModal } from '../../components/SignupModal';
 import { Button, Box, Typography } from '@mui/material';
 import { SignupValidator } from '../../utils/validation/validate-signup';
 import { SignupDataStore } from '../../services/SignupDataStore/signup-data-store';
@@ -25,8 +26,9 @@ import { SummaryFinishPage } from './step-pages/SummaryFinishPage';
 import VerificationCodeStep from './step-pages/VerificationCodeStep';
 import { PALLET } from '../../stylings/pallet';
 import { signUpSideEffects } from './side-effects';
-import { useIsEmailVerified } from '../../hooks/UserGetIsEmailVerified';
+import { queryIsEmailVerified, useIsEmailVerified } from '../../hooks/UserGetIsEmailVerified';
 import { AuthClient } from '../../services/api-clients/auth-client';
+import { isNil } from '../../utils/nilHelper';
 
 const steps = [
   'Create your Account',
@@ -127,6 +129,7 @@ function SignupPage() {
   const [emailVerified] = useIsEmailVerified(
     stepData.current[SIGNUP_FIELDS.email]
   );
+  const [signupModalOpen, setSignupModalOpen] = useState(false)
 
   const navigate = useNavigate();
 
@@ -182,24 +185,32 @@ function SignupPage() {
     };
   };
 
-  const handleSignupFlow = useCallback(() => {
-    setHasSignupError(false);
-    setSignupErrorMessage({ title: '', bodyText: '' });
-
-    if (!emailVerified) {
-      setHasSignupError(true);
-      setSignupErrorMessage({
-        title: 'Sign up error',
-        bodyText:
-          'Please confirm your e-mail address by entering the verification code sent to your e-mail.',
-      });
-      return;
+  useEffect(() => {
+    const value = SignupDataStore.getKey("isDisclaimerConfirmed");
+    if (isNil(value) || value === "false") {
+      setSignupModalOpen(true)
     }
+  }, [])
+
+  const handleSignupFlow = useCallback(() => {
     /* Increment the active step, which should hide the back button
       This will attempt to create an account
       Increment the activeStep to show the final step which is the plaid screen.
     */
     const doSignupFlow = async () => {
+      setHasSignupError(false);
+      setSignupErrorMessage({ title: '', bodyText: '' });
+      const isEmailVerified = await queryIsEmailVerified(stepData.current[SIGNUP_FIELDS.email])
+      if (!isEmailVerified) {
+        setHasSignupError(true);
+        setSignupErrorMessage({
+          title: 'Sign up error',
+          bodyText:
+            'Please confirm your e-mail address by entering the verification code sent to your e-mail.',
+        });
+        return;
+      }
+
       try {
         // Disable the confirm button
         setIsConfirmLoggingIn(true);
@@ -279,7 +290,7 @@ function SignupPage() {
       }
     };
     doSignupFlow();
-  }, [emailVerified]);
+  });
 
   const handleLinkSuccess = async (itemId) => {
     try {
@@ -410,6 +421,17 @@ function SignupPage() {
           </Box>
         </>
       )}
+      <SignupModal
+        open={signupModalOpen}
+        onClose={() => {
+          SignupDataStore.setKey('isDisclaimerConfirmed', false)
+          navigate("/", { replace: true })
+        }}
+        onConfirmModal={() => {
+          SignupDataStore.setKey('isDisclaimerConfirmed', true);
+          setSignupModalOpen(false);
+        }}
+      />
     </Box>
   );
 }
