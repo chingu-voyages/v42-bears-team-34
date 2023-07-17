@@ -1,4 +1,10 @@
-import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useContext,
+  useEffect,
+} from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -26,7 +32,10 @@ import { SummaryFinishPage } from './step-pages/SummaryFinishPage';
 import VerificationCodeStep from './step-pages/VerificationCodeStep';
 import { PALLET } from '../../stylings/pallet';
 import { signUpSideEffects } from './side-effects';
-import { queryIsEmailVerified, useIsEmailVerified } from '../../hooks/UserGetIsEmailVerified';
+import {
+  queryIsEmailVerified,
+  useIsEmailVerified,
+} from '../../hooks/UserGetIsEmailVerified';
 import { AuthClient } from '../../services/api-clients/auth-client';
 import { isNil } from '../../utils/nilHelper';
 
@@ -129,7 +138,7 @@ function SignupPage() {
   const [emailVerified] = useIsEmailVerified(
     stepData.current[SIGNUP_FIELDS.email]
   );
-  const [signupModalOpen, setSignupModalOpen] = useState(false)
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -186,11 +195,11 @@ function SignupPage() {
   };
 
   useEffect(() => {
-    const value = SignupDataStore.getKey("isDisclaimerConfirmed");
-    if (isNil(value) || value === "false") {
-      setSignupModalOpen(true)
+    const value = SignupDataStore.getKey('isDisclaimerConfirmed');
+    if (isNil(value) || value === 'false') {
+      setSignupModalOpen(true);
     }
-  }, [])
+  }, []);
 
   const handleSignupFlow = useCallback(() => {
     /* Increment the active step, which should hide the back button
@@ -200,7 +209,9 @@ function SignupPage() {
     const doSignupFlow = async () => {
       setHasSignupError(false);
       setSignupErrorMessage({ title: '', bodyText: '' });
-      const isEmailVerified = await queryIsEmailVerified(stepData.current[SIGNUP_FIELDS.email])
+      const isEmailVerified = await queryIsEmailVerified(
+        stepData.current[SIGNUP_FIELDS.email]
+      );
       if (!isEmailVerified) {
         setHasSignupError(true);
         setSignupErrorMessage({
@@ -424,8 +435,8 @@ function SignupPage() {
       <SignupModal
         open={signupModalOpen}
         onClose={() => {
-          SignupDataStore.setKey('isDisclaimerConfirmed', false)
-          navigate("/", { replace: true })
+          SignupDataStore.setKey('isDisclaimerConfirmed', false);
+          navigate('/', { replace: true });
         }}
         onConfirmModal={() => {
           SignupDataStore.setKey('isDisclaimerConfirmed', true);

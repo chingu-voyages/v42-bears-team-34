@@ -1,2 +1,2 @@
-import PhoneNumberInput from "./PhoneNumberInput";
+import PhoneNumberInput from './PhoneNumberInput';
 export { PhoneNumberInput };

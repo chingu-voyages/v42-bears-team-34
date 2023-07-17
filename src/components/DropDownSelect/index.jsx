@@ -1,2 +1,2 @@
-import DropDownSelect from "./DropDownSelect";
+import DropDownSelect from './DropDownSelect';
 export { DropDownSelect };

@@ -1,2 +1,2 @@
-import CurrencyNumberInput from "./CurrencyNumberInput";
+import CurrencyNumberInput from './CurrencyNumberInput';
 export { CurrencyNumberInput };

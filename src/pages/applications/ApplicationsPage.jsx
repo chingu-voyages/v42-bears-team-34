@@ -50,7 +50,7 @@ function ApplicationsPage() {
         setIsBusy(true);
         const adminClient = new AdminClient({ authToken: jwtToken });
         const appCount = await adminClient.getApplicationCount();
-        const data = await adminClient.getAllApplications((page - 1), limit);
+        const data = await adminClient.getAllApplications(page - 1, limit);
 
         if (data.applications) {
           const userData = await Promise.allSettled(
@@ -76,10 +76,10 @@ function ApplicationsPage() {
 
   const handlePageChanged = (event, value) => {
     setPage(value);
-  }
+  };
 
   const navigateOnError = (error, role) => {
-    console.log(error.response)
+    console.log(error.response);
     if (error?.response?.data?.err?.includes('Expired session')) {
       if (role === 'admin') {
         navigate('/admin/login', { replace: true });
@@ -122,7 +122,9 @@ function ApplicationsPage() {
 
   return (
     <>
-      {isBusy && <Spinner sx={{ position: 'absolute', top: '40vh', right: '50vw'}} />}
+      {isBusy && (
+        <Spinner sx={{ position: 'absolute', top: '40vh', right: '50vw' }} />
+      )}
       <Typography mt={3} variant="h3" textAlign={'center'}>
         Applications
       </Typography>
@@ -131,9 +133,13 @@ function ApplicationsPage() {
           userApplications={userApplications}
           onApplicationClicked={handleApplicationClicked}
         />
-      <Stack spacing={2} sx={{ paddingTop: 1, paddingBottom: 2 }}>
-        <Pagination count={Math.floor(applicationCount / limit )} page={page} onChange={handlePageChanged} />
-      </Stack>
+        <Stack spacing={2} sx={{ paddingTop: 1, paddingBottom: 2 }}>
+          <Pagination
+            count={Math.floor(applicationCount / limit)}
+            page={page}
+            onChange={handlePageChanged}
+          />
+        </Stack>
       </StyledApplicationsPageContainer>
     </>
   );

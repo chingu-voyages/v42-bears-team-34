@@ -28,7 +28,7 @@ export default function UserDetailsStep(props) {
     setInputs(SignupDataStore.getData(Object.keys(inputs)));
   }, []);
   return (
-    <Box sx={{ maxWidth: '600px'}}>
+    <Box sx={{ maxWidth: '600px' }}>
       <StandardTextField
         fieldName={SIGNUP_FIELDS.firstName}
         fieldLabel={'First Name'}

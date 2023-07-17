@@ -19,9 +19,9 @@ export const THEME = createTheme({
         root: {
           color: 'black',
           fontWeight: 'bold',
-          fontSize: '18px'
-        }
-      }
-    }
+          fontSize: '18px',
+        },
+      },
+    },
   },
 });

@@ -28,9 +28,9 @@ export async function queryIsEmailVerified(email) {
     if (email) {
       const authClient = new AuthClient();
       const result = await authClient.getIsEmailVerified(email);
-      return result.value
+      return result.value;
     }
-    return false
+    return false;
   } catch (err) {
     console.error(err);
     return false;

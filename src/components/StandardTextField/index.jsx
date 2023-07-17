@@ -1,2 +1,2 @@
-import StandardTextField from "./StandardTextField";
-export { StandardTextField }
+import StandardTextField from './StandardTextField';
+export { StandardTextField };

@@ -75,4 +75,4 @@ function CurrencyNumberInput(props) {
   );
 }
 
-export default CurrencyNumberInput
+export default CurrencyNumberInput;
