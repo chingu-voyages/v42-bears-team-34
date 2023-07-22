@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { StyledButton } from '../../components/StyledButton';
 import { PALLET } from '../../stylings/pallet';
 import { SignupModal } from '../../components/SignupModal';
@@ -37,12 +37,7 @@ function Home() {
           buttonColor={PALLET.mountainDewLime}
           borderRadius="20px"
           style={{ fontWeight: 'bold' }}
-          onClick={() => setSignupModalOpen(true)}
-        />
-        <SignupModal
-          open={signupModalOpen}
-          onClose={() => setSignupModalOpen(false)}
-          onConfirmModal={() => navigate('/signup', { replace: true })}
+          onClick={() => navigate('/signup', { replace: true })}
         />
       </div>
     </>

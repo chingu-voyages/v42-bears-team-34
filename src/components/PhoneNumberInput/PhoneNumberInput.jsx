@@ -1,8 +1,8 @@
 import React from 'react';
 import InputMask from 'react-input-mask';
 import { Box, TextField } from '@mui/material';
-import { ErrorComponent } from '../../../components/ErrorComponent';
-export function PhoneNumberInput(props) {
+import { ErrorComponent } from '../ErrorComponent';
+function PhoneNumberInput(props) {
   const { errors, fieldLabel, fieldName, fieldValue, onFieldValueChanged } =
     props;
   return (
@@ -28,3 +28,5 @@ export function PhoneNumberInput(props) {
     </Box>
   );
 }
+
+export default PhoneNumberInput;

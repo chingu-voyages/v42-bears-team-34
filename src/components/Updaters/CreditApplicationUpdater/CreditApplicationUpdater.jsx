@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { CurrencyNumberInput } from '../../../pages/signup/components/CurrencyNumberInput';
-import { DropDownSelect } from '../../../pages/signup/components/DropDownSelect';
+import { CurrencyNumberInput } from '../../CurrencyNumberInput';
+import { DropDownSelect } from '../../DropDownSelect';
 import { SIGNUP_FIELDS } from '../../../pages/signup/sign-up-fields';
 import { StyledResponsiveBox } from '../StyledResponsiveBox';
 import {

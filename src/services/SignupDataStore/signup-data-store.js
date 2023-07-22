@@ -82,4 +82,13 @@ export class SignupDataStore {
     }
     return obj;
   }
+
+  static setKey(key, value) {
+    const session = window.sessionStorage;
+    session.setItem(key, value);
+  }
+  static getKey(key) {
+    const session = window.sessionStorage;
+    return session.getItem(key);
+  }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NumericFormat } from 'react-number-format';
-import { ErrorComponent } from '../../../components/ErrorComponent';
+import { ErrorComponent } from '../ErrorComponent';
 import { FormControl, TextField, Box } from '@mui/material';
 
 const NumberFormatCustom = React.forwardRef((props, ref) => {
@@ -37,7 +37,7 @@ const NumberFormatCustom = React.forwardRef((props, ref) => {
  * }} props
  * @returns
  */
-export function CurrencyNumberInput(props) {
+function CurrencyNumberInput(props) {
   const {
     errors,
     marginBottom,
@@ -74,3 +74,5 @@ export function CurrencyNumberInput(props) {
     </Box>
   );
 }
+
+export default CurrencyNumberInput;

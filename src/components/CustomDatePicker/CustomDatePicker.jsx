@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField } from '@mui/material';
+import { TextField, styled } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -36,7 +36,7 @@ function CustomDatePicker(props) {
         label={label}
         maxDate={maxDate}
         minDate={minDate}
-        openTo={'year'}
+        openTo={'day'}
         disableFuture
         disableHighlightToday
         autoFocus

@@ -14,5 +14,14 @@ export const THEME = createTheme({
         },
       },
     },
+    MuiPickersDay: {
+      styleOverrides: {
+        root: {
+          color: 'black',
+          fontWeight: 'bold',
+          fontSize: '18px',
+        },
+      },
+    },
   },
 });
